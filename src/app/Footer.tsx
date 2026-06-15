@@ -1,9 +1,10 @@
 import { Facebook, Instagram } from "lucide-react";
+import { SHOW_FREE_MESSAGING } from "./flags";
 
 const QUICK_LINKS = [
   { label: "Features", href: "/features" },
   { label: "Pricing",  href: "/pricing" },
-  { label: "About",    href: "/#about" },
+  { label: "About",    href: "/about" },
   { label: "Contact",  href: "/contact" },
 ];
 
@@ -25,7 +26,9 @@ export default function Footer() {
           <div>
             <p className="text-xs font-bold uppercase tracking-widest text-white/40 mb-5">About Us</p>
             <p className="text-sm text-white/60 leading-relaxed mb-6">
-              Free centre management app for tuition centres and freelance tutors in Malaysia &amp; Singapore. No fees, no limits.
+              {SHOW_FREE_MESSAGING
+                ? "Free centre management app for tuition centres and freelance tutors in Malaysia & Singapore. No fees, no limits."
+                : "Centre management app for tuition centres and freelance tutors in Malaysia & Singapore."}
             </p>
             <div className="flex items-center gap-4">
               <a href="https://www.facebook.com/profile.php?id=61573123059740" target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-white transition-colors duration-200" aria-label="Facebook">

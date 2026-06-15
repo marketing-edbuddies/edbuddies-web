@@ -3,6 +3,7 @@ import { Button } from "./components/ui/button";
 import { CheckCircle2, ArrowRight, Globe } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import Navbar from "./Navbar";
+import { setPageMeta } from "./seo";
 import Footer from "./Footer";
 
 // ─── Stats ────────────────────────────────────────────────────────────────────
@@ -46,9 +47,11 @@ export default function About() {
   const storyRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    document.title = "About — EdBuddies | Our Story";
-    const meta = document.querySelector('meta[name="description"]');
-    if (meta) meta.setAttribute("content", "EdBuddies was built to close the gap between education and technology — giving every tuition centre, big or small, the tools they deserve at zero cost.");
+    setPageMeta({
+      title: "About — EdBuddies | Our Story",
+      description: "EdBuddies was built to close the gap between education and technology — giving every tuition centre, big or small, the tools they deserve at zero cost.",
+      url: "https://edbuddies.ai/about",
+    });
   }, []);
 
   return (
@@ -106,8 +109,8 @@ export default function About() {
               className="col-span-2 h-52 lg:h-auto lg:row-span-1 rounded-2xl overflow-hidden relative group cursor-pointer"
             >
               <motion.img
-                src="/assets/about-us-img-4.png"
-                alt="Books and learning"
+                src="/assets/about-us-img-4.webp"
+                alt="EdBuddies tuition centre management app interface"
                 className="w-full h-full object-cover object-[center_20%]"
                 whileHover={{ scale: 1.07 }}
                 transition={{ duration: 0.55, type: "spring", stiffness: 200, damping: 28 }}
@@ -126,8 +129,8 @@ export default function About() {
               className="col-span-1 h-44 lg:h-auto lg:row-span-2 rounded-2xl overflow-hidden relative group cursor-pointer"
             >
               <motion.img
-                src="/assets/about-us-img-1.png"
-                alt="Classroom learning"
+                src="/assets/about-us-img-1.webp"
+                alt="Free centre management software for tuition centres in Malaysia"
                 className="w-full h-full object-cover object-center scale-110"
                 whileHover={{ scale: 1.07 }}
                 transition={{ duration: 0.55, type: "spring", stiffness: 200, damping: 28 }}
@@ -145,7 +148,7 @@ export default function About() {
             >
               <motion.img
                 src="/assets/about-us-img-2.png"
-                alt="Students studying"
+                alt="EdBuddies student attendance and billing management"
                 className="w-full h-full object-cover"
                 whileHover={{ scale: 1.07 }}
                 transition={{ duration: 0.55, type: "spring", stiffness: 200, damping: 28 }}
@@ -163,7 +166,7 @@ export default function About() {
             >
               <motion.img
                 src="/assets/about-us-img-3.png"
-                alt="Group study"
+                alt="Freelance tutor using EdBuddies app for class scheduling"
                 className="w-full h-full object-cover"
                 whileHover={{ scale: 1.07 }}
                 transition={{ duration: 0.55, type: "spring", stiffness: 200, damping: 28 }}
@@ -232,8 +235,8 @@ export default function About() {
             >
               <div className="relative rounded-3xl overflow-hidden group cursor-pointer" style={{ boxShadow: "0 12px 48px rgba(9,36,75,0.18)" }}>
                 <motion.img
-                  src="/assets/why-we-exist.jpg"
-                  alt="Why we exist"
+                  src="/assets/why-we-exist.webp"
+                  alt="EdBuddies team — building free education management tools for tuition centres in Malaysia and Singapore"
                   className="w-full h-[480px] object-cover"
                   whileHover={{ scale: 1.07 }}
                   transition={{ duration: 0.55, type: "spring", stiffness: 200, damping: 28 }}

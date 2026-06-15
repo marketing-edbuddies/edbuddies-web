@@ -7,6 +7,8 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import Navbar from "./Navbar";
+import { setPageMeta } from "./seo";
+import { SHOW_FREE_MESSAGING } from "./flags";
 import Footer from "./Footer";
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
@@ -51,9 +53,11 @@ export default function Pricing() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
 
   useEffect(() => {
-    document.title = "Pricing — EdBuddies | Free Forever, No Hidden Fees";
-    const meta = document.querySelector('meta[name="description"]');
-    if (meta) meta.setAttribute("content", "EdBuddies is 100% free. No subscription, no per-student fee, no hidden charges. Everything your tuition centre needs at RM 0 per month.");
+    setPageMeta({
+      title: SHOW_FREE_MESSAGING ? "Pricing — EdBuddies | Free Forever, No Hidden Fees" : "Pricing — EdBuddies | Centre Management App",
+      description: SHOW_FREE_MESSAGING ? "EdBuddies is 100% free. No subscription, no per-student fee, no hidden charges. Everything your tuition centre needs at RM 0 per month." : "Everything your tuition centre needs to manage attendance, billing, and parent communication — in one app.",
+      url: "https://edbuddies.ai/pricing",
+    });
   }, []);
 
   return (
@@ -79,9 +83,11 @@ export default function Pricing() {
             transition={{ duration: 0.6, delay: 0.1, type: "spring", stiffness: 220, damping: 22 }}
             className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#09244B] leading-tight mb-6"
           >
-            The only centre management app
-            <br className="hidden sm:block" />
-            that is <span className="text-[#FF8000]">actually free.</span>
+            {SHOW_FREE_MESSAGING ? (
+              <>The only centre management app<br className="hidden sm:block" />that is <span className="text-[#FF8000]">actually free.</span></>
+            ) : (
+              <>The centre management app<br className="hidden sm:block" />built for <span className="text-[#FF8000]">education.</span></>
+            )}
           </motion.h1>
 
           <motion.p
@@ -90,8 +96,9 @@ export default function Pricing() {
             transition={{ duration: 0.6, delay: 0.22 }}
             className="text-lg text-gray-600 max-w-2xl mx-auto mb-10"
           >
-            No subscription. No per-student fee. No hidden charges.
-            Everything your centre needs at RM 0 per month, forever.
+            {SHOW_FREE_MESSAGING
+              ? "No subscription. No per-student fee. No hidden charges. Everything your centre needs at RM 0 per month, forever."
+              : "Attendance, billing, invoicing, parent communication, class scheduling — everything your centre needs to run smoothly, in one place."}
           </motion.p>
 
           <motion.div
@@ -126,7 +133,7 @@ export default function Pricing() {
               <span className="uppercase tracking-wider">What is included</span>
             </div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#09244B]">
-              One plan. Everything included.
+              {SHOW_FREE_MESSAGING ? "One plan. Everything included." : "One app. Everything included."}
             </h2>
           </motion.div>
 
@@ -142,12 +149,16 @@ export default function Pricing() {
             {/* Price header */}
             <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8 pb-8 border-b border-gray-100">
               <div>
-                <p className="text-sm font-semibold uppercase tracking-wider text-gray-400 mb-2">EdBuddies Free</p>
-                <div className="flex items-baseline gap-2">
-                  <span className="text-6xl font-bold text-[#09244B]">RM 0</span>
-                  <span className="text-gray-500 text-lg">/ month</span>
-                </div>
-                <p className="text-gray-500 text-sm mt-2">Free forever. No credit card required.</p>
+                <p className="text-sm font-semibold uppercase tracking-wider text-gray-400 mb-2">EdBuddies</p>
+                {SHOW_FREE_MESSAGING && (
+                  <>
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-6xl font-bold text-[#09244B]">RM 0</span>
+                      <span className="text-gray-500 text-lg">/ month</span>
+                    </div>
+                    <p className="text-gray-500 text-sm mt-2">Free forever. No credit card required.</p>
+                  </>
+                )}
               </div>
               <motion.div
                 whileHover={{ y: -3 }}
@@ -156,7 +167,7 @@ export default function Pricing() {
               >
                 <a href="https://tally.so/r/3y1vE0" target="_blank" rel="noopener noreferrer">
                   <Button size="lg" className="bg-[#09244B] text-white px-8 py-5 text-base gap-2 transition-colors duration-200 hover:shadow-[0_10px_32px_rgba(9,36,75,0.35)] hover:bg-[#0d3570] whitespace-nowrap" style={{ boxShadow: "inset 0 1px 0 rgba(255,255,255,0.08), 0 4px 14px rgba(9,36,75,0.22)" }}>
-                    Get Started Free <ArrowRight className="w-4 h-4" />
+                    {SHOW_FREE_MESSAGING ? "Get Started Free" : "Get Started"} <ArrowRight className="w-4 h-4" />
                   </Button>
                 </a>
               </motion.div>
@@ -191,13 +202,13 @@ export default function Pricing() {
               className="mt-8 pt-8 border-t border-gray-100"
             >
               <div className="flex flex-wrap justify-center gap-6 text-sm text-gray-500">
-                {[
+                {(SHOW_FREE_MESSAGING ? [
                   "No subscription fee",
                   "No per-student commission",
                   "No setup fee",
                   "No feature paywalls",
                   "No contract",
-                ].map((item, i) => (
+                ] : []).map((item, i) => (
                   <motion.div
                     key={item}
                     initial={{ opacity: 0 }}
@@ -290,7 +301,11 @@ export default function Pricing() {
             transition={{ duration: 0.6, delay: 0.08, type: "spring", stiffness: 220, damping: 22 }}
             className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#09244B] mb-6"
           >
-            Start free today.<br className="hidden sm:block" /> Stay free forever.
+            {SHOW_FREE_MESSAGING ? (
+              <>Start free today.<br className="hidden sm:block" /> Stay free forever.</>
+            ) : (
+              <>Run your whole centre<br className="hidden sm:block" /> from one app.</>
+            )}
           </motion.h2>
 
           <motion.p
@@ -300,7 +315,9 @@ export default function Pricing() {
             transition={{ duration: 0.6, delay: 0.18 }}
             className="text-xl text-gray-600 mb-10"
           >
-            Download EdBuddies and run your centre without spending a single ringgit on software.
+            {SHOW_FREE_MESSAGING
+              ? "Download EdBuddies and run your centre without spending a single ringgit on software."
+              : "Download EdBuddies and manage your centre from a single app — attendance, billing, parent comms, and more."}
           </motion.p>
 
           {/* App Store Buttons */}
@@ -365,7 +382,7 @@ export default function Pricing() {
             transition={{ duration: 0.6, delay: 0.5 }}
             className="text-sm text-gray-400 mt-8"
           >
-            No credit card. No commitment. No monthly fees.
+            {SHOW_FREE_MESSAGING ? "No credit card. No commitment. No monthly fees." : "Get started in minutes."}
           </motion.p>
         </div>
       </section>

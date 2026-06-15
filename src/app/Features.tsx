@@ -7,6 +7,8 @@ import {
 } from "lucide-react";
 import { useEffect, useRef } from "react";
 import Navbar from "./Navbar";
+import { setPageMeta } from "./seo";
+import { SHOW_FREE_MESSAGING } from "./flags";
 import Footer from "./Footer";
 
 // ─── Data ────────────────────────────────────────────────────────────────────
@@ -165,9 +167,11 @@ function DeepDive({ label, title, desc, bullets, icon: Icon, mockCards, reverse 
 
 export default function Features() {
   useEffect(() => {
-    document.title = "Features — EdBuddies | Free Centre Management App";
-    const meta = document.querySelector('meta[name="description"]');
-    if (meta) meta.setAttribute("content", "EdBuddies gives tuition centres and freelance tutors free tools for attendance tracking, invoicing, billing, parent communication, and class scheduling. 100% free, iOS & Android.");
+    setPageMeta({
+      title: "Features — EdBuddies | Free Centre Management App",
+      description: "EdBuddies gives tuition centres and freelance tutors free tools for attendance tracking, invoicing, billing, parent communication, and class scheduling. 100% free, iOS & Android.",
+      url: "https://edbuddies.ai/features",
+    });
   }, []);
 
   return (
@@ -255,7 +259,9 @@ export default function Features() {
               One App. Every Tool You Need.
             </h2>
             <p className="text-gray-600 text-lg max-w-2xl mx-auto mb-16">
-              Eight things you used to juggle manually. Now handled from one app — at RM 0.
+              {SHOW_FREE_MESSAGING
+                ? "Eight things you used to juggle manually. Now handled from one app — at RM 0."
+                : "Eight things you used to juggle manually. Now handled from one app."}
             </p>
           </motion.div>
 
@@ -385,7 +391,9 @@ export default function Features() {
             transition={{ duration: 0.6, delay: 0.18 }}
             className="text-white/70 text-lg max-w-xl mx-auto mb-10"
           >
-            EdBuddies runs on any smartphone. Download it once, use it forever — no desktop, no setup, no fees.
+            {SHOW_FREE_MESSAGING
+              ? "EdBuddies runs on any smartphone. Download it once, use it forever — no desktop, no setup, no fees."
+              : "EdBuddies runs on any smartphone. Download it once — no desktop required, no complex setup."}
           </motion.p>
 
           {/* App store buttons — staggered spring */}
@@ -444,7 +452,7 @@ export default function Features() {
             transition={{ duration: 0.6, delay: 0.5 }}
             className="text-white/40 text-sm mt-8"
           >
-            Used by centres in Malaysia &amp; Singapore · Free forever
+            {SHOW_FREE_MESSAGING ? "Used by centres in Malaysia & Singapore · Free forever" : "Used by centres in Malaysia & Singapore"}
           </motion.p>
         </div>
       </section>
@@ -510,7 +518,7 @@ export default function Features() {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="text-sm text-gray-400 mt-6"
           >
-            No credit card. No commitment. No monthly fees.
+            {SHOW_FREE_MESSAGING ? "No credit card. No commitment. No monthly fees." : "Get started in minutes."}
           </motion.p>
         </div>
       </section>

@@ -5,6 +5,7 @@ import { ArrowRight, Smartphone, CreditCard, Users, Bell, Calendar, BarChart, Bo
 import { useRef, useState } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import { SHOW_FREE_MESSAGING } from "./flags";
 
 function HomeMascot() {
   const [ready, setReady] = useState(false);
@@ -396,9 +397,9 @@ export default function App() {
                 />
               </motion.div>
 
-              <h2 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-[#09244B] leading-tight">
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-[#09244B] leading-tight">
                 For Tuition Centres
-              </h2>
+              </h1>
             </motion.div>
 
             {/* Subheadline */}
@@ -409,9 +410,11 @@ export default function App() {
               className="text-lg text-gray-600 mb-10 mt-6 max-w-2xl mx-auto"
             >
               Attendance, billing, invoicing, and parent communication. All in one app.{" "}
-              <span className="font-semibold text-gray-900">
-                No subscription. No student commission. Nothing to pay.
-              </span>
+              {SHOW_FREE_MESSAGING && (
+                <span className="font-semibold text-gray-900">
+                  No subscription. No student commission. Nothing to pay.
+                </span>
+              )}
             </motion.p>
 
             {/* CTA Buttons */}
@@ -820,19 +823,19 @@ export default function App() {
         </div>
         {[
           {
-            img: "/assets/tuition-centre.png",
+            img: "/assets/tuition-centre.webp",
             alt: "Tuition Centre",
             title: "Tuition Centres",
             desc: "Small or growing, EdBuddies scales with you. Manage multiple classes, teachers, and hundreds of students, all free.",
           },
           {
-            img: "/assets/freelance-tutor.png",
+            img: "/assets/freelance-tutor.webp",
             alt: "Freelance Tutor",
             title: "Freelance Tutors",
             desc: "Running your own classes solo? EdBuddies keeps your admin organised so you can focus on teaching.",
           },
           {
-            img: "/assets/enrichment-class.png",
+            img: "/assets/enrichment-class.webp",
             alt: "Enrichment Centre",
             title: "Enrichment Centres",
             desc: "From music to robotics to language classes. If you run a centre, EdBuddies runs with you.",
@@ -871,7 +874,7 @@ export default function App() {
                   {/* Image 1 */}
                   <motion.div style={{ y: whoImg1Y, opacity: whoImg1Opacity }} className="absolute inset-0 flex items-center justify-center">
                     <img
-                      src="/assets/tuition-centre.png"
+                      src="/assets/tuition-centre.webp"
                       alt="Tuition Centre"
                       className="max-w-full max-h-full object-contain"
                     />
@@ -879,7 +882,7 @@ export default function App() {
                   {/* Image 2 */}
                   <motion.div style={{ y: whoImg2Y, opacity: whoImg2Opacity }} className="absolute inset-0 flex items-center justify-center">
                     <img
-                      src="/assets/freelance-tutor.png"
+                      src="/assets/freelance-tutor.webp"
                       alt="Freelance Tutor"
                       className="max-w-full max-h-full object-contain"
                     />
@@ -887,7 +890,7 @@ export default function App() {
                   {/* Image 3 */}
                   <motion.div style={{ y: whoImg3Y, opacity: whoImg3Opacity }} className="absolute inset-0 flex items-center justify-center">
                     <img
-                      src="/assets/enrichment-class.png"
+                      src="/assets/enrichment-class.webp"
                       alt="Enrichment Centre"
                       className="max-w-full max-h-full object-contain"
                     />
@@ -1144,21 +1147,29 @@ export default function App() {
               {/* Heading */}
               <div>
                 <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#09244B] mb-6">
-                  Your Competitors Pay Monthly.<br />You Don't Have To.
+                  {SHOW_FREE_MESSAGING ? (
+                    <>Your Competitors Pay Monthly.<br />You Don't Have To.</>
+                  ) : (
+                    <>Everything Your Centre Needs.<br />In One App.</>
+                  )}
                 </h2>
                 <p className="text-lg text-gray-600 leading-relaxed">
-                  No subscription fees. No per-student charges. No hidden costs. EdBuddies is 100% free because every centre deserves good tools, regardless of size.
+                  {SHOW_FREE_MESSAGING
+                    ? "No subscription fees. No per-student charges. No hidden costs. EdBuddies is 100% free because every centre deserves good tools, regardless of size."
+                    : "Attendance, billing, invoicing, parent communication, class scheduling — all managed from a single app built for tuition centres and freelance tutors."}
                 </p>
               </div>
 
               {/* Pricing Card */}
               <div className="bg-white border-2 border-gray-200 rounded-lg p-8 transition-shadow" style={{ boxShadow: '0 4px 16px rgba(0,0,0,0.10)' }} onMouseEnter={e => (e.currentTarget.style.boxShadow='0 8px 24px rgba(0,0,0,0.12)')} onMouseLeave={e => (e.currentTarget.style.boxShadow='0 4px 16px rgba(0,0,0,0.10)')}>
                 <div className="mb-6">
-                  <h3 className="text-2xl font-bold text-[#09244B] mb-2">EdBuddies Free</h3>
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-5xl font-bold text-gray-900">RM 0</span>
-                    <span className="text-gray-600">/ month</span>
-                  </div>
+                  <h3 className="text-2xl font-bold text-[#09244B] mb-2">EdBuddies</h3>
+                  {SHOW_FREE_MESSAGING && (
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-5xl font-bold text-gray-900">RM 0</span>
+                      <span className="text-gray-600">/ month</span>
+                    </div>
+                  )}
                 </div>
 
                 {/* Features List */}
@@ -1273,7 +1284,9 @@ export default function App() {
                 className="overflow-hidden"
               >
                 <div className="px-6 pb-5 text-gray-600 leading-relaxed">
-                  Yes, completely. No subscription, no per-student fee, no hidden charges. Download it and use it at no cost.
+                  {SHOW_FREE_MESSAGING
+                    ? "Yes, completely. No subscription, no per-student fee, no hidden charges. Download it and use it at no cost."
+                    : "EdBuddies is built to help tuition centres and freelance tutors manage their operations from a single app. Get in touch to learn more about what's included."}
                 </div>
               </motion.div>
             </motion.div>
@@ -1479,7 +1492,7 @@ export default function App() {
 
                 {/* Google Play badge */}
                 <motion.a
-                  href="https://apps.apple.com/my/app/edbuddies/id6746329753"
+                  href="https://play.google.com/store/apps/details?id=com.edusphere.edbuddies.ai"
                   whileHover={{ y: -3, boxShadow: "0 12px 32px rgba(0,0,0,0.28)" }}
                   whileTap={{ y: 0, scale: 0.97 }}
                   transition={{ type: "spring", stiffness: 400, damping: 22 }}
@@ -1500,9 +1513,11 @@ export default function App() {
               </div>
 
               {/* Micro-copy */}
-              <p className="text-sm text-gray-500">
-                No credit card. No commitment. No monthly fees.
-              </p>
+              {SHOW_FREE_MESSAGING && (
+                <p className="text-sm text-gray-500">
+                  No credit card. No commitment. No monthly fees.
+                </p>
+              )}
             </motion.div>
 
             {/* Right Side - Mascot Video */}

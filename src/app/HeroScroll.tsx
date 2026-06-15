@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { SHOW_FREE_MESSAGING } from "./flags";
 
 export default function HeroScroll() {
   const heroAreaRef   = useRef<HTMLDivElement>(null);
@@ -387,10 +388,12 @@ export default function HeroScroll() {
 
           <div className="hs-inner">
             <div className="hs-left" ref={heroLeftRef}>
-              <div className="hs-badge">
-                <span className="hs-badge-dot" />
-                100% Free — No Hidden Charges
-              </div>
+              {SHOW_FREE_MESSAGING && (
+                <div className="hs-badge">
+                  <span className="hs-badge-dot" />
+                  100% Free — No Hidden Charges
+                </div>
+              )}
               <h2 className="hs-headline">
                 Simplify Tuition<br />
                 Centre Management<br />

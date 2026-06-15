@@ -2,6 +2,8 @@ import { motion, AnimatePresence } from "motion/react";
 import { Mail, Clock, MessageCircle, ChevronDown, ArrowRight, Send, Facebook, Instagram } from "lucide-react";
 import { useEffect, useState } from "react";
 import Navbar from "./Navbar";
+import { setPageMeta } from "./seo";
+import { SHOW_FREE_MESSAGING } from "./flags";
 import Footer from "./Footer";
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
@@ -41,7 +43,7 @@ const CONTACT_INFO = [
   },
 ];
 
-const FAQS = [
+const FAQS_FREE = [
   {
     q: "Is EdBuddies really free?",
     a: "Yes, completely. No subscription fee, no per-student charge, no setup fee. Free to download, free to use, free forever. We mean it.",
@@ -63,6 +65,31 @@ const FAQS = [
     a: "The core platform is free forever. We may introduce optional premium features down the road, but everything available today will always remain free.",
   },
 ];
+
+const FAQS_DEFAULT = [
+  {
+    q: "What does EdBuddies do?",
+    a: "EdBuddies helps tuition centres and freelance tutors manage their day-to-day operations — attendance, billing, invoicing, parent communication, class scheduling, and more — all from one app.",
+  },
+  {
+    q: "Which countries do you support?",
+    a: "We're currently active in Malaysia and Singapore, with Vietnam and the Philippines coming soon. Our team responds to enquiries from both markets.",
+  },
+  {
+    q: "How do I get my centre started?",
+    a: "Simply WhatsApp or email us. Our team will walk you through the onboarding process step by step — it usually takes less than a day to get set up.",
+  },
+  {
+    q: "What can EdBuddies help with?",
+    a: "Attendance tracking, invoicing, billing, parent communication, class scheduling, teacher management, homework workflows, finance overview, and daily admin — all in one app.",
+  },
+  {
+    q: "How do I find out about pricing?",
+    a: "Get in touch via WhatsApp or email and our team will walk you through what's available and what works best for your centre.",
+  },
+];
+
+const FAQS = SHOW_FREE_MESSAGING ? FAQS_FREE : FAQS_DEFAULT;
 
 const SOCIALS = [
   {
@@ -100,22 +127,47 @@ function WaIcon({ className = "w-5 h-5" }: { className?: string }) {
 export default function Contact() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [form, setForm] = useState({ name: "", email: "", phone: "", centre: "", message: "" });
 
   useEffect(() => {
-    document.title = "Contact — EdBuddies | Get in Touch";
-    const meta = document.querySelector('meta[name="description"]');
-    if (meta) meta.setAttribute("content", "Contact EdBuddies for centre onboarding, general enquiries, or technical support. WhatsApp us in Malaysia or Singapore, or send us an email.");
+    setPageMeta({
+      title: "Contact — EdBuddies | Get in Touch",
+      description: "Contact EdBuddies for centre onboarding, general enquiries, or technical support. WhatsApp us in Malaysia or Singapore, or send us an email.",
+      url: "https://edbuddies.ai/contact",
+    });
   }, []);
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const subject = encodeURIComponent(`EdBuddies Enquiry from ${form.name}`);
-    const body = encodeURIComponent(
-      `Name: ${form.name}\nEmail: ${form.email}\nPhone: ${form.phone}\nCentre: ${form.centre}\n\nMessage:\n${form.message}`
-    );
-    window.location.href = `mailto:marketing@edbuddies.ai?subject=${subject}&body=${body}`;
-    setSubmitted(true);
+    setSubmitting(true);
+    setError(null);
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          access_key: "21c8c876-63c0-4573-b334-364afa34c489",
+          subject: `EdBuddies Enquiry from ${form.name}`,
+          from_name: form.name,
+          email: form.email,
+          phone: form.phone,
+          centre: form.centre,
+          message: form.message,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setSubmitted(true);
+      } else {
+        setError("Something went wrong. Please try again or WhatsApp us directly.");
+      }
+    } catch {
+      setError("Something went wrong. Please try again or WhatsApp us directly.");
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -268,13 +320,18 @@ export default function Contact() {
                     />
                   </div>
 
+                  {error && (
+                    <p className="text-sm text-red-500 text-center">{error}</p>
+                  )}
+
                   <motion.button
                     whileHover={{ y: -2 }}
                     whileTap={{ scale: 0.98 }}
                     type="submit"
-                    className="w-full bg-[#09244B] text-white py-3.5 rounded-xl font-semibold text-sm transition-all duration-200 hover:bg-[#0d3570] hover:shadow-[0_8px_24px_rgba(9,36,75,0.30)]"
+                    disabled={submitting}
+                    className="w-full bg-[#09244B] text-white py-3.5 rounded-xl font-semibold text-sm transition-all duration-200 hover:bg-[#0d3570] hover:shadow-[0_8px_24px_rgba(9,36,75,0.30)] disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    Send Message
+                    {submitting ? "Sending…" : "Send Message"}
                   </motion.button>
                 </form>
               )}
@@ -390,7 +447,9 @@ export default function Contact() {
             className="text-4xl sm:text-5xl font-bold text-white leading-tight mb-5"
           >
             Ready to get started?<br />
-            <span className="text-[#FF8000]">It's completely free.</span>
+            <span className="text-[#FF8000]">
+              {SHOW_FREE_MESSAGING ? "It's completely free." : "Let's talk."}
+            </span>
           </motion.h2>
 
           <motion.p
@@ -400,7 +459,9 @@ export default function Contact() {
             transition={{ duration: 0.6, delay: 0.12 }}
             className="text-white/70 text-lg mb-10"
           >
-            Free forever. No credit card. No commission. Just a better way to manage your centre.
+            {SHOW_FREE_MESSAGING
+              ? "Free forever. No credit card. No commission. Just a better way to manage your centre."
+              : "WhatsApp us or fill in the form and we'll get back to you within 1–2 working days."}
           </motion.p>
 
           <motion.div
