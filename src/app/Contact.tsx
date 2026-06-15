@@ -397,39 +397,37 @@ export default function Contact() {
             </h2>
           </motion.div>
 
-          <div className="space-y-3">
+          <div className="space-y-4">
             {FAQS.map(({ q, a }, i) => (
               <motion.div
                 key={q}
-                initial={{ opacity: 0, y: 16 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.07 }}
-                className="rounded-2xl border border-gray-100 overflow-hidden"
-                style={{ boxShadow: "0 2px 8px rgba(9,36,75,0.05)" }}
+                transition={{ duration: 0.5, delay: i * 0.07 }}
+                className="rounded-lg overflow-hidden"
+                style={{ boxShadow: "0 1px 2px rgba(0,0,0,0.05)" }}
               >
                 <button
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  className="w-full flex items-center justify-between px-6 py-5 text-left hover:bg-gray-50 transition-colors"
+                  className="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-gray-50 transition-colors"
                 >
-                  <span className="font-semibold text-[#09244B] text-sm sm:text-base pr-4">{q}</span>
-                  <ChevronDown
-                    className={`w-5 h-5 text-[#FF8000] flex-shrink-0 transition-transform duration-300 ${openFaq === i ? "rotate-180" : ""}`}
-                  />
+                  <span className="text-lg font-semibold text-gray-900">{q}</span>
+                  <motion.div
+                    animate={{ rotate: openFaq === i ? 180 : 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <ChevronDown className="w-5 h-5 text-[#FF8000]" />
+                  </motion.div>
                 </button>
-                <AnimatePresence initial={false}>
-                  {openFaq === i && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.28, ease: "easeInOut" }}
-                      className="overflow-hidden"
-                    >
-                      <p className="px-6 pb-5 text-sm text-gray-500 leading-relaxed">{a}</p>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                <motion.div
+                  initial={false}
+                  animate={{ height: openFaq === i ? "auto" : 0, opacity: openFaq === i ? 1 : 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="overflow-hidden"
+                >
+                  <div className="px-6 pb-5 text-gray-600 leading-relaxed">{a}</div>
+                </motion.div>
               </motion.div>
             ))}
           </div>
