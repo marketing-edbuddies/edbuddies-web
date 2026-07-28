@@ -182,8 +182,8 @@ function DeepDive({ label, title, desc, bullets, icon: Icon, mockCards, reverse 
 export default function Features() {
   useEffect(() => {
     setPageMeta({
-      title: "Features — EdBuddies | Free Centre Management App",
-      description: "EdBuddies gives tuition centres and freelance tutors free tools for attendance tracking, invoicing, billing, parent communication, and class scheduling. 100% free, iOS & Android.",
+      title: "Features — EdBuddies | Centre Management App",
+      description: "EdBuddies gives tuition centres and freelance tutors the tools they need for attendance tracking, invoicing, billing, parent communication, and class scheduling. iOS & Android.",
       url: "https://edbuddies.ai/features",
     });
   }, []);
@@ -214,7 +214,7 @@ export default function Features() {
             className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#09244B] leading-tight mb-6"
           >
             Everything Your Centre Needs.<br className="hidden sm:block" />
-            <span className="text-[#FF8000]">Zero Monthly Fees.</span>
+            <span className="text-[#FF8000]">In One App.</span>
           </motion.h1>
 
           {/* Sub */}
@@ -225,7 +225,7 @@ export default function Features() {
             className="text-lg text-gray-600 max-w-2xl mx-auto mb-10"
           >
             From attendance to invoices, parent communication to class scheduling —
-            all in one free app built for tuition centres and freelance tutors in Malaysia &amp; Singapore.
+            all in one app built for tuition centres and freelance tutors in Malaysia &amp; Singapore.
           </motion.p>
 
           {/* CTAs — staggered */}
@@ -493,7 +493,7 @@ export default function Features() {
             transition={{ duration: 0.6, delay: 0.08, type: "spring", stiffness: 220, damping: 22 }}
             className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#09244B] mb-6"
           >
-            Your Centre, Managed. For Free.
+            Your Centre, Managed.
           </motion.h2>
 
           <motion.p

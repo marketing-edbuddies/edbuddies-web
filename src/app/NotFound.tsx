@@ -49,7 +49,7 @@ export default function NotFound() {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="text-gray-500 text-lg mb-10 leading-relaxed"
           >
-            Looks like this page took the day off. Head back home and keep managing your centre — for free.
+            Looks like this page took the day off. Head back home and keep managing your centre.
           </motion.p>
 
           {/* CTAs */}

@@ -78,7 +78,7 @@ export default function Navbar({ activePage }: NavbarProps) {
               <motion.div whileHover={{ y: -3 }} whileTap={{ y: 0, scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 22 }}>
                 <a href="https://tally.so/r/3y1vE0" target="_blank" rel="noopener noreferrer">
                   <Button className={`transition-all duration-300 hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)] ${scrolled ? "" : "text-base px-6 py-5"}`}>
-                    Get Started Free
+                    Get Started
                   </Button>
                 </a>
               </motion.div>
@@ -159,7 +159,7 @@ export default function Navbar({ activePage }: NavbarProps) {
               <div className="px-6 pb-8">
                 <a href="https://tally.so/r/3y1vE0" target="_blank" rel="noopener noreferrer" onClick={() => setMenuOpen(false)}>
                   <Button className="w-full bg-[#09244B] text-white py-5 text-base hover:bg-[#0d3570]">
-                    Get Started Free
+                    Get Started
                   </Button>
                 </a>
               </div>

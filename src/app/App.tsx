@@ -826,7 +826,7 @@ export default function App() {
             img: "/assets/tuition-centre.webp",
             alt: "Tuition Centre",
             title: "Tuition Centres",
-            desc: "Small or growing, EdBuddies scales with you. Manage multiple classes, teachers, and hundreds of students, all free.",
+            desc: "Small or growing, EdBuddies scales with you. Manage multiple classes, teachers, and hundreds of students, all from one app.",
           },
           {
             img: "/assets/freelance-tutor.webp",
@@ -907,7 +907,7 @@ export default function App() {
                     <p className="text-sm font-semibold uppercase tracking-widest text-gray-400 mb-4">For</p>
                     <h3 className="text-4xl lg:text-5xl font-bold text-[#09244B] mb-6">Tuition Centres</h3>
                     <p className="text-xl text-gray-600 leading-relaxed">
-                      Small or growing, EdBuddies scales with you. Manage multiple classes, teachers, and hundreds of students, all free.
+                      Small or growing, EdBuddies scales with you. Manage multiple classes, teachers, and hundreds of students, all from one app.
                     </p>
                   </motion.div>
 
@@ -999,7 +999,7 @@ export default function App() {
           <motion.div whileHover={{ y: -3 }} whileTap={{ y: 0, scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 22 }} className="inline-flex">
             <a href="https://tally.so/r/3y1vE0" target="_blank" rel="noopener noreferrer">
               <Button size="lg" className="bg-[#09244B] text-white px-8 py-6 text-base gap-2 transition-colors duration-200 hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)] hover:bg-[#0d3570]" style={{ boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.08), 0 4px 16px rgba(0,0,0,0.10)' }}>
-                Get Started Free
+                Enquire Now
                 <ArrowRight className="w-5 h-5" />
               </Button>
             </a>
@@ -1265,7 +1265,7 @@ export default function App() {
                 className="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-gray-50 transition-colors"
               >
                 <span className="text-lg font-semibold text-gray-900">
-                  Is EdBuddies really free?
+                  {SHOW_FREE_MESSAGING ? "Is EdBuddies really free?" : "What's included with EdBuddies?"}
                 </span>
                 <motion.div
                   animate={{ rotate: openFaq === 0 ? 180 : 0 }}
@@ -1456,7 +1456,7 @@ export default function App() {
             >
               <div>
                 <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#09244B] mb-6">
-                  Your Centre, Managed. For Free.
+                  Your Centre, Managed.
                 </h2>
                 <p className="text-xl text-gray-600 leading-relaxed">
                   Join tuition centres and freelance tutors across Malaysia and Singapore who've ditched the spreadsheets.

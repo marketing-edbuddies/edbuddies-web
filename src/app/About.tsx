@@ -49,7 +49,7 @@ export default function About() {
   useEffect(() => {
     setPageMeta({
       title: "About — EdBuddies | Our Story",
-      description: "EdBuddies was built to close the gap between education and technology — giving every tuition centre, big or small, the tools they deserve at zero cost.",
+      description: "EdBuddies was built to close the gap between education and technology — giving every tuition centre, big or small, the tools they deserve.",
       url: "https://edbuddies.ai/about",
     });
   }, []);
@@ -130,7 +130,7 @@ export default function About() {
             >
               <motion.img
                 src="/assets/about-us-img-1.webp"
-                alt="Free centre management software for tuition centres in Malaysia"
+                alt="Centre management software for tuition centres in Malaysia"
                 className="w-full h-full object-cover object-center scale-110"
                 whileHover={{ scale: 1.07 }}
                 transition={{ duration: 0.55, type: "spring", stiffness: 200, damping: 28 }}
@@ -210,7 +210,7 @@ export default function About() {
                 "In Southeast Asia, thousands of freelance tutors and small tuition centres are delivering good education every day, but running their operations on spreadsheets, WhatsApp groups, and paper registers.",
                 "Not because they lack ambition. The tools that existed were built for bigger institutions, and priced that way too. For a small centre keeping fees low for parents, paying hundreds of ringgit a month for software was never going to work.",
                 "So they managed manually. They chased fees by hand, tracked attendance on paper, and spent hours on admin that should have taken minutes. EdBuddies was built to change that.",
-                "Every centre, big or small, deserves tools that work as hard as they do. That's why EdBuddies is free, with no trial and no catch, because good technology should be accessible to every educator doing right by their students.",
+                "Every centre, big or small, deserves tools that work as hard as they do. That's why we built EdBuddies specifically for education businesses, not adapted from some generic tool, so every educator gets technology that actually fits how they work.",
               ].map((para, i) => (
                 <motion.p
                   key={i}
@@ -236,7 +236,7 @@ export default function About() {
               <div className="relative rounded-3xl overflow-hidden group cursor-pointer" style={{ boxShadow: "0 12px 48px rgba(9,36,75,0.18)" }}>
                 <motion.img
                   src="/assets/why-we-exist.webp"
-                  alt="EdBuddies team — building free education management tools for tuition centres in Malaysia and Singapore"
+                  alt="EdBuddies team — building education management tools for tuition centres in Malaysia and Singapore"
                   className="w-full h-[480px] object-cover"
                   whileHover={{ scale: 1.07 }}
                   transition={{ duration: 0.55, type: "spring", stiffness: 200, damping: 28 }}
@@ -386,7 +386,7 @@ export default function About() {
             transition={{ duration: 0.6, delay: 0.18 }}
             className="text-white/70 text-lg max-w-2xl mx-auto"
           >
-            Every tuition centre, every freelance tutor, every enrichment class deserves the same tools as the biggest institutions, without paying for them. That's what we built EdBuddies to do.
+            Every tuition centre, every freelance tutor, every enrichment class deserves the same tools as the biggest institutions. That's what we built EdBuddies to do.
           </motion.p>
         </div>
       </section>
@@ -437,7 +437,7 @@ export default function About() {
                 transition={{ duration: 0.6, delay: 0.18 }}
                 className="text-xl text-gray-600 mb-10"
               >
-                Run your centre the way it deserves, with every tool you need, at zero cost.
+                Run your centre the way it deserves, with every tool you need, in one app.
               </motion.p>
 
               <motion.div
