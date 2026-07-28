@@ -35,9 +35,10 @@ interface DeepDiveProps {
   mockCards: { icon: React.ElementType; text: string; sub?: string }[];
   reverse?: boolean;
   bg?: string;
+  videoSrc?: string;
 }
 
-function DeepDive({ label, title, desc, bullets, icon: Icon, mockCards, reverse = false, bg = "bg-white" }: DeepDiveProps) {
+function DeepDive({ label, title, desc, bullets, icon: Icon, mockCards, reverse = false, bg = "bg-white", videoSrc }: DeepDiveProps) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
 
@@ -121,6 +122,18 @@ function DeepDive({ label, title, desc, bullets, icon: Icon, mockCards, reverse 
             transition={{ duration: 0.7, delay: 0.1, type: "spring", stiffness: 200, damping: 26 }}
             className="lg:[direction:ltr]"
           >
+            {videoSrc ? (
+              <div className="scale-150">
+                <video
+                  src={videoSrc}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="w-full h-auto block"
+                />
+              </div>
+            ) : (
             <div
               className="bg-[#EEFCFF] rounded-3xl p-8 space-y-4"
               style={{ boxShadow: "0 4px 24px rgba(9,36,75,0.10)" }}
@@ -155,6 +168,7 @@ function DeepDive({ label, title, desc, bullets, icon: Icon, mockCards, reverse 
                 </motion.div>
               ))}
             </div>
+            )}
           </motion.div>
 
         </div>
@@ -311,6 +325,7 @@ export default function Features() {
           { icon: Calendar,      text: "Saturday Class",            sub: "All 12 students confirmed" },
           { icon: Users,         text: "Teacher: Ms. Lim",          sub: "3 classes today" },
         ]}
+        videoSrc="/attendance-and-class-schedule.mp4"
         bg="bg-white"
       />
 
