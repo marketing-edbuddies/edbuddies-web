@@ -1,604 +1,548 @@
-import { motion, useScroll, useTransform } from "motion/react";
-import { Button } from "./components/ui/button";
+import { useEffect, type ElementType } from "react";
+import { motion } from "motion/react";
 import {
-  ArrowRight, CheckCircle2, Check, ChevronRight, Sparkles,
-  Building2, Users, UserPlus, Calendar, FileText, ClipboardList,
-  MessageSquare, Bell, CreditCard, Receipt, Wallet, RefreshCw, Globe,
-  GraduationCap, Clock, Award, Gift, Star, Brain, FileQuestion,
-  Download, Smartphone, Mail, BarChart3, PieChart, LayoutDashboard, Eye,
+  ArrowRight,
+  BarChart3,
+  Building2,
+  CalendarDays,
+  Check,
+  CheckCircle2,
+  ChevronDown,
+  CreditCard,
+  FileCheck2,
+  GraduationCap,
+  LayoutDashboard,
+  Mail,
+  MessageSquare,
+  ReceiptText,
+  School,
+  ShieldCheck,
+  Smartphone,
+  Sparkles,
+  UserCheck,
+  UserPlus,
+  Users,
+  Wallet,
 } from "lucide-react";
-import { useEffect, useRef } from "react";
-import Navbar from "./Navbar";
+import { Button } from "./components/ui/button";
 import Footer from "./Footer";
+import Navbar from "./Navbar";
 import { setPageMeta } from "./seo";
 
-// ─── DRAFT PAGE — internal review only. Mirrors Features.tsx styling. ────────
-// Not linked in Navbar/Footer/sitemap. Existing /features page is untouched.
+// Internal draft route. The live /features page is intentionally untouched.
 
-// ─── Feature Grid Card (matches Features.tsx "All Features" card style) ──────
-
-interface FeatureItem {
-  icon: React.ElementType;
+type Pillar = {
+  id: string;
+  href: string;
+  navLabel: string;
+  eyebrow: string;
   title: string;
-  desc: string;
-}
+  description: string;
+  icon: ElementType;
+  bullets: string[];
+  previewTitle: string;
+  previewMetric: string;
+  previewRows: { label: string; value: string; status?: string }[];
+};
 
-function FeatureCard({ icon: Icon, title, desc, i }: FeatureItem & { i: number }) {
+type DirectoryGroup = {
+  title: string;
+  icon: ElementType;
+  items: { title: string; description: string }[];
+};
+
+const pillars: Pillar[] = [
+  {
+    id: "enrolment",
+    href: "/features/enrolment",
+    navLabel: "Enrolment",
+    eyebrow: "Enrolment & admissions",
+    title: "Turn every enquiry into an organised next step.",
+    description:
+      "Keep prospective students, registrations and student records together so your team can move from first enquiry to confirmed class without losing context.",
+    icon: UserPlus,
+    bullets: [
+      "Centralised student and parent profiles",
+      "Clear registration and enrolment records",
+      "Class placement with less duplicate entry",
+      "One history your admin team can follow",
+    ],
+    previewTitle: "Admissions overview",
+    previewMetric: "12 active applications",
+    previewRows: [
+      { label: "New enquiries", value: "5", status: "Today" },
+      { label: "Pending registration", value: "4", status: "Follow up" },
+      { label: "Ready for class", value: "3", status: "Complete" },
+    ],
+  },
+  {
+    id: "class-management",
+    href: "/features/class-management",
+    navLabel: "Classes",
+    eyebrow: "Classes & student management",
+    title: "Keep classes running smoothly from timetable to attendance.",
+    description:
+      "Give teachers and administrators the same view of class schedules, attendance, homework and student progress—without passing spreadsheets back and forth.",
+    icon: CalendarDays,
+    bullets: [
+      "Class scheduling and student assignment",
+      "Fast attendance tracking for every session",
+      "Homework and student progress records",
+      "Teacher schedules and class assignments",
+    ],
+    previewTitle: "Today’s classes",
+    previewMetric: "8 sessions scheduled",
+    previewRows: [
+      { label: "Primary Mathematics", value: "16 students", status: "4:00 PM" },
+      { label: "English Writing", value: "12 students", status: "5:30 PM" },
+      { label: "Science Workshop", value: "10 students", status: "7:00 PM" },
+    ],
+  },
+  {
+    id: "payroll-leave-management",
+    href: "/features/payroll-leave-management",
+    navLabel: "Payroll & Leave",
+    eyebrow: "Payroll & teacher leave",
+    title: "Staff leave and payroll, without a separate system to manage.",
+    description:
+      "Keep teacher leave applications, approvals and payroll administration connected to the same centre record as attendance and classes, instead of a separate spreadsheet or system.",
+    icon: Wallet,
+    bullets: [
+      "Teacher leave applications and approvals",
+      "Payroll administration linked to staff records",
+      "Staff attendance connected to the same record",
+      "Finance and daily administration in one view",
+    ],
+    previewTitle: "Staff admin overview",
+    previewMetric: "6 staff records connected",
+    previewRows: [
+      { label: "Leave requests", value: "2 pending", status: "Review" },
+      { label: "Approved leave", value: "1 this week", status: "Recorded" },
+      { label: "Payroll cycle", value: "Linked to attendance", status: "Up to date" },
+    ],
+  },
+  {
+    id: "billing-payments",
+    href: "/features/billing-payments",
+    navLabel: "Billing",
+    eyebrow: "Billing & payments",
+    title: "Know what has been billed, paid and still needs attention.",
+    description:
+      "Manage invoices and payment records alongside the students and classes they belong to, giving your team a clearer path from fees due to payments received.",
+    icon: CreditCard,
+    bullets: [
+      "Create and manage student invoices",
+      "Track payment status and outstanding balances",
+      "Keep fee records connected to each student",
+      "Support finance and day-to-day administration",
+    ],
+    previewTitle: "Payment summary",
+    previewMetric: "RM 28,450 recorded",
+    previewRows: [
+      { label: "Paid", value: "RM 21,800", status: "Recorded" },
+      { label: "Pending", value: "RM 5,100", status: "Due" },
+      { label: "Overdue", value: "RM 1,550", status: "Review" },
+    ],
+  },
+  {
+    id: "parent-communication",
+    href: "/features/parent-communication",
+    navLabel: "Communication",
+    eyebrow: "Parent communication",
+    title: "Give parents the updates they need, in context.",
+    description:
+      "Keep announcements, class information and student-related updates connected to the right people, so communication stays timely and easier to understand.",
+    icon: MessageSquare,
+    bullets: [
+      "Parent and teacher communication tools",
+      "Announcements and class updates",
+      "Student information available on mobile",
+      "Less dependence on scattered chat threads",
+    ],
+    previewTitle: "Communication centre",
+    previewMetric: "3 updates ready",
+    previewRows: [
+      { label: "Class reminder", value: "Primary 4", status: "Sent" },
+      { label: "Homework update", value: "English", status: "Delivered" },
+      { label: "Centre notice", value: "All parents", status: "Draft" },
+    ],
+  },
+  {
+    id: "reporting",
+    href: "/features/reporting",
+    navLabel: "Reporting",
+    eyebrow: "Reporting & multi-centre",
+    title: "See the bigger picture without losing branch-level detail.",
+    description:
+      "Bring key operational and finance information into a clearer management view, whether you oversee one education centre or several locations.",
+    icon: BarChart3,
+    bullets: [
+      "Operational dashboards and reporting",
+      "Finance and administrative visibility",
+      "Centre-by-centre records and oversight",
+      "A consistent system as your business grows",
+    ],
+    previewTitle: "Centre overview",
+    previewMetric: "4 locations connected",
+    previewRows: [
+      { label: "Central branch", value: "286 students", status: "Active" },
+      { label: "North branch", value: "194 students", status: "Active" },
+      { label: "South branch", value: "148 students", status: "Active" },
+    ],
+  },
+];
+
+const directoryGroups: DirectoryGroup[] = [
+  {
+    title: "Students & enrolment",
+    icon: GraduationCap,
+    items: [
+      { title: "Student profiles", description: "Keep contact details, class history and student information in one record." },
+      { title: "Parent records", description: "Connect parents and guardians with the students they manage." },
+      { title: "Enrolment records", description: "Organise registration details and class placement." },
+      { title: "Student rewards", description: "Support student engagement with rewards and recognition records." },
+    ],
+  },
+  {
+    title: "Classes & learning",
+    icon: CalendarDays,
+    items: [
+      { title: "Class scheduling", description: "Plan class times, teachers and student groups." },
+      { title: "Attendance", description: "Record and review attendance for each class session." },
+      { title: "Homework", description: "Create and follow student homework activities." },
+      { title: "Progress records", description: "Keep learning progress visible to the right people." },
+    ],
+  },
+  {
+    title: "Teachers & operations",
+    icon: UserCheck,
+    items: [
+      { title: "Teacher profiles", description: "Manage teacher information and class responsibilities." },
+      { title: "Staff attendance", description: "Maintain clear attendance and working records." },
+      { title: "Leave management", description: "Track staff leave applications and approvals." },
+      { title: "Payroll administration", description: "Keep payroll work connected to your staff records." },
+    ],
+  },
+  {
+    title: "Finance & communication",
+    icon: ReceiptText,
+    items: [
+      { title: "Invoices", description: "Create and manage invoices against student accounts." },
+      { title: "Payment tracking", description: "See paid, pending and outstanding payment records." },
+      { title: "Parent communication", description: "Share relevant centre and student updates." },
+      { title: "Reports", description: "Review centre operations and finance from a clearer dashboard." },
+    ],
+  },
+];
+
+const audiences = [
+  { icon: School, title: "Tuition centres", description: "Coordinate recurring classes, teachers, fees and parent updates." },
+  { icon: Sparkles, title: "Enrichment centres", description: "Manage programmes, student groups and changing schedules in one place." },
+  { icon: Building2, title: "Schools", description: "Connect essential student, teacher and administrative workflows." },
+  { icon: GraduationCap, title: "Freelance tutors", description: "Stay organised as your student list and teaching schedule grow." },
+];
+
+function Reveal({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6, delay: (i % 4) * 0.07 }}
-      whileHover={{ y: -6, boxShadow: "0 20px 52px rgba(9,36,75,0.16)", borderColor: "rgba(255,128,0,0.28)", transition: { type: "spring", stiffness: 350, damping: 25 } }}
-      whileTap={{ y: 0, transition: { duration: 0.1 } }}
-      className="group bg-white rounded-2xl p-6 flex flex-col border border-transparent cursor-pointer"
-      style={{ boxShadow: "0 4px 16px rgba(9,36,75,0.12)" }}
+      viewport={{ once: true, amount: 0.15 }}
+      transition={{ duration: 0.55, delay }}
+      className={className}
     >
-      <div className="w-12 h-12 mb-3 bg-[#FF8000] rounded-xl flex items-center justify-center shrink-0 transition-all duration-300 group-hover:scale-[1.08] group-hover:-rotate-3 group-hover:shadow-[0_8px_24px_rgba(255,128,0,0.35)]">
-        <Icon className="w-6 h-6 text-white" />
-      </div>
-      <h3 className="text-base font-semibold text-[#09244B] leading-snug mb-3 min-h-[2.5rem]">{title}</h3>
-      <div className="border-t border-gray-200 mb-3" />
-      <p className="text-sm text-gray-500 leading-relaxed">{desc}</p>
+      {children}
     </motion.div>
   );
 }
 
-// ─── Category Section (grid of FeatureCards, matches Features.tsx Section 2 pattern) ─
+function ProductPreview({ pillar }: { pillar: Pillar }) {
+  const Icon = pillar.icon;
 
-interface CategorySection {
-  icon: React.ElementType;
-  label: string;
-  title: string;
-  desc: string;
-  items: FeatureItem[];
-  bg?: string;
+  return (
+    <div className="relative rounded-[2rem] bg-[#09244B] p-3 shadow-[0_28px_80px_rgba(9,36,75,0.20)] sm:p-5">
+      <div className="overflow-hidden rounded-[1.35rem] bg-white">
+        <div className="flex items-center justify-between border-b border-slate-100 px-5 py-4">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#FFF1E6] text-[#FF8000]">
+              <Icon className="h-5 w-5" />
+            </div>
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">EdBuddies</p>
+              <p className="font-semibold text-[#09244B]">{pillar.previewTitle}</p>
+            </div>
+          </div>
+          <div className="flex gap-1.5" aria-hidden="true">
+            <span className="h-2 w-2 rounded-full bg-slate-200" />
+            <span className="h-2 w-2 rounded-full bg-slate-200" />
+            <span className="h-2 w-2 rounded-full bg-[#FF8000]" />
+          </div>
+        </div>
+        <div className="bg-[#F8FCFD] p-5 sm:p-7">
+          <div className="mb-5 rounded-2xl bg-[#EEFCFF] p-5">
+            <p className="text-sm text-slate-500">Current overview</p>
+            <p className="mt-1 text-2xl font-bold text-[#09244B]">{pillar.previewMetric}</p>
+          </div>
+          <div className="space-y-3">
+            {pillar.previewRows.map((row) => (
+              <div key={row.label} className="grid grid-cols-[1fr_auto] items-center gap-4 rounded-xl border border-slate-100 bg-white p-4">
+                <div>
+                  <p className="text-sm font-semibold text-[#09244B]">{row.label}</p>
+                  <p className="mt-0.5 text-xs text-slate-500">{row.value}</p>
+                </div>
+                <span className="rounded-full bg-[#FFF1E6] px-2.5 py-1 text-[11px] font-semibold text-[#D96900]">{row.status}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
-function FeatureGridSection({ icon: Icon, label, title, desc, items, bg = "bg-white" }: CategorySection) {
-  return (
-    <section className={`py-20 px-4 sm:px-6 lg:px-8 ${bg}`}>
-      <div className="max-w-5xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-4"
-        >
-          <div className="inline-flex items-center gap-2 text-sm text-gray-600 mb-6">
-            <Icon className="w-4 h-4" />
-            <span className="uppercase tracking-wider">{label}</span>
-          </div>
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#09244B] mb-4">
-            {title}
-          </h2>
-          <p className="text-gray-600 text-lg max-w-2xl mx-auto mb-16">{desc}</p>
-        </motion.div>
+function PillarSection({ pillar, index }: { pillar: Pillar; index: number }) {
+  const Icon = pillar.icon;
+  const reverse = index % 2 === 1;
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-0 relative z-10">
-          {items.map((item, i) => (
-            <FeatureCard key={item.title} {...item} i={i} />
-          ))}
-        </div>
+  return (
+    <section id={pillar.id} className={`scroll-mt-32 px-4 py-20 sm:px-6 lg:px-8 lg:py-28 ${index % 2 === 1 ? "bg-[#F7FCFD]" : "bg-white"}`}>
+      <div className="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-2 lg:gap-20">
+        <Reveal className={reverse ? "lg:order-2" : ""}>
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-[#FFF1E6] px-4 py-2 text-sm font-semibold text-[#B95700]">
+            <Icon className="h-4 w-4" />
+            {pillar.eyebrow}
+          </div>
+          <h2 className="max-w-xl text-3xl font-bold leading-tight text-[#09244B] sm:text-4xl lg:text-5xl">{pillar.title}</h2>
+          <p className="mt-6 max-w-xl text-lg leading-8 text-slate-600">{pillar.description}</p>
+          <ul className="mt-8 grid gap-4 sm:grid-cols-2">
+            {pillar.bullets.map((bullet) => (
+              <li key={bullet} className="flex items-start gap-3 text-sm leading-6 text-slate-700">
+                <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#EEFCFF] text-[#08718C]">
+                  <Check className="h-3.5 w-3.5" />
+                </span>
+                {bullet}
+              </li>
+            ))}
+          </ul>
+          <a href={pillar.href} className="mt-8 inline-flex items-center gap-2 font-semibold text-[#B95700] hover:text-[#8D4300]">
+            View full feature page <ArrowRight className="h-4 w-4" />
+          </a>
+        </Reveal>
+        <Reveal delay={0.08} className={reverse ? "lg:order-1" : ""}>
+          <ProductPreview pillar={pillar} />
+        </Reveal>
       </div>
     </section>
   );
 }
-
-// ─── Deep Dive Section (copied from Features.tsx to keep that file untouched) ─
-
-interface DeepDiveProps {
-  label: string;
-  title: string;
-  desc: string;
-  bullets: string[];
-  icon: React.ElementType;
-  mockCards: { icon: React.ElementType; text: string; sub?: string }[];
-  reverse?: boolean;
-  bg?: string;
-}
-
-function DeepDive({ label, title, desc, bullets, icon: Icon, mockCards, reverse = false, bg = "bg-white" }: DeepDiveProps) {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
-  const lineProgress = useTransform(scrollYProgress, [0.1, 0.45], [0, 1]);
-
-  return (
-    <section ref={sectionRef} className={`py-20 px-4 sm:px-6 lg:px-8 ${bg} overflow-hidden`}>
-      <div className="max-w-5xl mx-auto">
-        <div className={`grid grid-cols-1 lg:grid-cols-2 gap-16 items-center ${reverse ? "lg:[direction:rtl]" : ""}`}>
-
-          <div className="space-y-6 lg:[direction:ltr]">
-            <motion.div
-              initial={{ opacity: 0, x: reverse ? 20 : -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, type: "spring", stiffness: 260, damping: 24 }}
-              className="inline-flex items-center gap-2 text-sm text-gray-500"
-            >
-              <Icon className="w-4 h-4 text-[#FF8000]" />
-              <span className="uppercase tracking-wider font-medium">{label}</span>
-            </motion.div>
-
-            <div className="w-full h-px bg-gray-100 relative overflow-hidden">
-              <motion.div
-                className="absolute inset-y-0 left-0 bg-[#FF8000]"
-                style={{ width: "60%", scaleX: lineProgress, originX: 0 }}
-              />
-            </div>
-
-            <motion.h2
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.08, type: "spring", stiffness: 220, damping: 22 }}
-              className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#09244B] leading-tight"
-            >
-              {title}
-            </motion.h2>
-
-            <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.18 }}
-              className="text-lg text-gray-600 leading-relaxed"
-            >
-              {desc}
-            </motion.p>
-
-            <ul className="space-y-3">
-              {bullets.map((b, i) => (
-                <motion.li
-                  key={b}
-                  initial={{ opacity: 0, x: reverse ? 16 : -16 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.45, delay: 0.22 + i * 0.07, type: "spring", stiffness: 260, damping: 24 }}
-                  className="flex items-start gap-3"
-                >
-                  <div className="w-6 h-6 rounded-full bg-[#fff0e6] flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <Check className="w-3.5 h-3.5 text-[#FF8000]" />
-                  </div>
-                  <span className="text-gray-700">{b}</span>
-                </motion.li>
-              ))}
-            </ul>
-          </div>
-
-          <motion.div
-            initial={{ opacity: 0, x: reverse ? -40 : 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.1, type: "spring", stiffness: 200, damping: 26 }}
-            className="lg:[direction:ltr]"
-          >
-            <div
-              className="bg-[#EEFCFF] rounded-3xl p-8 space-y-4"
-              style={{ boxShadow: "0 4px 24px rgba(9,36,75,0.10)" }}
-            >
-              {mockCards.map(({ icon: MIcon, text, sub }, i) => (
-                <motion.div
-                  key={text}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.3 + i * 0.09, type: "spring", stiffness: 260, damping: 24 }}
-                  whileHover={{
-                    y: -4,
-                    boxShadow: "0 12px 32px rgba(9,36,75,0.14)",
-                    borderColor: "rgba(255,128,0,0.22)",
-                    transition: { type: "spring", stiffness: 350, damping: 25 },
-                  }}
-                  className="bg-white rounded-2xl p-4 flex items-center gap-4 cursor-default border border-transparent"
-                  style={{ boxShadow: "0 2px 8px rgba(9,36,75,0.08)" }}
-                >
-                  <motion.div
-                    whileHover={{ scale: 1.1, rotate: -6, transition: { type: "spring", stiffness: 400, damping: 18 } }}
-                    className="w-10 h-10 rounded-xl bg-[#FF8000] flex items-center justify-center flex-shrink-0"
-                  >
-                    <MIcon className="w-5 h-5 text-white" />
-                  </motion.div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-[#09244B] truncate">{text}</p>
-                    {sub && <p className="text-xs text-gray-500 mt-0.5">{sub}</p>}
-                  </div>
-                  <ChevronRight className="w-4 h-4 text-gray-300 flex-shrink-0" />
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ─── Data ────────────────────────────────────────────────────────────────────
-
-const CENTRE_MANAGEMENT: FeatureItem[] = [
-  { icon: UserPlus, title: "Student Registration & Enrolment", desc: "Enrol new students in minutes, no paperwork required." },
-  { icon: Users, title: "Student Profiles", desc: "One record per student — contact info, class history, and more." },
-  { icon: Users, title: "Parent Profiles", desc: "Linked parent details for every student, always up to date." },
-  { icon: GraduationCap, title: "Teacher Profiles", desc: "Track qualifications, classes, and schedules per teacher." },
-  { icon: LayoutDashboard, title: "Class Creation & Management", desc: "Set up and manage classes without a spreadsheet." },
-  { icon: Calendar, title: "Timetable & Class Scheduling", desc: "Build timetables and avoid double-booked slots." },
-  { icon: Building2, title: "Multi-Centre Management", desc: "Run multiple branches from a single dashboard." },
-  { icon: BarChart3, title: "Centre Reports & Admin Analytics", desc: "See how your centre is performing at a glance." },
-  { icon: Bell, title: "Announcements & Centre Updates", desc: "Push updates to your whole centre in one tap." },
-];
-
-const ATTENDANCE_PROGRESS: FeatureItem[] = [
-  { icon: ClipboardList, title: "Student Attendance Tracking", desc: "Mark attendance in seconds, every class." },
-  { icon: ClipboardList, title: "Teacher Attendance Tracking", desc: "Know who's in, who's late, and who's off." },
-  { icon: FileText, title: "Student Progress Records", desc: "A running record of how each student is doing." },
-  { icon: MessageSquare, title: "Teacher Remarks & Feedback", desc: "Capture teacher notes right after class." },
-  { icon: BarChart3, title: "Attendance Summaries", desc: "Attendance trends per student, class, or centre." },
-  { icon: PieChart, title: "Class Performance Reports", desc: "See how each class is performing over time." },
-  { icon: Clock, title: "Student Lesson History", desc: "Full history of lessons attended per student." },
-  { icon: Download, title: "Learning Materials & Homework Records", desc: "Share materials and track homework in one place." },
-];
-
-const BILLING_PAYMENTS: FeatureItem[] = [
-  { icon: FileText, title: "Invoice Creation", desc: "Generate invoices in a tap, not an afternoon." },
-  { icon: RefreshCw, title: "Recurring Invoices", desc: "Set it once — invoices go out automatically each cycle." },
-  { icon: Wallet, title: "Payment Tracking", desc: "See who's paid and who hasn't, in real time." },
-  { icon: Bell, title: "Outstanding & Overdue Payment Tracking", desc: "Never lose track of what's owed." },
-  { icon: Bell, title: "Automated Payment Reminders", desc: "Reminders send themselves, so you don't have to chase." },
-  { icon: Receipt, title: "Invoice Breakdown & Payment History", desc: "Full payment history, itemised, per student." },
-  { icon: CreditCard, title: "Payment Gateway Support", desc: "Accept payments directly through the app." },
-  { icon: Globe, title: "Local Currency Support", desc: "Billing in the right currency for your market." },
-];
-
-const STUDENT_REWARDS: FeatureItem[] = [
-  { icon: Star, title: "Award Stamps for Good Behaviour", desc: "Recognise good behaviour on the spot." },
-  { icon: Gift, title: "Students Collect Stamps Over Time", desc: "Stamps add up automatically as students earn them." },
-  { icon: Gift, title: "Centre-Created Rewards & Gifts", desc: "Build your own reward catalogue." },
-  { icon: Award, title: "Reward Redemption", desc: "Students redeem rewards once they've earned enough." },
-  { icon: Eye, title: "Reward Balance & Redemption Tracking", desc: "See every student's balance and redemption history." },
-];
-
-const PARENT_FEATURES: FeatureItem[] = [
-  { icon: Eye, title: "View Child Profiles", desc: "Parents see their child's profile anytime." },
-  { icon: ClipboardList, title: "View Attendance Summaries", desc: "Parents check attendance without asking staff." },
-  { icon: FileText, title: "View Progress & Teacher Remarks", desc: "Progress and feedback, visible to parents directly." },
-  { icon: Wallet, title: "View Upcoming & Overdue Payments", desc: "No surprises — parents see what's due and when." },
-  { icon: Receipt, title: "View Invoices & Payment History", desc: "Full billing history available to parents." },
-  { icon: Download, title: "Access Learning Materials", desc: "Parents can access shared materials anytime." },
-  { icon: Bell, title: "Receive Centre Announcements", desc: "Parents stay in the loop automatically." },
-];
-
-const COMMUNICATION: FeatureItem[] = [
-  { icon: Bell, title: "Centre Announcements", desc: "Broadcast updates to your whole centre instantly." },
-  { icon: MessageSquare, title: "Student & Parent Notifications", desc: "Automatic notifications for the moments that matter." },
-  { icon: CreditCard, title: "Invoice & Payment Reminders", desc: "Reminders that go out on their own." },
-  { icon: Calendar, title: "Class-Related Updates", desc: "Keep everyone posted on schedule or class changes." },
-  { icon: Smartphone, title: "Push Notifications", desc: "Real-time alerts, straight to the phone." },
-  { icon: Mail, title: "Email Notifications", desc: "Important updates land in inboxes too." },
-];
-
-const REPORTING_ADMIN: FeatureItem[] = [
-  { icon: LayoutDashboard, title: "Centre Performance Dashboard", desc: "Every key number for your centre, in one view." },
-  { icon: ClipboardList, title: "Student Attendance Reports", desc: "Attendance data, exportable and ready to share." },
-  { icon: Receipt, title: "Payment & Invoice Reports", desc: "Full financial picture without spreadsheets." },
-  { icon: PieChart, title: "Class Performance Reports", desc: "Compare class performance over time." },
-  { icon: GraduationCap, title: "Teacher & Payroll Records", desc: "Payroll and staff records, kept together." },
-  { icon: Building2, title: "Multi-Centre Overview", desc: "Compare performance across every branch." },
-  { icon: BarChart3, title: "Administrative Analytics", desc: "The numbers behind the day-to-day, made visible." },
-];
-
-const FUTURE_ITEMS = [
-  { icon: FileQuestion, title: "AI-Generated Past-Year Mock Tests" },
-  { icon: Brain, title: "AI Tutor & Student Matching" },
-  { icon: Globe, title: "MOE Learning Resources" },
-  { icon: Download, title: "Homework & Materials Download" },
-  { icon: MessageSquare, title: "In-App Chat" },
-  { icon: LayoutDashboard, title: "Education Marketplace Features" },
-];
-
-// ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function FeaturesNew() {
   useEffect(() => {
     setPageMeta({
-      title: "New Features (Draft) — EdBuddies",
-      description: "Draft page — internal review only.",
+      title: "Features — EdBuddies Education Centre Management Platform",
+      description: "Explore EdBuddies features for enrolment, classes, teachers, billing, parent communication and centre reporting.",
       url: "https://edbuddies.ai/features-new",
     });
   }, []);
 
   return (
-    <div className="min-h-screen bg-white">
-      <Navbar />
+    <div className="min-h-screen bg-white text-[#09244B]">
+      <Navbar activePage="features" />
 
-      {/* ── Internal draft notice ─────────────────────────────────────────── */}
-      <div className="bg-[#09244B] text-white text-center text-sm py-2 px-4 mt-[112px]">
-        Draft page for internal review — not linked from the live site.
-      </div>
-
-      {/* ── Section 1: Hero (matches Features.tsx hero) ───────────────────── */}
-      <section className="pt-20 pb-20 px-4 sm:px-6 lg:px-8 bg-white">
-        <div className="max-w-5xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 text-sm text-gray-600 mb-6"
-          >
-            <Sparkles className="w-4 h-4 text-[#FF8000]" />
-            <span className="uppercase tracking-wider font-medium">New Features Overview</span>
-          </motion.div>
-
-          <motion.h1
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1, type: "spring", stiffness: 220, damping: 22 }}
-            className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#09244B] leading-tight mb-6"
-          >
-            More Of What Your Centre Needs.<br className="hidden sm:block" />
-            <span className="text-[#FF8000]">Now Built In.</span>
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.22 }}
-            className="text-lg text-gray-600 max-w-2xl mx-auto mb-10"
-          >
-            Beyond attendance and billing — centre management, staff and payroll,
-            student rewards, AI-marked assessments, and a parent-facing view, all in one app.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.34 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center"
-          >
-            <motion.div whileHover={{ y: -3 }} whileTap={{ y: 0, scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 22 }}>
-              <a href="https://tally.so/r/3y1vE0" target="_blank" rel="noopener noreferrer">
-                <Button size="lg" className="bg-[#09244B] text-white px-8 py-6 text-base gap-2 transition-all duration-200 hover:shadow-[0_8px_24px_rgba(9,36,75,0.30)] hover:bg-[#0d3570]">
-                  Enquire Now <ArrowRight className="w-5 h-5" />
+      <main>
+        <section className="relative overflow-hidden bg-[#F7FCFD] px-4 pb-20 pt-36 sm:px-6 lg:px-8 lg:pb-28 lg:pt-44">
+          <div className="absolute -right-20 top-24 h-80 w-80 rounded-full bg-[#FF8000]/10 blur-3xl" aria-hidden="true" />
+          <div className="absolute -left-24 bottom-0 h-96 w-96 rounded-full bg-[#8CE5F2]/20 blur-3xl" aria-hidden="true" />
+          <div className="relative mx-auto grid max-w-6xl items-center gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20">
+            <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.65 }}>
+              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#FF8000]/20 bg-white px-4 py-2 text-sm font-semibold text-[#B95700] shadow-sm">
+                <LayoutDashboard className="h-4 w-4" />
+                One connected centre-management platform
+              </div>
+              <h1 className="max-w-3xl text-4xl font-bold leading-[1.08] tracking-[-0.03em] text-[#09244B] sm:text-5xl lg:text-6xl">
+                Run every part of your education centre from one place.
+              </h1>
+              <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-600 sm:text-xl">
+                Bring enrolment, classes, teachers, billing, parent updates and reporting into one operating view—so your team can spend less time piecing information together.
+              </p>
+              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+                <Button asChild size="lg" className="h-12 rounded-xl bg-[#FF8000] px-7 text-base text-white shadow-[0_12px_30px_rgba(255,128,0,0.28)] hover:bg-[#E87300]">
+                  <a href="/contact">Enquire Now <ArrowRight className="h-4 w-4" /></a>
                 </Button>
-              </a>
-            </motion.div>
-            <motion.div whileHover={{ y: -3 }} whileTap={{ y: 0, scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 22 }}>
-              <a href="/features">
-                <Button size="lg" variant="outline" className="bg-white border-gray-300 px-8 py-6 text-base transition-all duration-200 hover:bg-[#09244B] hover:text-white hover:border-[#09244B] hover:shadow-[0_8px_24px_rgba(9,36,75,0.20)]">
-                  See Current Features Page
+                <Button asChild size="lg" variant="outline" className="h-12 rounded-xl border-[#09244B]/15 bg-white px-7 text-base text-[#09244B] hover:bg-[#EEFCFF]">
+                  <a href="#capabilities">Explore capabilities <ChevronDown className="h-4 w-4" /></a>
                 </Button>
-              </a>
+              </div>
             </motion.div>
-          </motion.div>
-        </div>
-      </section>
 
-      {/* ── Section 2: Centre Management ──────────────────────────────────── */}
-      <FeatureGridSection
-        icon={Building2}
-        label="Centre Management"
-        title="Run Every Part of Your Centre."
-        desc="From enrolling a new student to managing multiple branches — the day-to-day admin lives in one app."
-        items={CENTRE_MANAGEMENT}
-        bg="bg-[#EEFCFF]"
-      />
+            <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.75, delay: 0.1 }} className="relative mx-auto w-full max-w-[520px]">
+              <div className="absolute inset-x-6 bottom-0 h-24 rounded-full bg-[#09244B]/15 blur-2xl" aria-hidden="true" />
+              <div className="relative rounded-[2rem] border border-white/70 bg-white/75 p-5 shadow-[0_30px_90px_rgba(9,36,75,0.18)] backdrop-blur sm:p-8">
+                <img
+                  src="/assets/hero%20mockup/second-screen.png"
+                  alt="EdBuddies centre dashboard shown on a mobile device"
+                  className="mx-auto max-h-[560px] w-auto object-contain"
+                />
+              </div>
+            </motion.div>
+          </div>
 
-      {/* ── Section 3: Attendance & Student Progress ──────────────────────── */}
-      <FeatureGridSection
-        icon={ClipboardList}
-        label="Attendance & Student Progress"
-        title="Track Attendance and Progress."
-        desc="See who showed up, how they're doing, and what teachers are noticing — all in one history per student."
-        items={ATTENDANCE_PROGRESS}
-        bg="bg-white"
-      />
-
-      {/* ── Section 4: Billing & Payments ─────────────────────────────────── */}
-      <FeatureGridSection
-        icon={CreditCard}
-        label="Billing & Payments"
-        title="Get Paid, Without the Chase."
-        desc="Invoices go out automatically, reminders send themselves, and you always know what's outstanding."
-        items={BILLING_PAYMENTS}
-        bg="bg-[#EEFCFF]"
-      />
-
-      {/* ── Section 5: Deep Dive — Teacher & Staff Management ─────────────── */}
-      <DeepDive
-        label="Teacher & Staff Management"
-        title="Manage Your Team Like You Manage Your Students."
-        desc="Leave, payroll, scheduling, and class assignments — handled without spreadsheets or WhatsApp threads."
-        bullets={[
-          "Teacher profiles",
-          "Teacher leave management",
-          "Payroll management",
-          "Teacher scheduling",
-          "Teacher assignment to classes",
-          "Staff attendance records",
-        ]}
-        icon={GraduationCap}
-        mockCards={[
-          { icon: Calendar, text: "Leave Request — Approved", sub: "Ms. Tan · 2 days · Aug 5-6" },
-          { icon: Wallet, text: "Payroll Run — July", sub: "8 staff · Processed" },
-          { icon: Users, text: "Ms. Lim — 3 Classes Today", sub: "Assigned & confirmed" },
-          { icon: ClipboardList, text: "Staff Attendance", sub: "7 / 8 present today" },
-        ]}
-        bg="bg-white"
-      />
-
-      {/* ── Section 6: Deep Dive — Tests, Quizzes & AI ────────────────────── */}
-      <DeepDive
-        label="Tests, Quizzes & AI"
-        title="Mark Faster. Report Smarter."
-        desc="From full mock tests to quick pop quizzes — AI does the marking, so teachers get their time back."
-        bullets={[
-          "Test paper creation",
-          "AI marking for test papers",
-          "Mock tests",
-          "Pop quizzes",
-          "Multiple quiz sections",
-          "Quiz results and class reports",
-          "Attendance percentage within quiz reports",
-          "Export test papers or reports as PDF",
-        ]}
-        icon={Brain}
-        mockCards={[
-          { icon: FileQuestion, text: "Test Paper Uploaded", sub: "Form 3 Mathematics · 30 questions" },
-          { icon: Brain, text: "AI Marking Complete", sub: "Class average 78% · 2 min" },
-          { icon: ClipboardList, text: "Mock Test Scheduled", sub: "Saturday · 9:00am · 18 students" },
-          { icon: BarChart3, text: "Quiz Report Ready", sub: "Attendance 94% · Export as PDF" },
-        ]}
-        reverse
-        bg="bg-[#EEFCFF]"
-      />
-
-      {/* ── Section 7: Student Reward System ──────────────────────────────── */}
-      <FeatureGridSection
-        icon={Award}
-        label="Student Reward System"
-        title="Turn Good Behaviour Into Something Students Want."
-        desc="A built-in stamp-and-reward system centres can shape around their own classroom culture."
-        items={STUDENT_REWARDS}
-        bg="bg-white"
-      />
-
-      {/* ── Section 8: Parent Features ─────────────────────────────────────── */}
-      <FeatureGridSection
-        icon={Users}
-        label="Parent Features"
-        title="Give Parents Visibility."
-        desc="Parents get their own view into what matters most, so 'is my child okay?' stops being a phone call."
-        items={PARENT_FEATURES}
-        bg="bg-[#EEFCFF]"
-      />
-
-      {/* ── Section 9: Communication ───────────────────────────────────────── */}
-      <FeatureGridSection
-        icon={Bell}
-        label="Communication"
-        title="Reach Everyone, Without the Group Chats."
-        desc="Announcements, reminders, and updates go out through the app — not scattered across WhatsApp groups."
-        items={COMMUNICATION}
-        bg="bg-white"
-      />
-
-      {/* ── Section 10: Reporting & Administration ─────────────────────────── */}
-      <FeatureGridSection
-        icon={BarChart3}
-        label="Reporting & Administration"
-        title="See How Your Centre Is Really Performing."
-        desc="One dashboard for attendance, payments, class performance, and payroll — across every branch."
-        items={REPORTING_ADMIN}
-        bg="bg-[#EEFCFF]"
-      />
-
-      {/* ── Section 11: Coming Soon (clearly not live) ─────────────────────── */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
-        <div className="max-w-5xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-4"
-          >
-            <div className="inline-flex items-center gap-2 text-sm text-gray-500 mb-6">
-              <Sparkles className="w-4 h-4 text-gray-400" />
-              <span className="uppercase tracking-wider">Coming Soon — Not Yet Live</span>
-            </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-500 mb-4">
-              In Development. Do Not Present as Launched.
-            </h2>
-          </motion.div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-0 relative z-10 max-w-4xl mx-auto">
-            {FUTURE_ITEMS.map(({ icon: Icon, title }, i) => (
-              <motion.div
-                key={title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: i * 0.07 }}
-                className="bg-white rounded-2xl p-6 flex flex-col border border-dashed border-gray-300"
-              >
-                <div className="w-12 h-12 mb-3 bg-gray-200 rounded-xl flex items-center justify-center shrink-0">
-                  <Icon className="w-6 h-6 text-gray-400" />
-                </div>
-                <h3 className="text-base font-semibold text-gray-500 leading-snug">{title}</h3>
-              </motion.div>
+          <div className="relative mx-auto mt-16 grid max-w-6xl gap-3 border-t border-[#09244B]/10 pt-8 sm:grid-cols-3">
+            {[
+              { icon: ShieldCheck, text: "Built for education businesses" },
+              { icon: Building2, text: "For single and multi-centre teams" },
+              { icon: Smartphone, text: "Available on iOS and Android" },
+            ].map(({ icon: Icon, text }) => (
+              <div key={text} className="flex items-center justify-center gap-3 rounded-xl bg-white/70 px-4 py-3 text-sm font-semibold text-[#09244B]">
+                <Icon className="h-5 w-5 text-[#FF8000]" />
+                {text}
+              </div>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* ── Section 12: CTA Banner (matches Features.tsx CTA) ──────────────── */}
-      <section className="py-28 px-4 sm:px-6 lg:px-8 bg-[#EEFCFF]">
-        <div className="max-w-3xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 text-sm text-gray-500 mb-6"
-          >
-            <CheckCircle2 className="w-4 h-4 text-[#FF8000]" />
-            <span className="uppercase tracking-wider">Get Started</span>
-          </motion.div>
-
-          <motion.h2
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.08, type: "spring", stiffness: 220, damping: 22 }}
-            className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#09244B] mb-6"
-          >
-            Your Centre, Managed.
-          </motion.h2>
-
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.18 }}
-            className="text-xl text-gray-600 leading-relaxed mb-10"
-          >
-            Join tuition centres and freelance tutors across Malaysia and Singapore who've ditched the spreadsheets.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.28 }}
-          >
-            <motion.div whileHover={{ y: -3 }} whileTap={{ y: 0, scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 22 }} className="inline-flex">
-              <a href="https://tally.so/r/3y1vE0" target="_blank" rel="noopener noreferrer">
-                <Button
-                  size="lg"
-                  className="bg-[#09244B] text-white px-10 py-6 text-base gap-2 transition-colors duration-200 hover:shadow-[0_10px_32px_rgba(9,36,75,0.35)] hover:bg-[#0d3570]"
-                  style={{ boxShadow: "inset 0 1px 0 rgba(255,255,255,0.08), 0 4px 14px rgba(9,36,75,0.22)" }}
-                >
-                  Enquire Now
-                  <ArrowRight className="w-5 h-5" />
-                </Button>
+        <nav aria-label="Feature categories" className="sticky top-16 z-30 border-y border-slate-100 bg-white/95 px-4 shadow-sm backdrop-blur sm:px-6 lg:px-8">
+          <div className="mx-auto flex max-w-6xl gap-2 overflow-x-auto py-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {pillars.map((pillar) => (
+              <a key={pillar.id} href={pillar.href} className="shrink-0 rounded-full px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-[#EEFCFF] hover:text-[#09244B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF8000]">
+                {pillar.navLabel}
               </a>
-            </motion.div>
-          </motion.div>
+            ))}
+            <a href="/features/ai" className="shrink-0 rounded-full px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-[#FFF1E6] hover:text-[#09244B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF8000]">AI direction</a>
+          </div>
+        </nav>
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="text-sm text-gray-400 mt-6"
-          >
-            Get started in minutes.
-          </motion.p>
-        </div>
-      </section>
+        <section id="capabilities" className="scroll-mt-32 px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+          <div className="mx-auto max-w-6xl">
+            <Reveal className="mx-auto max-w-3xl text-center">
+              <p className="text-sm font-bold uppercase tracking-[0.2em] text-[#D96900]">Connected capabilities</p>
+              <h2 className="mt-4 text-3xl font-bold tracking-[-0.02em] text-[#09244B] sm:text-5xl">One system across the entire centre journey.</h2>
+              <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-slate-600">Start with the work your team handles every day, then connect each workflow as your centre grows.</p>
+            </Reveal>
+            <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+              {pillars.map((pillar, index) => {
+                const Icon = pillar.icon;
+                return (
+                  <Reveal key={pillar.id} delay={(index % 3) * 0.06}>
+                    <a href={pillar.href} className="group block h-full rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_8px_30px_rgba(9,36,75,0.06)] transition duration-300 hover:-translate-y-1 hover:border-[#FF8000]/30 hover:shadow-[0_18px_45px_rgba(9,36,75,0.12)]">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#EEFCFF] text-[#08718C] transition group-hover:bg-[#FF8000] group-hover:text-white">
+                        <Icon className="h-6 w-6" />
+                      </div>
+                      <h3 className="mt-5 text-xl font-bold text-[#09244B]">{pillar.eyebrow}</h3>
+                      <p className="mt-3 text-sm leading-6 text-slate-600">{pillar.description}</p>
+                      <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#B95700]">View feature page <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" /></span>
+                    </a>
+                  </Reveal>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        {pillars.map((pillar, index) => <PillarSection key={pillar.id} pillar={pillar} index={index} />)}
+
+        <section id="ai" className="scroll-mt-32 bg-[#09244B] px-4 py-20 text-white sm:px-6 lg:px-8 lg:py-28">
+          <div className="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-20">
+            <Reveal>
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-semibold text-[#9DE9F3]">
+                <Sparkles className="h-4 w-4" />
+                Product direction
+              </div>
+              <h2 className="mt-6 text-3xl font-bold leading-tight sm:text-5xl">EdBuddies AI is being shaped around practical teacher workload.</h2>
+              <p className="mt-6 text-lg leading-8 text-white/70">AI-assisted test-paper marking is part of the EdBuddies product direction, designed to help teachers spend less time on repetitive marking work and more time supporting students.</p>
+              <p className="mt-5 rounded-xl border border-[#FFB46B]/25 bg-[#FF8000]/10 p-4 text-sm leading-6 text-[#FFD4AD]">Availability is to be confirmed. Contact our team if you would like to discuss this product direction.</p>
+              <Button asChild variant="outline" size="lg" className="mt-8 h-12 rounded-xl border-white/25 bg-transparent px-7 text-white hover:bg-white hover:text-[#09244B]">
+                <a href="/features/ai">Explore EdBuddies AI <ArrowRight className="h-4 w-4" /></a>
+              </Button>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <div className="rounded-[2rem] border border-white/10 bg-white/5 p-5 shadow-2xl backdrop-blur sm:p-8">
+                <div className="rounded-2xl bg-white p-6 text-[#09244B]">
+                  <div className="flex items-center justify-between border-b border-slate-100 pb-5">
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#FFF1E6] text-[#FF8000]"><FileCheck2 className="h-6 w-6" /></div>
+                      <div><p className="font-bold">Test-paper marking</p><p className="text-xs text-slate-500">AI-assisted workflow concept</p></div>
+                    </div>
+                    <span className="rounded-full bg-[#EEFCFF] px-3 py-1 text-xs font-semibold text-[#08718C]">Direction</span>
+                  </div>
+                  <div className="mt-6 space-y-4">
+                    {["Review submitted answers", "Assist with marking", "Keep teacher oversight"].map((text, index) => (
+                      <div key={text} className="flex items-center gap-4 rounded-xl bg-[#F8FCFD] p-4">
+                        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#09244B] text-sm font-bold text-white">{index + 1}</span>
+                        <span className="font-semibold">{text}</span>
+                        <CheckCircle2 className="ml-auto h-5 w-5 text-[#FF8000]" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+
+        <section className="bg-[#F7FCFD] px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+          <div className="mx-auto max-w-6xl">
+            <Reveal className="max-w-3xl">
+              <p className="text-sm font-bold uppercase tracking-[0.2em] text-[#D96900]">Built around your operation</p>
+              <h2 className="mt-4 text-3xl font-bold text-[#09244B] sm:text-5xl">A clearer starting point for every education business.</h2>
+              <p className="mt-5 text-lg leading-8 text-slate-600">The same connected platform can support different teaching models without forcing every centre into the same workflow.</p>
+            </Reveal>
+            <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+              {audiences.map(({ icon: Icon, title, description }, index) => (
+                <Reveal key={title} delay={index * 0.05}>
+                  <div className="h-full rounded-2xl border border-slate-200 bg-white p-6">
+                    <Icon className="h-7 w-7 text-[#FF8000]" />
+                    <h3 className="mt-5 text-lg font-bold text-[#09244B]">{title}</h3>
+                    <p className="mt-3 text-sm leading-6 text-slate-600">{description}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+          <div className="mx-auto max-w-5xl">
+            <Reveal className="text-center">
+              <p className="text-sm font-bold uppercase tracking-[0.2em] text-[#D96900]">Feature directory</p>
+              <h2 className="mt-4 text-3xl font-bold text-[#09244B] sm:text-5xl">Explore the full toolkit.</h2>
+              <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-slate-600">The overview stays easy to scan, while the detailed capabilities remain available when you need them.</p>
+            </Reveal>
+            <div className="mt-12 space-y-4">
+              {directoryGroups.map(({ title, icon: Icon, items }, index) => (
+                <Reveal key={title} delay={index * 0.04}>
+                  <details className="group rounded-2xl border border-slate-200 bg-white open:shadow-[0_16px_45px_rgba(9,36,75,0.08)]">
+                    <summary className="flex cursor-pointer list-none items-center gap-4 p-5 sm:p-6 [&::-webkit-details-marker]:hidden">
+                      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#EEFCFF] text-[#08718C]"><Icon className="h-5 w-5" /></span>
+                      <span className="text-left text-lg font-bold text-[#09244B] sm:text-xl">{title}</span>
+                      <ChevronDown className="ml-auto h-5 w-5 text-slate-400 transition group-open:rotate-180" />
+                    </summary>
+                    <div className="grid gap-5 border-t border-slate-100 p-5 sm:grid-cols-2 sm:p-6">
+                      {items.map((item) => (
+                        <div key={item.title} className="flex gap-3">
+                          <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-[#FF8000]" />
+                          <div><h3 className="font-semibold text-[#09244B]">{item.title}</h3><p className="mt-1 text-sm leading-6 text-slate-600">{item.description}</p></div>
+                        </div>
+                      ))}
+                    </div>
+                  </details>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="px-4 pb-24 sm:px-6 lg:px-8 lg:pb-32">
+          <Reveal className="mx-auto max-w-6xl overflow-hidden rounded-[2rem] bg-[#EEFCFF] px-6 py-14 text-center sm:px-10 lg:py-20">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[#FF8000] text-white shadow-[0_12px_30px_rgba(255,128,0,0.28)]"><Mail className="h-7 w-7" /></div>
+            <h2 className="mx-auto mt-7 max-w-3xl text-3xl font-bold text-[#09244B] sm:text-5xl">See how EdBuddies fits your centre.</h2>
+            <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-slate-600">Tell us how your team works today. We’ll help you explore the features that are most relevant to your operation.</p>
+            <Button asChild size="lg" className="mt-8 h-12 rounded-xl bg-[#FF8000] px-7 text-base text-white hover:bg-[#E87300]">
+              <a href="/contact">Enquire Now <ArrowRight className="h-4 w-4" /></a>
+            </Button>
+          </Reveal>
+        </section>
+      </main>
 
       <Footer />
     </div>

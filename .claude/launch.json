@@ -2,10 +2,10 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "edbuddies-web",
+      "name": "edbuddies-web-hero-check",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev", "--", "--port", "5174"],
-      "port": 5174
+      "runtimeArgs": ["run", "dev", "--", "--port", "5180"],
+      "port": 5180
     }
   ]
 }
