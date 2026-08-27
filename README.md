@@ -66,3 +66,5 @@ Do not guess tracking IDs or add secret keys to the code.
 - Main branch: `master`
 - Production preparation: Vercel
 - Final live transfer: a later step that requires Kenneth's approval
+
+<!-- deploy pipeline test: 2026-08-27T07:09:40Z -->
