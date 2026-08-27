@@ -1,9 +1,18 @@
+import { useEffect } from "react";
+import { Link } from "react-router";
 import { motion } from "motion/react";
 import { ArrowRight, Home } from "lucide-react";
 import { Button } from "./components/ui/button";
 import Navbar from "./Navbar";
+import { setPageMeta } from "./seo";
 
 export default function NotFound() {
+  useEffect(() => {
+    document.title = "Page not found — EdBuddies";
+    const meta = document.querySelector('meta[name="robots"]');
+    if (meta) meta.setAttribute("content", "noindex, nofollow");
+  }, []);
+
   return (
     <div className="min-h-screen bg-white flex flex-col">
       <Navbar />
@@ -60,20 +69,20 @@ export default function NotFound() {
             className="flex flex-col sm:flex-row gap-4 justify-center"
           >
             <motion.div whileHover={{ y: -3 }} whileTap={{ scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 22 }}>
-              <a href="/">
+              <Link to="/">
                 <Button size="lg" className="bg-[#09244B] text-white px-8 py-6 text-base gap-2 hover:bg-[#0d3570] transition-colors">
                   <Home className="w-5 h-5" />
                   Back to Home
                 </Button>
-              </a>
+              </Link>
             </motion.div>
             <motion.div whileHover={{ y: -3 }} whileTap={{ scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 22 }}>
-              <a href="/contact">
+              <Link to="/contact">
                 <Button size="lg" variant="outline" className="bg-white border-gray-300 px-8 py-6 text-base gap-2 hover:bg-[#09244B] hover:text-white hover:border-[#09244B] transition-all">
                   Contact Us
                   <ArrowRight className="w-5 h-5" />
                 </Button>
-              </a>
+              </Link>
             </motion.div>
           </motion.div>
 

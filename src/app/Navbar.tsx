@@ -1,4 +1,5 @@
 import { useEffect, useState, type FocusEvent } from "react";
+import { Link } from "react-router";
 import { AnimatePresence, motion } from "motion/react";
 import {
   ArrowRight,
@@ -84,6 +85,8 @@ const standardNavLinks = [
   { href: "/contact", label: "Contact", page: "contact" },
 ] as const;
 
+const MotionLink = motion.create(Link);
+
 export default function Navbar({ activePage }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -126,9 +129,9 @@ export default function Navbar({ activePage }: NavbarProps) {
         <div className="mx-auto max-w-5xl px-6 lg:px-8">
           <div className={`flex items-center justify-between transition-all duration-300 ${scrolled ? "h-16" : "h-28"}`}>
             <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }} className="flex items-center">
-              <a href="/" aria-label="EdBuddies home" onMouseEnter={() => setFeaturesOpen(false)} onFocus={() => setFeaturesOpen(false)}>
+              <Link to="/" aria-label="EdBuddies home" onMouseEnter={() => setFeaturesOpen(false)} onFocus={() => setFeaturesOpen(false)}>
                 <img src="/assets/logo-horizontal.png" alt="EdBuddies" className={`w-auto object-contain transition-all duration-300 ${scrolled ? "h-12" : "h-16"}`} />
-              </a>
+              </Link>
             </motion.div>
 
             <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }} className="hidden items-center gap-8 md:flex">
@@ -137,19 +140,19 @@ export default function Navbar({ activePage }: NavbarProps) {
                 onMouseEnter={() => setFeaturesOpen(true)}
                 onFocus={() => setFeaturesOpen(true)}
               >
-                <a
-                  href="/features"
+                <Link
+                  to="/features"
                   className={`${linkClass("features")} inline-flex items-center gap-1.5 rounded-md py-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF8000] focus-visible:ring-offset-2`}
                   aria-haspopup="true"
                   aria-expanded={featuresOpen}
                 >
                   Features
                   <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${featuresOpen ? "rotate-180" : ""}`} />
-                </a>
+                </Link>
               </div>
 
               {standardNavLinks.map(({ href, label, page }) => (
-                <a key={page} href={href} className={linkClass(page)} onMouseEnter={() => setFeaturesOpen(false)} onFocus={() => setFeaturesOpen(false)}>{label}</a>
+                <Link key={page} to={href} className={linkClass(page)} onMouseEnter={() => setFeaturesOpen(false)} onFocus={() => setFeaturesOpen(false)}>{label}</Link>
               ))}
             </motion.div>
 
@@ -192,7 +195,7 @@ export default function Navbar({ activePage }: NavbarProps) {
                   <span className="relative flex h-11 w-11 items-center justify-center rounded-xl bg-white/10"><LayoutGrid className="h-5 w-5 text-[#9DE9F3]" /></span>
                   <p className="relative mt-5 text-xs font-bold uppercase tracking-[0.17em] text-[#9DE9F3]">Feature overview</p>
                   <h2 className="relative mt-2 text-xl font-bold leading-snug">One connected platform for centre operations.</h2>
-                  <a href="/features-new" className="relative mt-6 inline-flex items-center gap-2 text-sm font-semibold text-white hover:text-[#FFD4AD]">View all features <ArrowRight className="h-4 w-4" /></a>
+                  <Link to="/features-new" className="relative mt-6 inline-flex items-center gap-2 text-sm font-semibold text-white hover:text-[#FFD4AD]">View all features <ArrowRight className="h-4 w-4" /></Link>
                 </div>
 
                 {featureGroups.map((group) => (
@@ -203,9 +206,9 @@ export default function Navbar({ activePage }: NavbarProps) {
                         const ItemIcon = item.icon;
                         const isActive = item.href === activeFeature.href;
                         return (
-                          <a
+                          <Link
                             key={item.href}
-                            href={item.href}
+                            to={item.href}
                             onMouseEnter={() => setActiveFeatureHref(item.href)}
                             onFocus={() => setActiveFeatureHref(item.href)}
                             className={`group flex items-start gap-3 rounded-xl p-3 transition ${isActive ? "bg-[#EEFCFF]" : "hover:bg-slate-50"}`}
@@ -215,7 +218,7 @@ export default function Navbar({ activePage }: NavbarProps) {
                               <span className="block text-sm font-semibold leading-5 text-[#09244B]">{item.title}</span>
                               {"badge" in item ? <span className="mt-1 block text-[10px] font-bold uppercase tracking-[0.1em] text-[#B95700]">{item.badge}</span> : null}
                             </span>
-                          </a>
+                          </Link>
                         );
                       })}
                     </div>
@@ -240,16 +243,16 @@ export default function Navbar({ activePage }: NavbarProps) {
               <div className="flex-1 overflow-y-auto px-5 py-5">
                 <div className="border-b border-gray-100">
                   <div className="flex items-center justify-between">
-                    <a href="/features" onClick={closeMobileMenu} className={`flex-1 py-3 text-lg ${activePage === "features" ? "font-semibold text-[#09244B]" : "text-gray-700"}`}>Features</a>
+                    <Link to="/features" onClick={closeMobileMenu} className={`flex-1 py-3 text-lg ${activePage === "features" ? "font-semibold text-[#09244B]" : "text-gray-700"}`}>Features</Link>
                     <button onClick={() => setMobileFeaturesOpen((open) => !open)} className="p-3 text-slate-500" aria-label="Toggle feature categories" aria-expanded={mobileFeaturesOpen}><ChevronDown className={`h-5 w-5 transition ${mobileFeaturesOpen ? "rotate-180" : ""}`} /></button>
                   </div>
                   <AnimatePresence initial={false}>
                     {mobileFeaturesOpen ? (
                       <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
                         <div className="space-y-1 pb-4 pl-2">
-                          <a href="/features-new" onClick={closeMobileMenu} className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-[#B95700]"><LayoutGrid className="h-4 w-4" />All features overview</a>
+                          <Link to="/features-new" onClick={closeMobileMenu} className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-[#B95700]"><LayoutGrid className="h-4 w-4" />All features overview</Link>
                           {featureItems.map((item) => { const ItemIcon = item.icon; return (
-                            <a key={item.href} href={item.href} onClick={closeMobileMenu} className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-[#EEFCFF] hover:text-[#09244B]"><span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#EEFCFF] text-[#08718C]"><ItemIcon className="h-4 w-4" /></span>{item.title}</a>
+                            <Link key={item.href} to={item.href} onClick={closeMobileMenu} className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-[#EEFCFF] hover:text-[#09244B]"><span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#EEFCFF] text-[#08718C]"><ItemIcon className="h-4 w-4" /></span>{item.title}</Link>
                           ); })}
                         </div>
                       </motion.div>
@@ -258,7 +261,7 @@ export default function Navbar({ activePage }: NavbarProps) {
                 </div>
 
                 {standardNavLinks.map(({ href, label, page }, index) => (
-                  <motion.a key={page} href={href} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: index * 0.06, type: "spring", stiffness: 300, damping: 28 }} onClick={closeMobileMenu} className={`block border-b border-gray-100 py-3 text-lg ${activePage === page ? "font-semibold text-[#09244B]" : "text-gray-700 hover:text-[#09244B]"}`}>{label}</motion.a>
+                  <MotionLink key={page} to={href} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: index * 0.06, type: "spring", stiffness: 300, damping: 28 }} onClick={closeMobileMenu} className={`block border-b border-gray-100 py-3 text-lg ${activePage === page ? "font-semibold text-[#09244B]" : "text-gray-700 hover:text-[#09244B]"}`}>{label}</MotionLink>
                 ))}
               </div>
 

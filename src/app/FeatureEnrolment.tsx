@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Link } from "react-router";
 import { motion } from "motion/react";
 import { ArrowRight } from "lucide-react";
 import { Button } from "./components/ui/button";
@@ -26,8 +27,8 @@ export default function FeatureEnrolment() {
         <section className="overflow-hidden px-4 pb-20 pt-28 sm:px-6 lg:px-8 lg:pb-28 lg:pt-36">
           <div className="mx-auto max-w-6xl">
             <nav aria-label="Breadcrumb" className="mb-10 flex flex-wrap items-center gap-2 text-sm text-slate-500">
-              <a href="/" className="hover:text-[#09244B]">Home</a><span aria-hidden="true">/</span>
-              <a href="/features-new" className="hover:text-[#09244B]">Features</a><span aria-hidden="true">/</span>
+              <Link to="/" className="hover:text-[#09244B]">Home</Link><span aria-hidden="true">/</span>
+              <Link to="/features-new" className="hover:text-[#09244B]">Features</Link><span aria-hidden="true">/</span>
               <span className="font-semibold text-[#09244B]" aria-current="page">Enrolment &amp; Admissions</span>
             </nav>
 
@@ -41,7 +42,7 @@ export default function FeatureEnrolment() {
                 </p>
                 <div className="mt-8">
                   <Button asChild size="lg" className={ctaButtonClass}>
-                    <a href="/contact">Enquire Now <ArrowRight className="h-4 w-4" /></a>
+                    <Link to="/contact">Enquire Now <ArrowRight className="h-4 w-4" /></Link>
                   </Button>
                 </div>
               </motion.div>
@@ -54,7 +55,7 @@ export default function FeatureEnrolment() {
                 <MediaPlaceholder
                   label="Enrolment Dashboard Screenshot"
                   aspect="aspect-[4/3]"
-                  src="/assets/features/enrolment/edbuddies-enrolment-dashboard.png"
+                  src="/assets/features/enrolment/edbuddies-enrolment-dashboard.webp"
                   className="scale-150"
                 />
               </motion.div>
@@ -98,7 +99,7 @@ export default function FeatureEnrolment() {
               <MediaPlaceholder
                 label="Student Profile Screenshot"
                 aspect="aspect-square"
-                src="/assets/features/enrolment/edbuddies-enrolment-student-profile.png"
+                src="/assets/features/enrolment/edbuddies-enrolment-student-profile.webp"
                 className="scale-125"
               />
             </Reveal>
@@ -121,7 +122,7 @@ export default function FeatureEnrolment() {
               <MediaPlaceholder
                 label="Class Placement Screenshot"
                 aspect="aspect-square"
-                src="/assets/features/enrolment/edbuddies-enrolment-class-placement.png"
+                src="/assets/features/enrolment/edbuddies-enrolment-class-placement.webp"
                 className="scale-125"
               />
             </Reveal>
@@ -151,7 +152,7 @@ export default function FeatureEnrolment() {
               <MediaPlaceholder
                 label="Enrolment Workflow Preview"
                 aspect="aspect-[8/5]"
-                src="/assets/features/enrolment/edbuddies-enrolment-workflow.png"
+                src="/assets/features/enrolment/edbuddies-enrolment-workflow.webp"
                 className="scale-110"
               />
             </Reveal>
@@ -196,7 +197,7 @@ export default function FeatureEnrolment() {
               Tell us how registration works today, and we&apos;ll show you the parts of EdBuddies most relevant to your team.
             </p>
             <Button asChild size="lg" className={`mt-8 ${ctaButtonClass}`}>
-              <a href="/contact">Enquire Now <ArrowRight className="h-4 w-4" /></a>
+              <Link to="/contact">Enquire Now <ArrowRight className="h-4 w-4" /></Link>
             </Button>
           </Reveal>
         </section>

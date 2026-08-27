@@ -1,5 +1,5 @@
 import { useEffect, type ElementType } from "react";
-import { useParams } from "react-router";
+import { Link, useParams } from "react-router";
 import { motion } from "motion/react";
 import {
   ArrowRight,
@@ -119,8 +119,8 @@ export default function FeatureDetail() {
           <div className="absolute -right-24 top-24 h-80 w-80 rounded-full bg-[#FF8000]/10 blur-3xl" aria-hidden="true" />
           <div className="relative mx-auto max-w-6xl">
             <nav aria-label="Breadcrumb" className="mb-10 flex flex-wrap items-center gap-2 text-sm text-slate-500">
-              <a href="/" className="hover:text-[#09244B]">Home</a><span aria-hidden="true">/</span>
-              <a href="/features-new" className="hover:text-[#09244B]">Features</a><span aria-hidden="true">/</span>
+              <Link to="/" className="hover:text-[#09244B]">Home</Link><span aria-hidden="true">/</span>
+              <Link to="/features-new" className="hover:text-[#09244B]">Features</Link><span aria-hidden="true">/</span>
               <span className="font-semibold text-[#09244B]" aria-current="page">{page.shortTitle}</span>
             </nav>
             <div className="grid items-center gap-14 lg:grid-cols-[1.02fr_0.98fr] lg:gap-20">
@@ -130,7 +130,7 @@ export default function FeatureDetail() {
                 <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-600 sm:text-xl">{page.description}</p>
                 {page.direction ? <p className="mt-5 rounded-xl border border-[#FF8000]/20 bg-[#FFF1E6] p-4 text-sm leading-6 text-[#8D4300]">This is a product direction. Availability is to be confirmed.</p> : null}
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                  <Button asChild size="lg" className="h-12 rounded-xl bg-[#FF8000] px-7 text-base text-white hover:bg-[#E87300]"><a href="/contact">Enquire Now <ArrowRight className="h-4 w-4" /></a></Button>
+                  <Button asChild size="lg" className="h-12 rounded-xl bg-[#FF8000] px-7 text-base text-white hover:bg-[#E87300]"><Link to="/contact">Enquire Now <ArrowRight className="h-4 w-4" /></Link></Button>
                 </div>
               </motion.div>
               <motion.div initial={{ opacity: 0, x: 28 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7, delay: 0.08 }}><WorkflowPreview page={page} /></motion.div>
@@ -179,7 +179,7 @@ export default function FeatureDetail() {
         </section>
 
         <section className="px-4 pb-24 sm:px-6 lg:px-8 lg:pb-32">
-          <Reveal className="mx-auto max-w-6xl rounded-[2rem] bg-[#EEFCFF] px-6 py-14 text-center sm:px-10 lg:py-20"><h2 className="mx-auto max-w-3xl text-3xl font-bold sm:text-5xl">See how {page.shortTitle.toLowerCase()} fits your centre.</h2><p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-slate-600">Tell us how your team works today and we’ll help you explore the most relevant EdBuddies capabilities.</p><Button asChild size="lg" className="mt-8 h-12 rounded-xl bg-[#FF8000] px-7 text-base text-white hover:bg-[#E87300]"><a href="/contact">Enquire Now <ArrowRight className="h-4 w-4" /></a></Button></Reveal>
+          <Reveal className="mx-auto max-w-6xl rounded-[2rem] bg-[#EEFCFF] px-6 py-14 text-center sm:px-10 lg:py-20"><h2 className="mx-auto max-w-3xl text-3xl font-bold sm:text-5xl">See how {page.shortTitle.toLowerCase()} fits your centre.</h2><p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-slate-600">Tell us how your team works today and we’ll help you explore the most relevant EdBuddies capabilities.</p><Button asChild size="lg" className="mt-8 h-12 rounded-xl bg-[#FF8000] px-7 text-base text-white hover:bg-[#E87300]"><Link to="/contact">Enquire Now <ArrowRight className="h-4 w-4" /></Link></Button></Reveal>
         </section>
       </main>
       <Footer />

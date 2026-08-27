@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import { Facebook, Instagram } from "lucide-react";
 import { SHOW_FREE_MESSAGING } from "./flags";
 
@@ -45,9 +46,9 @@ export default function Footer() {
             <p className="text-xs font-bold uppercase tracking-widest text-white/40 mb-5">Quick Links</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3 w-full sm:place-items-center">
               {QUICK_LINKS.map(({ label, href }) => (
-                <a key={label} href={href} className="text-sm text-white/60 hover:text-white transition-colors duration-200">
+                <Link key={label} to={href} className="text-sm text-white/60 hover:text-white transition-colors duration-200">
                   {label}
-                </a>
+                </Link>
               ))}
             </div>
           </div>
@@ -80,6 +81,7 @@ export default function Footer() {
           <img
             src="/assets/logo-horizontal-dark.png"
             alt="EdBuddies"
+            loading="lazy"
             className="h-28 sm:h-36 lg:h-44 w-auto object-contain opacity-20 select-none"
           />
         </div>

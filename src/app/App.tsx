@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import { motion, useScroll, useTransform, useInView } from "motion/react";
 import HeroScroll from "./HeroScroll";
 import { Button } from "./components/ui/button";
@@ -430,11 +431,11 @@ export default function App() {
                   <ArrowRight className="w-5 h-5" />
                 </Button>
               </a>
-              <a href="/features">
+              <Link to="/features">
                 <Button size="lg" variant="outline" className="bg-white border-gray-300 px-8 py-6 text-base transition-all duration-200 hover:bg-[#09244B] hover:text-white hover:border-[#09244B] hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)]">
                   See How It Works
                 </Button>
-              </a>
+              </Link>
             </motion.div>
 
             {/* Trust Micro-copy */}
@@ -487,7 +488,7 @@ export default function App() {
                 { src: '/assets/yews-tuition-centre.png', alt: 'Yews' },
               ].map(({ src, alt }) => (
                 <div key={alt} className="shrink-0 opacity-70 hover:opacity-100 transition-opacity">
-                  <img src={src} alt={alt} className="h-28 w-auto object-contain" />
+                  <img src={src} alt={alt} loading="lazy" className="h-28 w-auto object-contain" />
                 </div>
               ))}
               {/* Duplicate Set for seamless loop */}
@@ -498,7 +499,7 @@ export default function App() {
                 { src: '/assets/yews-tuition-centre.png', alt: 'Yews2' },
               ].map(({ src, alt }) => (
                 <div key={alt} className="shrink-0 opacity-70 hover:opacity-100 transition-opacity">
-                  <img src={src} alt={alt} className="h-28 w-auto object-contain" />
+                  <img src={src} alt={alt} loading="lazy" className="h-28 w-auto object-contain" />
                 </div>
               ))}
             </motion.div>
@@ -809,7 +810,7 @@ export default function App() {
                 }}
                 className="bg-white rounded-2xl p-1 shadow-md"
               >
-                <img src="/assets/EdBuddies V2 App icon.png" alt="EdBuddies" width="96" height="96" className="rounded-2xl" />
+                <img src="/assets/EdBuddies V2 App icon.webp" alt="EdBuddies" width="96" height="96" className="rounded-2xl" loading="lazy" />
               </motion.div>
             </motion.div>
           </div>
@@ -850,7 +851,7 @@ export default function App() {
             className="mb-20 last:mb-0"
           >
             <div className="h-[260px] mb-6 flex items-center justify-center">
-              <img src={img} alt={alt} className="max-w-full max-h-full object-contain" />
+              <img src={img} alt={alt} loading="lazy" className="max-w-full max-h-full object-contain" />
             </div>
             <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-2">For</p>
             <h3 className="text-3xl font-bold text-[#09244B] mb-3">{title}</h3>
@@ -876,6 +877,7 @@ export default function App() {
                     <img
                       src="/assets/tuition-centre.webp"
                       alt="Tuition Centre"
+                      loading="lazy"
                       className="max-w-full max-h-full object-contain"
                     />
                   </motion.div>
@@ -884,6 +886,7 @@ export default function App() {
                     <img
                       src="/assets/freelance-tutor.webp"
                       alt="Freelance Tutor"
+                      loading="lazy"
                       className="max-w-full max-h-full object-contain"
                     />
                   </motion.div>
@@ -892,6 +895,7 @@ export default function App() {
                     <img
                       src="/assets/enrichment-class.webp"
                       alt="Enrichment Centre"
+                      loading="lazy"
                       className="max-w-full max-h-full object-contain"
                     />
                   </motion.div>
@@ -1111,28 +1115,18 @@ export default function App() {
               className="relative flex justify-center lg:justify-start"
             >
               <div className="relative">
-                {/* Glow effect behind phone */}
+                {/* Glow effect behind mockup */}
                 <div className="absolute inset-0 bg-gradient-to-br from-[#b8c8e0] via-[#dce4f0] to-transparent rounded-[3rem] blur-3xl opacity-60 scale-110"></div>
 
-                {/* Phone mockup frame */}
-                <motion.div
+                {/* Product mockup */}
+                <motion.img
                   animate={{ y: [0, -15, 0] }}
                   transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                  className="relative bg-gray-900 rounded-[3rem] p-3 shadow-2xl"
-                  style={{ width: 'min(260px, 44vw)', height: 'min(530px, 90vw)' }}
-                >
-                  {/* Phone screen */}
-                  <div className="bg-white rounded-[2.5rem] h-full w-full overflow-hidden">
-                    <img
-                      src="https://images.unsplash.com/photo-1767449280971-46e438b1ce4a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2JpbGUlMjBhcHAlMjBkYXNoYm9hcmQlMjB1aSUyMGVkdWNhdGlvbiUyMHN0dWRlbnRzfGVufDF8fHx8MTc4MDgxMTk4N3ww&ixlib=rb-4.1.0&q=80&w=1080"
-                      alt="EdBuddies Mobile App"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-
-                  {/* Notch */}
-                  <div className="absolute top-6 left-1/2 -translate-x-1/2 bg-gray-900 rounded-full h-6 w-32"></div>
-                </motion.div>
+                  src="/assets/EdBuddies-mockup.webp"
+                  alt="EdBuddies App Mockup"
+                  loading="lazy"
+                  className="relative w-[380px] sm:w-[460px] lg:w-[600px] lg:-ml-16 max-w-none"
+                />
               </div>
             </motion.div>
 

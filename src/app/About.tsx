@@ -1,5 +1,6 @@
 import { motion } from "motion/react";
 import { Button } from "./components/ui/button";
+import { SEAMap } from "./components/ui/map";
 import { CheckCircle2, ArrowRight, Globe } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import Navbar from "./Navbar";
@@ -111,6 +112,7 @@ export default function About() {
               <motion.img
                 src="/assets/about-us-img-4.webp"
                 alt="EdBuddies tuition centre management app interface"
+                loading="lazy"
                 className="w-full h-full object-cover object-[center_20%]"
                 whileHover={{ scale: 1.07 }}
                 transition={{ duration: 0.55, type: "spring", stiffness: 200, damping: 28 }}
@@ -131,6 +133,7 @@ export default function About() {
               <motion.img
                 src="/assets/about-us-img-1.webp"
                 alt="Centre management software for tuition centres in Malaysia"
+                loading="lazy"
                 className="w-full h-full object-cover object-center scale-110"
                 whileHover={{ scale: 1.07 }}
                 transition={{ duration: 0.55, type: "spring", stiffness: 200, damping: 28 }}
@@ -149,6 +152,7 @@ export default function About() {
               <motion.img
                 src="/assets/about-us-img-2.png"
                 alt="EdBuddies student attendance and billing management"
+                loading="lazy"
                 className="w-full h-full object-cover"
                 whileHover={{ scale: 1.07 }}
                 transition={{ duration: 0.55, type: "spring", stiffness: 200, damping: 28 }}
@@ -167,6 +171,7 @@ export default function About() {
               <motion.img
                 src="/assets/about-us-img-3.png"
                 alt="Freelance tutor using EdBuddies app for class scheduling"
+                loading="lazy"
                 className="w-full h-full object-cover"
                 whileHover={{ scale: 1.07 }}
                 transition={{ duration: 0.55, type: "spring", stiffness: 200, damping: 28 }}
@@ -237,6 +242,7 @@ export default function About() {
                 <motion.img
                   src="/assets/why-we-exist.webp"
                   alt="EdBuddies team — building education management tools for tuition centres in Malaysia and Singapore"
+                  loading="lazy"
                   className="w-full h-[480px] object-cover"
                   whileHover={{ scale: 1.07 }}
                   transition={{ duration: 0.55, type: "spring", stiffness: 200, damping: 28 }}
@@ -316,7 +322,7 @@ export default function About() {
             </p>
           </motion.div>
 
-          {/* Map image */}
+          {/* Animated map */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -324,11 +330,7 @@ export default function About() {
             transition={{ duration: 0.7, type: "spring", stiffness: 200, damping: 26 }}
             className="flex justify-center mb-10"
           >
-            <img
-              src="/assets/map.jpg"
-              alt="Southeast Asia map"
-              className="w-full max-w-2xl object-contain lg:scale-150 lg:origin-center"
-            />
+            <SEAMap />
           </motion.div>
 
           {/* Country cards */}

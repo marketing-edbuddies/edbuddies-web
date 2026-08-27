@@ -1,5 +1,15 @@
 import { useEffect, useRef } from "react";
+import { Link } from "react-router";
+import { Calendar, CreditCard, MessageSquare, ClipboardList, DollarSign } from "lucide-react";
 import { SHOW_FREE_MESSAGING } from "./flags";
+
+const FLOATING_ICONS = [
+  { Icon: Calendar,      label: "Attendance",      className: "hs-float-1" },
+  { Icon: CreditCard,    label: "Billing",         className: "hs-float-2" },
+  { Icon: MessageSquare, label: "Parent Comms",    className: "hs-float-3" },
+  { Icon: ClipboardList, label: "Homework",        className: "hs-float-4" },
+  { Icon: DollarSign,    label: "Payroll",         className: "hs-float-5" },
+];
 
 export default function HeroScroll() {
   const heroAreaRef   = useRef<HTMLDivElement>(null);
@@ -18,8 +28,8 @@ export default function HeroScroll() {
     const brandBg     = brandBgRef.current;
     if (!heroArea || !phoneWrapper || !heroLeft || !mascot || !phoneImg || !brandBg) return;
 
-    const SCREEN_1 = "/assets/hero mockup/first-screen.png";
-    const SCREEN_2 = "/assets/hero mockup/second-screen.png";
+    const SCREEN_1 = "/assets/hero mockup/first-screen.webp";
+    const SCREEN_2 = "/assets/hero mockup/second-screen.webp";
 
     const isMobile = () => window.innerWidth <= 768;
 
@@ -58,20 +68,20 @@ export default function HeroScroll() {
       if (isMobile()) {
         cur = { x: 0, rot: 0, y: M.phoneStartY, bx: 0, bo: 0.07 };
         tgt = { ...cur };
-        phoneWrapper.style.transform = `translateX(0px) translateY(${M.phoneStartY}px) rotate(0deg)`;
+        phoneWrapper!.style.transform = `translateX(0px) translateY(${M.phoneStartY}px) rotate(0deg)`;
       } else {
         D.phoneStartX = 0;
         cur = { x: 0, rot: 0, y: 0, bx: 0, bo: 0.07 };
         tgt = { ...cur };
-        phoneWrapper.style.transform = `translateX(0px) translateY(0px) rotate(0deg)`;
+        phoneWrapper!.style.transform = `translateX(0px) translateY(0px) rotate(0deg)`;
       }
-      brandBg.style.opacity = "0.07";
+      brandBg!.style.opacity = "0.07";
       lastProgress = -1;
     }
 
     function onScroll() {
-      const rect     = heroArea.getBoundingClientRect();
-      const total    = heroArea.offsetHeight - window.innerHeight;
+      const rect     = heroArea!.getBoundingClientRect();
+      const total    = heroArea!.offsetHeight - window.innerHeight;
       const progress = Math.max(0, Math.min(1, -rect.top / total));
 
       if (Math.abs(progress - lastProgress) < 0.0005) return;
@@ -103,21 +113,21 @@ export default function HeroScroll() {
       }
 
       if (progress > revealAt) {
-        heroLeft.classList.add("hs-visible");
-        mascot.classList.add("hs-visible");
+        heroLeft!.classList.add("hs-visible");
+        mascot!.classList.add("hs-visible");
       } else {
-        heroLeft.classList.remove("hs-visible");
-        mascot.classList.remove("hs-visible");
+        heroLeft!.classList.remove("hs-visible");
+        mascot!.classList.remove("hs-visible");
       }
 
       if (progress > revealAt && !screenSwapped) {
         screenSwapped = true;
-        phoneImg.style.opacity = "0";
-        setTimeout(() => { phoneImg.src = SCREEN_2; phoneImg.style.opacity = "1"; }, 500);
+        phoneImg!.style.opacity = "0";
+        setTimeout(() => { phoneImg!.src = SCREEN_2; phoneImg!.style.opacity = "1"; }, 500);
       } else if (progress <= revealAt - 0.15 && screenSwapped) {
         screenSwapped = false;
-        phoneImg.style.opacity = "0";
-        setTimeout(() => { phoneImg.src = SCREEN_1; phoneImg.style.opacity = "1"; }, 500);
+        phoneImg!.style.opacity = "0";
+        setTimeout(() => { phoneImg!.src = SCREEN_1; phoneImg!.style.opacity = "1"; }, 500);
       }
 
       if (!rafId) rafId = requestAnimationFrame(animate);
@@ -132,10 +142,10 @@ export default function HeroScroll() {
       cur.bx  = lerp(cur.bx, tgt.bx, s);
       cur.bo  = lerp(cur.bo, tgt.bo, s);
 
-      phoneWrapper.style.transform =
+      phoneWrapper!.style.transform =
         `translateX(${cur.x}px) translateY(${cur.y}px) rotate(${cur.rot}deg)`;
-      brandBg.style.transform = `translate(calc(-50% + ${cur.bx}px), -50%)`;
-      brandBg.style.opacity   = String(cur.bo);
+      brandBg!.style.transform = `translate(calc(-50% + ${cur.bx}px), -50%)`;
+      brandBg!.style.opacity   = String(cur.bo);
 
       const settled =
         Math.abs(cur.x   - tgt.x)  < 0.05 &&
@@ -333,6 +343,35 @@ export default function HeroScroll() {
         .hs-blob-1 { width: 400px; height: 400px; background: radial-gradient(circle, #a8d8f0, transparent); top: -80px; right: -80px; }
         .hs-blob-2 { width: 300px; height: 300px; background: radial-gradient(circle, #ffd4a3, transparent); bottom: -60px; left: 60px; }
 
+        .hs-float-icon {
+          position: absolute;
+          width: 56px;
+          height: 56px;
+          border-radius: 16px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: #ffffff;
+          border: 1px solid rgba(9,36,75,0.08);
+          box-shadow: 0 14px 30px rgba(9,36,75,0.16), 0 2px 6px rgba(9,36,75,0.06);
+          z-index: 0;
+          pointer-events: none;
+          animation: hs-float 5s ease-in-out infinite;
+        }
+        .hs-float-icon svg { width: 24px; height: 24px; color: #09244B; }
+        .hs-float-icon.hs-float-accent { background: #FF8000; border-color: #FF8000; }
+        .hs-float-icon.hs-float-accent svg { color: #ffffff; }
+        .hs-float-1 { top: 2%;   left: -30px;  animation-duration: 5.4s; animation-delay: 0s; }
+        .hs-float-2 { top: 20%;  right: -32px; animation-duration: 4.6s; animation-delay: 0.6s; }
+        .hs-float-3 { top: 47%;  left: -40px;  animation-duration: 5.8s; animation-delay: 1.1s; }
+        .hs-float-4 { bottom: 16%; right: -26px; animation-duration: 5s;   animation-delay: 0.3s; }
+        .hs-float-5 { bottom: 0%;  left: -18px;  animation-duration: 4.8s; animation-delay: 0.9s; }
+
+        @keyframes hs-float {
+          0%, 100% { transform: translateY(0) rotate(0deg); }
+          50%      { transform: translateY(-12px) rotate(4deg); }
+        }
+
         @media (max-width: 1100px) {
           /* Remove scroll-driven animation on tablet & mobile — show content statically */
           .hs-scroll-area { height: auto; }
@@ -353,6 +392,7 @@ export default function HeroScroll() {
             white-space: normal !important;
           }
           .hs-mascot { opacity: 1 !important; transform: none !important; }
+          .hs-phone-wrapper { transform: none !important; }
         }
         @media (max-width: 768px) {
           .hs-sticky { padding: 130px 24px 56px; align-items: flex-start; }
@@ -374,6 +414,12 @@ export default function HeroScroll() {
           .hs-trust { flex-wrap: wrap; justify-content: center; font-size: 11px; }
           .hs-brand-bg { font-size: clamp(48px, 14vw, 80px); letter-spacing: -2px; }
           .hs-mascot { bottom: -10px; left: -30px; width: 110px; }
+          .hs-float-icon { width: 40px; height: 40px; border-radius: 12px; }
+          .hs-float-icon svg { width: 18px; height: 18px; }
+          .hs-float-3, .hs-float-5 { display: none; }
+          .hs-float-1 { top: 0%; left: -12px; }
+          .hs-float-2 { top: 16%; right: -14px; }
+          .hs-float-4 { bottom: 10%; right: -10px; }
         }
       `}</style>
 
@@ -411,7 +457,7 @@ export default function HeroScroll() {
                     <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </a>
-                <a href="/features" className="hs-btn-ghost">See How It Works</a>
+                <Link to="/features" className="hs-btn-ghost">See How It Works</Link>
               </div>
               <div className="hs-trust">
                 <span>Available on iOS & Android</span>
@@ -424,16 +470,25 @@ export default function HeroScroll() {
 
             <div className="hs-right">
               <div className="hs-phone-wrapper" ref={phoneWrapRef}>
+                {FLOATING_ICONS.map(({ Icon, label, className }, i) => (
+                  <div
+                    key={label}
+                    className={`hs-float-icon ${className}${i % 2 === 1 ? " hs-float-accent" : ""}`}
+                    aria-hidden="true"
+                  >
+                    <Icon strokeWidth={2} />
+                  </div>
+                ))}
                 <img
                   ref={phoneImgRef}
                   className="hs-phone-img"
-                  src="/assets/hero mockup/first-screen.png"
+                  src="/assets/hero mockup/first-screen.webp"
                   alt="EdBuddies App"
                 />
                 <img
                   ref={mascotRef}
                   className="hs-mascot"
-                  src="/assets/hero mockup/mascot.png"
+                  src="/assets/hero mockup/mascot.webp"
                   alt="EdBuddies Mascot"
                 />
               </div>

@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import { motion, useScroll, useTransform } from "motion/react";
 import { Button } from "./components/ui/button";
 import {
@@ -243,11 +244,11 @@ export default function Features() {
               </a>
             </motion.div>
             <motion.div whileHover={{ y: -3 }} whileTap={{ y: 0, scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 22 }}>
-              <a href="/pricing">
+              <Link to="/pricing">
                 <Button size="lg" variant="outline" className="bg-white border-gray-300 px-8 py-6 text-base transition-all duration-200 hover:bg-[#09244B] hover:text-white hover:border-[#09244B] hover:shadow-[0_8px_24px_rgba(9,36,75,0.20)]">
                   See Pricing
                 </Button>
-              </a>
+              </Link>
             </motion.div>
           </motion.div>
         </div>

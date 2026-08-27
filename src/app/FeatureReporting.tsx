@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Link } from "react-router";
 import { motion } from "motion/react";
 import { ArrowRight } from "lucide-react";
 import { Button } from "./components/ui/button";
@@ -26,8 +27,8 @@ export default function FeatureReporting() {
         <section className="px-4 pb-20 pt-28 sm:px-6 lg:px-8 lg:pb-28 lg:pt-36">
           <div className="mx-auto max-w-6xl">
             <nav aria-label="Breadcrumb" className="mb-10 flex flex-wrap items-center gap-2 text-sm text-slate-500">
-              <a href="/" className="hover:text-[#09244B]">Home</a><span aria-hidden="true">/</span>
-              <a href="/features-new" className="hover:text-[#09244B]">Features</a><span aria-hidden="true">/</span>
+              <Link to="/" className="hover:text-[#09244B]">Home</Link><span aria-hidden="true">/</span>
+              <Link to="/features-new" className="hover:text-[#09244B]">Features</Link><span aria-hidden="true">/</span>
               <span className="font-semibold text-[#09244B]" aria-current="page">Reporting &amp; Multi-Branch</span>
             </nav>
 
@@ -41,7 +42,7 @@ export default function FeatureReporting() {
                 </p>
                 <div className="mt-8">
                   <Button asChild size="lg" className={ctaButtonClass}>
-                    <a href="/contact">Enquire Now <ArrowRight className="h-4 w-4" /></a>
+                    <Link to="/contact">Enquire Now <ArrowRight className="h-4 w-4" /></Link>
                   </Button>
                 </div>
               </motion.div>
@@ -50,7 +51,7 @@ export default function FeatureReporting() {
                 <MediaPlaceholder
                   label="Multi-Branch Dashboard Screenshot"
                   aspect="aspect-[4/3]"
-                  src="/assets/features/reporting/edbuddies-reporting-multi-branch-dashboard.png"
+                  src="/assets/features/reporting/edbuddies-reporting-multi-branch-dashboard.webp"
                   className="scale-125"
                 />
               </motion.div>
@@ -92,7 +93,7 @@ export default function FeatureReporting() {
               <MediaPlaceholder
                 label="Operational Dashboard Screenshot"
                 aspect="aspect-square"
-                src="/assets/features/reporting/edbuddies-reporting-operational-dashboard.png"
+                src="/assets/features/reporting/edbuddies-reporting-operational-dashboard.webp"
                 className="scale-110"
               />
             </Reveal>
@@ -115,7 +116,7 @@ export default function FeatureReporting() {
               <MediaPlaceholder
                 label="Branch Reporting Screenshot"
                 aspect="aspect-square"
-                src="/assets/features/reporting/edbuddies-reporting-branch-detail.png"
+                src="/assets/features/reporting/edbuddies-reporting-branch-detail.webp"
                 className="scale-110"
               />
             </Reveal>
@@ -160,7 +161,7 @@ export default function FeatureReporting() {
               Tell us how many locations you run, and we&apos;ll show you the parts of EdBuddies most relevant to your team.
             </p>
             <Button asChild size="lg" className={`mt-8 ${ctaButtonClass}`}>
-              <a href="/contact">Enquire Now <ArrowRight className="h-4 w-4" /></a>
+              <Link to="/contact">Enquire Now <ArrowRight className="h-4 w-4" /></Link>
             </Button>
           </Reveal>
         </section>

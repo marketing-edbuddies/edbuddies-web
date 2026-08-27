@@ -130,6 +130,7 @@ export default function Contact() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [form, setForm] = useState({ name: "", email: "", phone: "", centre: "", message: "" });
+  const [botcheck, setBotcheck] = useState("");
 
   useEffect(() => {
     setPageMeta({
@@ -141,6 +142,14 @@ export default function Contact() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+
+    // Honeypot: real visitors never see or fill this field. If it's
+    // filled, silently pretend success instead of hitting the API.
+    if (botcheck) {
+      setSubmitted(true);
+      return;
+    }
+
     setSubmitting(true);
     setError(null);
     try {
@@ -149,6 +158,7 @@ export default function Contact() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           access_key: "21c8c876-63c0-4573-b334-364afa34c489",
+          botcheck,
           subject: `EdBuddies Enquiry from ${form.name}`,
           from_name: form.name,
           email: form.email,
@@ -255,6 +265,16 @@ export default function Contact() {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-5">
+                  <input
+                    type="text"
+                    name="botcheck"
+                    value={botcheck}
+                    onChange={e => setBotcheck(e.target.value)}
+                    tabIndex={-1}
+                    autoComplete="off"
+                    aria-hidden="true"
+                    className="absolute left-[-9999px] h-0 w-0 opacity-0"
+                  />
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">First Name</label>

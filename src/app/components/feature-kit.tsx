@@ -67,7 +67,7 @@ export function MediaPlaceholder({
   if (src) {
     return (
       <div className={`flex ${aspect} w-full items-center justify-center ${className}`}>
-        <img src={src} alt={label} className="h-full w-full object-contain" />
+        <img src={src} alt={label} loading="lazy" className="h-full w-full object-contain" />
       </div>
     );
   }
