@@ -3,6 +3,7 @@ import { lazy, StrictMode, Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router";
 import ErrorBoundary from "./app/ErrorBoundary.tsx";
+import { initLinkTracking } from "./app/analytics.ts";
 import "./styles/index.css";
 import Lenis from "lenis";
 
@@ -27,6 +28,8 @@ function raf(time: number) {
   requestAnimationFrame(raf);
 }
 requestAnimationFrame(raf);
+
+initLinkTracking();
 
 function RouteFallback() {
   return <div style={{ minHeight: "100vh" }} aria-hidden="true" />;

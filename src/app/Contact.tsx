@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import { setPageMeta } from "./seo";
 import { SHOW_FREE_MESSAGING } from "./flags";
+import { trackEvent } from "./analytics";
 import Footer from "./Footer";
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
@@ -169,6 +170,7 @@ export default function Contact() {
       });
       const data = await res.json();
       if (data.success) {
+        trackEvent("generate_lead", { method: "contact_form" });
         setSubmitted(true);
       } else {
         setError("Something went wrong. Please try again or WhatsApp us directly.");
