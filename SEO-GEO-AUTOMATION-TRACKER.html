@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EdBuddies SEO + GEO Automation Tracker</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <style>
+    :root{
+      --bg:#f6f8fc;
+      --panel:#ffffff;
+      --text:#172033;
+      --muted:#6c7890;
+      --line:#dfe5ef;
+      --brand:#142b62;
+      --brand-2:#244aa5;
+      --good:#1f7a4d;
+      --warn:#a56800;
+      --bad:#b42318;
+      --chip:#eef3ff;
+      --shadow:0 10px 30px rgba(20,43,98,.08);
+      --radius:16px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.55;
+    }
+    button,input,select,textarea{font:inherit}
+    button{cursor:pointer}
+    .app{max-width:1440px;margin:0 auto;padding:28px}
+    .hero{
+      background:linear-gradient(135deg,var(--brand),#0b225b 55%,#1e3d88);
+      color:#fff;
+      border-radius:24px;
+      padding:34px;
+      box-shadow:var(--shadow);
+    }
+    .hero h1{margin:0 0 8px;font-size:clamp(28px,4vw,46px);line-height:1.08}
+    .hero p{margin:0;max-width:920px;color:#dfe8ff;font-size:17px}
+    .hero .small{margin-top:12px;font-size:14px;color:#c8d6fb}
+    .topbar{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:14px;
+      margin:18px 0;
+    }
+    .stat{
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:18px;
+      box-shadow:var(--shadow);
+    }
+    .stat .label{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+    .stat .value{font-size:28px;font-weight:800;margin-top:3px}
+    .progress-wrap{
+      background:#e7ecf5;
+      height:12px;border-radius:999px;overflow:hidden;margin-top:10px
+    }
+    .progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--brand-2),#58a6ff);transition:width .25s}
+    .controls{
+      display:flex;flex-wrap:wrap;gap:10px;align-items:center;
+      background:var(--panel);border:1px solid var(--line);
+      padding:14px;border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:18px;
+      position:sticky;top:10px;z-index:10;
+    }
+    .controls button,.controls select,.controls input{
+      border:1px solid var(--line);background:#fff;color:var(--text);
+      border-radius:10px;padding:9px 12px;
+    }
+    .controls button.primary{background:var(--brand);color:#fff;border-color:var(--brand)}
+    .controls button.danger{color:var(--bad);border-color:#efc4bf}
+    .controls .spacer{flex:1}
+    .controls input[type="search"]{min-width:260px}
+    .layout{display:grid;grid-template-columns:260px minmax(0,1fr);gap:18px}
+    .sidebar{
+      position:sticky;top:84px;align-self:start;
+      background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+      padding:12px;box-shadow:var(--shadow);max-height:calc(100vh - 110px);overflow:auto;
+    }
+    .sidebar a{
+      display:block;text-decoration:none;color:var(--text);padding:9px 10px;border-radius:9px;
+      font-size:14px;
+    }
+    .sidebar a:hover{background:var(--chip)}
+    .content{min-width:0}
+    .phase{
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:20px;
+      padding:22px;
+      margin-bottom:18px;
+      box-shadow:var(--shadow);
+    }
+    .phase-header{
+      display:flex;gap:14px;align-items:flex-start;justify-content:space-between;margin-bottom:14px
+    }
+    .phase-num{
+      display:inline-grid;place-items:center;min-width:40px;height:40px;border-radius:12px;
+      background:var(--brand);color:#fff;font-weight:800;
+    }
+    .phase h2{margin:0;font-size:23px}
+    .phase-desc{margin:4px 0 0;color:var(--muted)}
+    .phase-progress{font-size:13px;color:var(--muted);white-space:nowrap}
+    .task{
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:15px;
+      margin:10px 0;
+      background:#fff;
+      transition:.2s;
+    }
+    .task.done{background:#f4fbf7;border-color:#bfe2ce}
+    .task.blocked{background:#fff9ef;border-color:#ecd4a5}
+    .task-head{display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:10px;align-items:start}
+    .task-check{margin-top:4px;width:20px;height:20px;accent-color:var(--brand)}
+    .task-title{font-weight:760}
+    .task-meta{display:flex;flex-wrap:wrap;gap:7px;margin-top:7px}
+    .chip{
+      display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:4px 8px;
+      font-size:12px;background:var(--chip);color:var(--brand);
+    }
+    .chip.high{background:#fff0ee;color:var(--bad)}
+    .chip.medium{background:#fff7e8;color:var(--warn)}
+    .chip.low{background:#eef8f2;color:var(--good)}
+    .task-actions{display:flex;gap:7px}
+    .mini{
+      border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 8px;font-size:12px;
+    }
+    .task-body{margin-left:44px;margin-top:10px}
+    .task-body p{margin:7px 0;color:#3c4961}
+    .acceptance{
+      background:#f8faff;border-left:3px solid var(--brand-2);
+      padding:10px 12px;border-radius:8px;margin:10px 0;
+    }
+    .acceptance strong{display:block;margin-bottom:4px}
+    details{margin-top:10px}
+    summary{cursor:pointer;font-weight:650;color:var(--brand)}
+    pre{
+      white-space:pre-wrap;word-break:break-word;background:#0e1726;color:#e8efff;
+      padding:13px;border-radius:10px;overflow:auto;font-size:12.5px;
+    }
+    textarea.notes{
+      width:100%;min-height:72px;resize:vertical;border:1px solid var(--line);
+      border-radius:10px;padding:10px;margin-top:9px;background:#fbfcfe;
+    }
+    .task-controls{
+      display:grid;grid-template-columns:180px 180px 1fr;gap:8px;margin-top:9px
+    }
+    .task-controls select,.task-controls input{
+      width:100%;border:1px solid var(--line);border-radius:9px;padding:8px;background:#fff;
+    }
+    .warning{
+      background:#fff8e8;border:1px solid #ecd39c;color:#6f4c00;
+      padding:14px;border-radius:12px;margin:18px 0;
+    }
+    .footer-note{color:var(--muted);font-size:13px;text-align:center;padding:20px}
+    .hidden{display:none!important}
+    @media(max-width:980px){
+      .topbar{grid-template-columns:repeat(2,1fr)}
+      .layout{grid-template-columns:1fr}
+      .sidebar{position:relative;top:0;max-height:none}
+      .controls{position:relative;top:0}
+    }
+    @media(max-width:640px){
+      .app{padding:14px}
+      .hero{padding:24px}
+      .topbar{grid-template-columns:1fr}
+      .task-head{grid-template-columns:28px minmax(0,1fr)}
+      .task-actions{grid-column:2}
+      .task-body{margin-left:38px}
+      .task-controls{grid-template-columns:1fr}
+      .controls input[type="search"]{min-width:100%;width:100%}
+    }
+    @media print{
+      .controls,.sidebar,.task-actions,.notes{display:none!important}
+      .layout{grid-template-columns:1fr}
+      .task{break-inside:avoid}
+      body{background:#fff}
+      .phase,.stat{box-shadow:none}
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <section class="hero">
+      <h1>EdBuddies SEO + GEO Automation Tracker</h1>
+      <p>
+        Master checklist for preparing the React + Vite website, building the Claude audit-to-PR workflow,
+        launching on edbuddies.ai, and moving into weekly data-driven SEO/GEO optimisation.
+      </p>
+      <div class="small">
+        Rule: Claude may prepare branches, commits and PRs only after the automation guardrails are approved.
+        Kenneth remains the production merge/deploy gate.
+      </div>
+    </section>
+
+    <div class="warning">
+      <strong>Important:</strong> browser checkmarks are saved locally on this device. Claude Code cannot see your browser's localStorage.
+      Use <strong>Export JSON</strong> or <strong>Export Markdown</strong> and keep the exported file in the repo so Claude and you share the same progress state.
+    </div>
+
+    <section class="topbar">
+      <div class="stat">
+        <div class="label">Overall progress</div>
+        <div class="value" id="overallPercent">0%</div>
+        <div class="progress-wrap"><div id="overallBar" class="progress-bar"></div></div>
+      </div>
+      <div class="stat">
+        <div class="label">Tasks done</div>
+        <div class="value" id="doneCount">0</div>
+      </div>
+      <div class="stat">
+        <div class="label">Remaining</div>
+        <div class="value" id="remainingCount">0</div>
+      </div>
+      <div class="stat">
+        <div class="label">Blocked</div>
+        <div class="value" id="blockedCount">0</div>
+      </div>
+    </section>
+
+    <div class="controls">
+      <input id="search" type="search" placeholder="Search tasks..." />
+      <select id="filterStatus" aria-label="Filter by status">
+        <option value="all">All statuses</option>
+        <option value="todo">To do</option>
+        <option value="in-progress">In progress</option>
+        <option value="blocked">Blocked</option>
+        <option value="done">Done</option>
+      </select>
+      <select id="filterOwner" aria-label="Filter by owner">
+        <option value="all">All owners</option>
+        <option value="Kenneth">Kenneth</option>
+        <option value="Claude">Claude</option>
+        <option value="Both">Both</option>
+      </select>
+      <div class="spacer"></div>
+      <button class="primary" id="exportJson">Export JSON</button>
+      <button id="exportMd">Export Markdown</button>
+      <button id="importBtn">Import JSON</button>
+      <input id="importFile" type="file" accept=".json,application/json" class="hidden" />
+      <button onclick="window.print()">Print</button>
+      <button class="danger" id="resetBtn">Reset progress</button>
+    </div>
+
+    <div class="layout">
+      <nav class="sidebar" id="sidebar"></nav>
+      <main class="content" id="content"></main>
+    </div>
+
+    <div class="footer-note">
+      Suggested repo filename: <strong>SEO-GEO-AUTOMATION-TRACKER.html</strong> · Progress file: <strong>seo-geo-progress.json</strong>
+    </div>
+  </div>
+
+<script>
+const phases = [
+  {
+    id:"phase-0",
+    number:"0",
+    title:"Project rules and shared tracking",
+    desc:"Create one source of truth before Claude starts changing SEO files.",
+    tasks:[
+      {
+        id:"p0-t1",
+        title:"Add this tracker to the EdBuddies repo",
+        owner:"Kenneth",
+        priority:"HIGH",
+        why:"Claude Code and Kenneth need one shared project plan.",
+        doneWhen:"SEO-GEO-AUTOMATION-TRACKER.html is saved in the repo and committed.",
+        prompt:`Save this tracker in the root of the repository as SEO-GEO-AUTOMATION-TRACKER.html. Do not change any website files. Commit the tracker only, then show me git status.`,
+      },
+      {
+        id:"p0-t2",
+        title:"Create shared progress file",
+        owner:"Both",
+        priority:"HIGH",
+        why:"Browser localStorage is not visible to Claude Code.",
+        doneWhen:"seo-geo-progress.json exists in the repo and is updated after each working session.",
+        prompt:`Create seo-geo-progress.json in the repository root. It should be the shared machine-readable state for the SEO/GEO project. Do not change production website files.`,
+      },
+      {
+        id:"p0-t3",
+        title:"Keep production deployment gated",
+        owner:"Both",
+        priority:"HIGH",
+        why:"SEO automation must never push directly to master or silently deploy production.",
+        doneWhen:"CLAUDE.md clearly states no direct master push, no merge, no production deploy, no DNS/domain changes without Kenneth approval.",
+        prompt:`Review CLAUDE.md safety rules. Confirm that direct pushes to master, merging PRs, production deploys, Vercel production settings, DNS and domain changes remain prohibited without Kenneth's explicit approval. Report only; do not edit yet.`,
+      }
+    ]
+  },
+  {
+    id:"phase-1",
+    number:"1",
+    title:"Technical SEO/GEO readiness audit",
+    desc:"Audit first. No code changes until the audit is reviewed.",
+    tasks:[
+      {
+        id:"p1-t1",
+        title:"Run full repository SEO/GEO audit",
+        owner:"Claude",
+        priority:"HIGH",
+        why:"We need a factual baseline before automating changes.",
+        doneWhen:"Claude returns a ranked CRITICAL/HIGH/MEDIUM/LOW audit with files/routes, risks and recommended implementation order.",
+        prompt:`Perform a technical SEO/GEO readiness audit of this React + Vite repository. Read README.md, CLAUDE.md, product source-of-truth documents referenced by CLAUDE.md, package.json, index.html, vercel.json, src/main.tsx, all production route components and public/. Do not modify files. Audit crawlability, JS rendering dependence, metadata, canonicals, sitemap, robots, structured data, heading hierarchy, internal links, alt text, 404 behavior, duplicate/indexation risk, performance, semantics and draft routes. Singapore is the primary market. Return findings only, ranked CRITICAL/HIGH/MEDIUM/LOW.`,
+      },
+      {
+        id:"p1-t2",
+        title:"Decide rendering strategy for important routes",
+        owner:"Both",
+        priority:"HIGH",
+        why:"The current React SPA may require JavaScript before crawlers see route content and metadata.",
+        doneWhen:"A documented decision exists: prerender/SSG/SSR strategy, exact routes covered, build approach and rollback plan.",
+        prompt:`Based on the audit, recommend the safest crawlability strategy for this existing React + Vite architecture. Compare keeping CSR only versus adding prerender/static generation. Recommend one approach with exact implementation steps, risks, package changes and rollback plan. Do not implement yet.`,
+      },
+      {
+        id:"p1-t3",
+        title:"Classify production vs draft routes",
+        owner:"Both",
+        priority:"HIGH",
+        why:"Draft routes must not compete with production pages in search.",
+        doneWhen:"Every route is classified as index, noindex or remove/redirect. /features-new is explicitly reviewed.",
+        prompt:`Create a route indexation table for every route in src/main.tsx. For each route mark INDEX, NOINDEX or REDIRECT/REMOVE, explain why, and flag internal drafts such as /features-new. Do not change files.`,
+      },
+      {
+        id:"p1-t4",
+        title:"Record baseline Lighthouse/Core Web Vitals",
+        owner:"Claude",
+        priority:"MEDIUM",
+        why:"We need before/after evidence for performance work.",
+        doneWhen:"Baseline scores and major performance bottlenecks are recorded for homepage and key routes.",
+        prompt:`Run an appropriate local production build and performance audit for the homepage and key production routes. Record current performance findings, bundle issues, image issues and render-blocking risks. Do not change files.`,
+      }
+    ]
+  },
+  {
+    id:"phase-2",
+    number:"2",
+    title:"SEO foundation implementation",
+    desc:"Fix binary technical SEO issues before content/GEO tuning.",
+    tasks:[
+      {
+        id:"p2-t1",
+        title:"Implement per-route titles and meta descriptions",
+        owner:"Claude",
+        priority:"HIGH",
+        why:"Each important landing page needs unique search intent and SERP messaging.",
+        doneWhen:"Every indexable route has a unique title and meta description using approved product language.",
+        prompt:`Implement unique per-route titles and meta descriptions for all approved indexable routes. Use Singapore-first positioning. Do not invent claims, pricing, statistics or customer proof. Run npm run build and show changed files.`,
+      },
+      {
+        id:"p2-t2",
+        title:"Implement per-route canonical URLs",
+        owner:"Claude",
+        priority:"HIGH",
+        why:"The current base HTML canonical points to the homepage and must not be reused for every route.",
+        doneWhen:"Each indexable route outputs the correct https://edbuddies.ai/... canonical and drafts are handled safely.",
+        prompt:`Implement correct canonical URLs for all indexable routes using https://edbuddies.ai as the production origin. Do not change DNS, Vercel domain settings or deploy.`,
+      },
+      {
+        id:"p2-t3",
+        title:"Create or correct robots.txt",
+        owner:"Claude",
+        priority:"HIGH",
+        why:"Crawler rules and sitemap location should be explicit.",
+        doneWhen:"public/robots.txt exists, references the production sitemap and does not accidentally block production routes/assets.",
+        prompt:`Audit and create/update public/robots.txt for the future edbuddies.ai production site. Keep draft/internal routes safe. Do not block assets required for rendering. Include the production sitemap URL.`,
+      },
+      {
+        id:"p2-t4",
+        title:"Create complete sitemap.xml",
+        owner:"Claude",
+        priority:"HIGH",
+        why:"Search engines need a clean list of canonical, indexable routes.",
+        doneWhen:"Sitemap contains only approved canonical production URLs and excludes draft/noindex routes.",
+        prompt:`Create/update the sitemap for approved production routes only. Exclude drafts, unknown dynamic routes and noindex pages. Use canonical edbuddies.ai URLs.`,
+      },
+      {
+        id:"p2-t5",
+        title:"Implement Organization and WebSite structured data",
+        owner:"Claude",
+        priority:"MEDIUM",
+        why:"Structured entity information helps search engines understand EdBuddies consistently.",
+        doneWhen:"Valid JSON-LD exists with only verified company/product information.",
+        prompt:`Implement appropriate Organization and WebSite JSON-LD using only verified EdBuddies information from project source-of-truth files. Do not invent addresses, awards, ratings, customer counts or social profiles.`,
+      },
+      {
+        id:"p2-t6",
+        title:"Add page-specific structured data only where appropriate",
+        owner:"Claude",
+        priority:"MEDIUM",
+        why:"Schema should describe real visible content, not be added for decoration.",
+        doneWhen:"Relevant page schema is added only where valid and matches visible content.",
+        prompt:`Review indexable routes for valid page-specific structured data. Add only schema types that accurately describe visible content. Avoid schema added solely for ranking manipulation.`,
+      },
+      {
+        id:"p2-t7",
+        title:"Fix H1/H2 hierarchy",
+        owner:"Claude",
+        priority:"HIGH",
+        why:"Pages should have one clear topic and logical subtopics.",
+        doneWhen:"Each production page has one primary H1 and logical H2/H3 structure without keyword stuffing.",
+        prompt:`Audit and fix heading hierarchy on all indexable routes. Keep wording natural, user-focused and consistent with approved product facts.`,
+      },
+      {
+        id:"p2-t8",
+        title:"Fix image alt text",
+        owner:"Claude",
+        priority:"MEDIUM",
+        why:"Meaningful images need useful alternative text; decorative images should not create noise.",
+        doneWhen:"Meaningful images have accurate alt text and decorative assets use empty alt where appropriate.",
+        prompt:`Audit image alt text across production routes. Add concise factual alt text for meaningful images and empty alt for purely decorative images. Do not stuff keywords.`,
+      },
+      {
+        id:"p2-t9",
+        title:"Audit internal linking",
+        owner:"Claude",
+        priority:"HIGH",
+        why:"Important feature pages should be reachable through normal crawlable links.",
+        doneWhen:"Key pages have logical internal links and no important page is orphaned.",
+        prompt:`Audit internal links across production routes. Ensure important pages are reachable with normal crawlable anchor links and descriptive anchor text. Flag orphaned pages and fix approved cases.`,
+      },
+      {
+        id:"p2-t10",
+        title:"Fix 404 and soft-404 behavior",
+        owner:"Claude",
+        priority:"HIGH",
+        why:"A client-side NotFound page can still return HTTP 200 depending on hosting configuration.",
+        doneWhen:"Unknown URLs are handled in a search-safe way and do not create widespread soft-404 indexation.",
+        prompt:`Audit current Vercel SPA routing and NotFound behavior for SEO. Determine whether unknown URLs return HTTP 200. Implement the safest compatible fix for this stack without changing production domain settings.`,
+      }
+    ]
+  },
+  {
+    id:"phase-3",
+    number:"3",
+    title:"Rendering and crawlability",
+    desc:"Make important content available reliably to search and AI crawlers.",
+    tasks:[
+      {
+        id:"p3-t1",
+        title:"Implement approved prerender/static generation strategy",
+        owner:"Claude",
+        priority:"HIGH",
+        why:"Critical pages should not depend entirely on client-side JS for primary content.",
+        doneWhen:"Approved production routes generate crawlable HTML during build and still hydrate/work correctly.",
+        prompt:`Implement the previously approved prerender/static generation approach for production routes only. Preserve current React/Vite behavior, analytics and routing. Run npm run build and verify generated HTML for each route.`,
+      },
+      {
+        id:"p3-t2",
+        title:"Verify generated HTML route by route",
+        owner:"Claude",
+        priority:"HIGH",
+        why:"A build passing does not prove metadata/content appears in initial HTML.",
+        doneWhen:"For each indexable route, generated HTML contains title, description, canonical, H1/main content and structured data where applicable.",
+        prompt:`Inspect the built output for every indexable route. Create a verification table showing whether title, description, canonical, H1/main content and JSON-LD exist in initial HTML. Report failures and fix them.`,
+      },
+      {
+        id:"p3-t3",
+        title:"Prevent indexing of preview/internal routes",
+        owner:"Claude",
+        priority:"HIGH",
+        why:"Preview and draft URLs can create duplicate or premature indexation.",
+        doneWhen:"Internal routes are noindex or excluded and Vercel preview behavior is reviewed.",
+        prompt:`Verify that draft/internal routes such as /features-new are not indexable and are excluded from the sitemap. Review whether Vercel preview deployments should be blocked from indexing and implement safe controls where possible without changing production deployment settings.`,
+      }
+    ]
+  },
+  {
+    id:"phase-4",
+    number:"4",
+    title:"On-page SEO for Singapore",
+    desc:"Map search intent to existing pages without creating new content yet.",
+    tasks:[
+      {
+        id:"p4-t1",
+        title:"Create keyword-to-page map",
+        owner:"Claude",
+        priority:"HIGH",
+        why:"Multiple pages should not compete for the same primary query.",
+        doneWhen:"Each target keyword has one primary page and supporting secondary terms.",
+        prompt:`Create a keyword-to-page map using current existing pages only. Prioritise Singapore. Include: tuition centre management software Singapore, tuition centre management system, student management system Singapore, enrichment centre software, tuition management software, education centre management software. Do not create new pages yet.`,
+      },
+      {
+        id:"p4-t2",
+        title:"Improve homepage search positioning",
+        owner:"Claude",
+        priority:"HIGH",
+        why:"The homepage should clearly explain the category, audience and value proposition.",
+        doneWhen:"Homepage copy naturally communicates EdBuddies' category and Singapore relevance without changing approved product claims.",
+        prompt:`Improve the existing homepage SEO copy using the approved keyword map and product source-of-truth. Keep the brand voice natural. Do not add new claims, pricing or invented proof.`,
+      },
+      {
+        id:"p4-t3",
+        title:"Improve feature-page search intent",
+        owner:"Claude",
+        priority:"HIGH",
+        why:"Feature pages can rank for narrower operational problems.",
+        doneWhen:"Each production feature page clearly states the problem, capability, audience and outcome using approved facts.",
+        prompt:`Optimise existing feature page copy for relevant search intent while preserving product truth. Avoid repetitive SEO copy and keyword stuffing. Use clear descriptive headings and internal links.`,
+      },
+      {
+        id:"p4-t4",
+        title:"Review pricing/about/contact search metadata",
+        owner:"Claude",
+        priority:"MEDIUM",
+        why:"Utility pages still need correct titles, canonicals and indexation choices.",
+        doneWhen:"Each utility page has an explicit SEO role and correct metadata/indexation.",
+        prompt:`Review /pricing, /about and /contact. Recommend whether each should be indexed, then optimise metadata and canonical handling accordingly using approved business information.`,
+      }
+    ]
+  },
+  {
+    id:"phase-5",
+    number:"5",
+    title:"GEO / AI-search readiness",
+    desc:"Improve factual clarity and answerability instead of using gimmicks.",
+    tasks:[
+      {
+        id:"p5-t1",
+        title:"Create EdBuddies entity facts block",
+        owner:"Claude",
+        priority:"HIGH",
+        why:"AI systems benefit from consistent factual statements about what EdBuddies is and who it serves.",
+        doneWhen:"A reusable approved facts source exists for product category, audience, markets and capabilities.",
+        prompt:`Using only source-of-truth files, create a concise internal EdBuddies entity facts document for SEO/GEO work. Include what EdBuddies is, who it serves, supported markets, approved core capabilities, and prohibited/unverified claims. Do not publish this document as a webpage.`,
+      },
+      {
+        id:"p5-t2",
+        title:"Make key pages directly answer common buyer questions",
+        owner:"Claude",
+        priority:"HIGH",
+        why:"Clear direct answers are easier for users, search engines and AI systems to extract.",
+        doneWhen:"Existing pages clearly answer what EdBuddies is, who it is for, what it manages and why a tuition centre would use it.",
+        prompt:`Review existing public copy for answerability. Improve existing sections so they directly and naturally answer common buyer questions. Do not add FAQ schema solely for search features. Do not invent evidence.`,
+      },
+      {
+        id:"p5-t3",
+        title:"Strengthen entity consistency",
+        owner:"Claude",
+        priority:"MEDIUM",
+        why:"Inconsistent descriptions across pages can weaken understanding of the brand and product.",
+        doneWhen:"Core category and product terminology is consistent across homepage, about, features and metadata.",
+        prompt:`Audit EdBuddies terminology across indexable routes. Standardise inconsistent descriptions using the approved product facts and brand guide while keeping copy natural.`,
+      },
+      {
+        id:"p5-t4",
+        title:"Do not automate competitor claims yet",
+        owner:"Both",
+        priority:"HIGH",
+        why:"AOne/Illumine information can change and comparative claims need evidence.",
+        doneWhen:"Automation rules explicitly prohibit unsupervised competitor-comparison publishing.",
+        prompt:`Add a guardrail to the SEO/GEO automation rules: Claude may identify competitor-content opportunities but may not publish or modify factual comparisons against AOne, Illumine or other competitors without a fresh evidence review and Kenneth approval.`,
+      }
+    ]
+  },
+  {
+    id:"phase-6",
+    number:"6",
+    title:"Claude automation guardrails",
+    desc:"Allow useful automation without giving Claude production control.",
+    tasks:[
+      {
+        id:"p6-t1",
+        title:"Add SEO/GEO automation permissions to CLAUDE.md",
+        owner:"Both",
+        priority:"HIGH",
+        why:"The current no-push rule conflicts with an automated branch + PR workflow.",
+        doneWhen:"CLAUDE.md allows only seo-geo/* branches, commits, branch pushes and PR creation while still prohibiting master push/merge/deploy.",
+        prompt:`Draft a CLAUDE.md section named "SEO/GEO Automation Permissions". Allow creating seo-geo/* branches, editing approved SEO/GEO files, commits, pushing those branches, running build/audit commands and opening PRs. Prohibit direct master pushes, merges, production deploys, Vercel production changes, DNS/domain changes, secrets, pricing changes, invented claims, new page publishing and unsupervised competitor claims. Show the proposed text before editing.`,
+      },
+      {
+        id:"p6-t2",
+        title:"Define approved file scope",
+        owner:"Both",
+        priority:"HIGH",
+        why:"Automation should not touch unrelated application or infrastructure files.",
+        doneWhen:"A whitelist or clear rule defines which website/SEO files Claude may edit automatically.",
+        prompt:`Propose an allowlist of files/directories that the SEO/GEO automation may edit safely. Separate always-allowed, approval-required and prohibited paths. Do not edit files yet.`,
+      },
+      {
+        id:"p6-t3",
+        title:"Define automatic stop conditions",
+        owner:"Both",
+        priority:"HIGH",
+        why:"Claude should stop instead of guessing when data or claims are uncertain.",
+        doneWhen:"Workflow stops when claims are unverified, build fails, route behavior changes unexpectedly or the diff exceeds agreed scope.",
+        prompt:`Define fail-safe stop conditions for the SEO/GEO automation. Include build failure, product-fact uncertainty, pricing/customer claims, competitor claims, analytics/secrets changes, large diffs, routing changes and destructive operations.`,
+      },
+      {
+        id:"p6-t4",
+        title:"Require PR summary and evidence",
+        owner:"Claude",
+        priority:"MEDIUM",
+        why:"Kenneth needs a simple review before merge.",
+        doneWhen:"Every SEO PR contains reason, affected pages, before/after, data source, build result, risks and test steps.",
+        prompt:`Create a standard SEO/GEO PR template. It must include: problem/opportunity, source evidence, pages/files changed, before/after summary, keywords affected, build/test result, indexation risk, rollback note and manual review checklist.`,
+      }
+    ]
+  },
+  {
+    id:"phase-7",
+    number:"7",
+    title:"Manual GitHub audit-to-PR workflow",
+    desc:"Prove the automation manually before scheduling weekly runs.",
+    tasks:[
+      {
+        id:"p7-t1",
+        title:"Create manual GitHub Action with workflow_dispatch",
+        owner:"Claude",
+        priority:"HIGH",
+        why:"A manual trigger gives a safe test harness before cron scheduling.",
+        doneWhen:"GitHub Actions has a manually runnable SEO/GEO workflow that cannot merge/deploy production.",
+        prompt:`Create a GitHub Actions workflow for a manual SEO/GEO run using workflow_dispatch only. It should check out the repo, run the approved Claude SEO/GEO process, create an seo-geo/* branch only when changes are justified, run npm run build, push that branch and open a PR. It must never push to master, merge, or deploy production. Show the workflow before committing.`,
+      },
+      {
+        id:"p7-t2",
+        title:"Add Anthropic secret safely",
+        owner:"Kenneth",
+        priority:"HIGH",
+        why:"The GitHub Action needs Claude access without exposing the API key in code.",
+        doneWhen:"ANTHROPIC_API_KEY exists in GitHub Actions secrets and is not stored in the repository.",
+        prompt:`No code change. Tell Kenneth exactly which GitHub repository Settings page to use to add ANTHROPIC_API_KEY as an Actions secret. Never ask Kenneth to paste the secret into chat or commit it.`,
+      },
+      {
+        id:"p7-t3",
+        title:"Run first manual audit with report-only mode",
+        owner:"Both",
+        priority:"HIGH",
+        why:"We should verify the workflow can audit safely before allowing edits.",
+        doneWhen:"Manual workflow completes and produces a useful audit without modifying the repo.",
+        prompt:`Run the manual SEO/GEO workflow in report-only mode. It must not create a branch or PR. Review the result for false positives, noisy recommendations and unsafe suggestions.`,
+      },
+      {
+        id:"p7-t4",
+        title:"Run first manual change-to-PR test",
+        owner:"Both",
+        priority:"HIGH",
+        why:"This proves branch creation, build, push and PR behavior end-to-end.",
+        doneWhen:"One justified low-risk SEO change is made on seo-geo/* and opened as a PR for Kenneth review.",
+        prompt:`Run one controlled test that may modify only a low-risk SEO item. Create an seo-geo/* branch, make the smallest justified change, run npm run build, push the branch and open a PR. Do not merge.`,
+      },
+      {
+        id:"p7-t5",
+        title:"Review Vercel preview deployment behavior",
+        owner:"Both",
+        priority:"MEDIUM",
+        why:"PR branches may generate preview deployments automatically and should not be mistaken for production.",
+        doneWhen:"Preview deploy behavior is understood, preview URLs are safe from indexing and production remains gated.",
+        prompt:`Inspect the PR preview deployment behavior for this Vercel project. Confirm whether PRs create preview deployments, whether they are indexable, and whether any repository-side protection is needed. Do not change production domain settings.`,
+      }
+    ]
+  },
+  {
+    id:"phase-8",
+    number:"8",
+    title:"Pre-launch domain cutover checklist",
+    desc:"Do not move automation to live data until the React site is ready for edbuddies.ai.",
+    tasks:[
+      {
+        id:"p8-t1",
+        title:"Final production route decision",
+        owner:"Kenneth",
+        priority:"HIGH",
+        why:"Draft architecture must be resolved before sitemap/indexation goes live.",
+        doneWhen:"Kenneth approves the final /features architecture and all production routes.",
+        prompt:`Present the final production route list and explicitly ask Kenneth only for route approval. Do not deploy or change the domain.`,
+      },
+      {
+        id:"p8-t2",
+        title:"Final pre-launch SEO validation",
+        owner:"Claude",
+        priority:"HIGH",
+        why:"We need one last crawl/indexation check before replacing WordPress.",
+        doneWhen:"All indexable routes pass metadata, canonical, sitemap, robots, schema, initial HTML, 404 and internal-link checks.",
+        prompt:`Run a final pre-launch SEO/GEO validation against the production build. Return a pass/fail checklist for every indexable route and block launch if any CRITICAL issue remains.`,
+      },
+      {
+        id:"p8-t3",
+        title:"Prepare redirect map from old WordPress URLs",
+        owner:"Both",
+        priority:"HIGH",
+        why:"Changing site platforms can lose rankings/backlinks if old URLs disappear.",
+        doneWhen:"Every important old WordPress URL maps to the same or best new React URL, with no redirect chains.",
+        prompt:`Inventory known indexed/important WordPress URLs and create a redirect mapping proposal to the new React site. Do not apply redirects or change the domain yet.`,
+      },
+      {
+        id:"p8-t4",
+        title:"Approve edbuddies.ai cutover separately",
+        owner:"Kenneth",
+        priority:"HIGH",
+        why:"Domain cutover is a production action and must remain manual.",
+        doneWhen:"Kenneth explicitly approves the Vercel/domain cutover after the pre-launch checklist passes.",
+        prompt:`Do not perform the cutover. Show Kenneth the final launch checklist, unresolved risks, redirect map and rollback plan. Wait for explicit approval before any production/domain action.`,
+      }
+    ]
+  },
+  {
+    id:"phase-9",
+    number:"9",
+    title:"Post-launch search validation",
+    desc:"Confirm Google sees the new React site correctly before automating decisions.",
+    tasks:[
+      {
+        id:"p9-t1",
+        title:"Verify Search Console property after cutover",
+        owner:"Both",
+        priority:"HIGH",
+        why:"The existing property must still represent the live domain correctly.",
+        doneWhen:"GSC ownership remains valid and the submitted sitemap points to the new live site.",
+        prompt:`After launch, verify Google Search Console ownership and sitemap status for edbuddies.ai. Do not assume the old WordPress sitemap remains correct.`,
+      },
+      {
+        id:"p9-t2",
+        title:"Inspect live URLs in Search Console",
+        owner:"Both",
+        priority:"HIGH",
+        why:"We need Google's live view of important pages.",
+        doneWhen:"Homepage, features, key feature pages, pricing/about/contact are inspected and any crawl/indexation issues are recorded.",
+        prompt:`Use Search Console URL Inspection for representative important pages and record indexability, canonical choice, crawl status and rendered-page issues.`,
+      },
+      {
+        id:"p9-t3",
+        title:"Validate GA4/GTM on the new site",
+        owner:"Both",
+        priority:"HIGH",
+        why:"SEO automation will eventually rely on analytics data.",
+        doneWhen:"GA4/GTM events fire once, page views are correct for SPA navigation, and no duplicate tags occur.",
+        prompt:`Audit GA4 and GTM on the live React site after cutover. Verify SPA page-view tracking, duplicate tag risks, key conversion events and that analytics IDs were not changed by SEO automation.`,
+      },
+      {
+        id:"p9-t4",
+        title:"Wait for enough live search data before auto-editing",
+        owner:"Both",
+        priority:"HIGH",
+        why:"Near-zero data causes meaningless weekly optimisation.",
+        doneWhen:"The team agrees the site has enough impressions/queries to support data-driven changes.",
+        prompt:`Review available GSC data quality and volume. Recommend whether there is enough signal to start data-driven weekly SEO changes. If not, keep the workflow audit-only.`,
+      }
+    ]
+  },
+  {
+    id:"phase-10",
+    number:"10",
+    title:"Connect GSC + GA4 to Claude analysis",
+    desc:"Use real performance data to decide what deserves a PR.",
+    tasks:[
+      {
+        id:"p10-t1",
+        title:"Choose secure GSC/GA4 data access method",
+        owner:"Both",
+        priority:"HIGH",
+        why:"The workflow needs read-only data access without exposing credentials.",
+        doneWhen:"A documented read-only integration method is selected for Search Console and GA4.",
+        prompt:`Recommend the safest practical read-only method for a GitHub/Claude workflow to access GSC and GA4. Compare service-account/API approaches and any connected tool options. Minimise permissions and secret exposure.`,
+      },
+      {
+        id:"p10-t2",
+        title:"Define SEO opportunity rules",
+        owner:"Both",
+        priority:"HIGH",
+        why:"Claude needs clear thresholds so it does not change pages every week for tiny fluctuations.",
+        doneWhen:"Rules define what counts as actionable: high impressions/low CTR, positions 5–20, declining pages, query-page mismatch, etc.",
+        prompt:`Draft conservative data-driven SEO opportunity rules for EdBuddies. Include minimum impression thresholds, CTR opportunities, average-position bands, decline windows and safeguards against reacting to noise.`,
+      },
+      {
+        id:"p10-t3",
+        title:"Build data-only weekly report first",
+        owner:"Claude",
+        priority:"HIGH",
+        why:"We should validate Claude's interpretation of GSC/GA4 before allowing automatic edits.",
+        doneWhen:"A weekly run produces recommendations only, with evidence and no code changes.",
+        prompt:`Build a weekly data-only SEO report step using GSC and GA4 inputs. It should rank opportunities, cite the metrics behind each recommendation and make no repository changes.`,
+      }
+    ]
+  },
+  {
+    id:"phase-11",
+    number:"11",
+    title:"Weekly semi-automated SEO/GEO PRs",
+    desc:"Enable scheduled changes only after manual and data-only workflows prove reliable.",
+    tasks:[
+      {
+        id:"p11-t1",
+        title:"Enable weekly schedule",
+        owner:"Both",
+        priority:"HIGH",
+        why:"Scheduling is the last step, not the first.",
+        doneWhen:"GitHub Action runs weekly plus manual workflow_dispatch and remains PR-only.",
+        prompt:`Add a weekly schedule to the proven SEO/GEO workflow while keeping workflow_dispatch. Use a low-noise weekly cadence. Do not grant merge or production-deploy permissions.`,
+      },
+      {
+        id:"p11-t2",
+        title:"Require no-op when no meaningful opportunity exists",
+        owner:"Claude",
+        priority:"HIGH",
+        why:"Automation quality is measured partly by knowing when not to change anything.",
+        doneWhen:"Workflow exits successfully without a PR when evidence is weak or no material improvement is justified.",
+        prompt:`Add a strict no-op rule: if no meaningful, evidence-backed SEO/GEO improvement clears the thresholds, do not create a branch, commit or PR. Produce only a short audit result.`,
+      },
+      {
+        id:"p11-t3",
+        title:"Limit each automatic PR",
+        owner:"Both",
+        priority:"HIGH",
+        why:"Small PRs are easier to review and roll back.",
+        doneWhen:"Automatic PRs are capped by page count/file count/diff size and one primary objective.",
+        prompt:`Define and enforce a conservative PR scope limit for weekly SEO automation. Each PR should have one primary objective and remain small enough for quick human review.`,
+      },
+      {
+        id:"p11-t4",
+        title:"Track before/after impact",
+        owner:"Claude",
+        priority:"MEDIUM",
+        why:"We need to know whether automated changes actually help.",
+        doneWhen:"Each merged SEO PR is tagged with target queries/pages and reviewed after an agreed measurement window.",
+        prompt:`Create a lightweight changelog format for merged SEO/GEO PRs including date, target page, target query, baseline metrics, change made and later impact review fields.`,
+      }
+    ]
+  },
+  {
+    id:"phase-12",
+    number:"12",
+    title:"Later expansion",
+    desc:"Only after the core system is stable.",
+    tasks:[
+      {
+        id:"p12-t1",
+        title:"Evaluate Bing Webmaster Tools",
+        owner:"Kenneth",
+        priority:"LOW",
+        why:"Additional search data can broaden coverage later.",
+        doneWhen:"Decision is made whether Bing data is worth integrating.",
+        prompt:`Assess whether adding Bing Webmaster Tools would materially improve EdBuddies SEO/GEO monitoring at the current traffic level. Recommendation only.`,
+      },
+      {
+        id:"p12-t2",
+        title:"Evaluate new SEO content",
+        owner:"Both",
+        priority:"MEDIUM",
+        why:"New landing pages/articles should be driven by proven search demand, not generated for volume.",
+        doneWhen:"New content is allowed only when GSC/market evidence shows a clear topic gap.",
+        prompt:`Using live search data, identify whether any new landing page or article is justified. Do not create content unless Kenneth approves the topic and intent first.`,
+      },
+      {
+        id:"p12-t3",
+        title:"Evaluate AOne / Illumine comparison content",
+        owner:"Both",
+        priority:"MEDIUM",
+        why:"Competitor comparisons can be valuable but require fresh factual verification.",
+        doneWhen:"Any comparison plan is based on current public evidence and reviewed manually before publication.",
+        prompt:`Research current public AOne and Illumine product information only when Kenneth asks. Separate verified facts, uncertain claims and EdBuddies positioning. Do not publish comparison copy automatically.`,
+      }
+    ]
+  }
+];
+
+const STORAGE_KEY = "edbuddies-seo-geo-tracker-v1";
+
+function defaultState(){
+  const s = {};
+  phases.forEach(p => p.tasks.forEach(t => {
+    s[t.id] = {status:"todo", owner:t.owner, notes:"", due:"", updatedAt:null};
+  }));
+  return s;
+}
+
+let state = loadState();
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return defaultState();
+    return {...defaultState(), ...JSON.parse(raw)};
+  }catch(e){
+    return defaultState();
+  }
+}
+
+function saveState(){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  updateStats();
+}
+
+function esc(s=""){
+  return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[c]));
+}
+
+function render(){
+  const sidebar = document.getElementById("sidebar");
+  const content = document.getElementById("content");
+  sidebar.innerHTML = phases.map(p => `<a href="#${p.id}">${p.number}. ${esc(p.title)}</a>`).join("");
+  content.innerHTML = phases.map(phase => {
+    const tasks = phase.tasks.map(task => {
+      const s = state[task.id] || {status:"todo",owner:task.owner,notes:"",due:""};
+      const done = s.status === "done";
+      const blocked = s.status === "blocked";
+      return `
+      <article class="task ${done ? "done":""} ${blocked ? "blocked":""}" data-id="${task.id}" data-title="${esc(task.title.toLowerCase())}">
+        <div class="task-head">
+          <input class="task-check" type="checkbox" ${done ? "checked":""} aria-label="Mark task done" />
+          <div>
+            <div class="task-title">${esc(task.title)}</div>
+            <div class="task-meta">
+              <span class="chip">${esc(s.owner || task.owner)}</span>
+              <span class="chip ${task.priority.toLowerCase()}">${esc(task.priority)}</span>
+              <span class="chip">${esc(s.status.replace("-", " "))}</span>
+            </div>
+          </div>
+          <div class="task-actions">
+            <button class="mini copyPrompt">Copy Claude prompt</button>
+          </div>
+        </div>
+        <div class="task-body">
+          <p><strong>Why:</strong> ${esc(task.why)}</p>
+          <div class="acceptance"><strong>Done when</strong>${esc(task.doneWhen)}</div>
+          <details>
+            <summary>Claude instruction</summary>
+            <pre>${esc(task.prompt)}</pre>
+          </details>
+          <div class="task-controls">
+            <select class="statusSelect" aria-label="Task status">
+              <option value="todo" ${s.status==="todo"?"selected":""}>To do</option>
+              <option value="in-progress" ${s.status==="in-progress"?"selected":""}>In progress</option>
+              <option value="blocked" ${s.status==="blocked"?"selected":""}>Blocked</option>
+              <option value="done" ${s.status==="done"?"selected":""}>Done</option>
+            </select>
+            <select class="ownerSelect" aria-label="Task owner">
+              <option value="Kenneth" ${s.owner==="Kenneth"?"selected":""}>Kenneth</option>
+              <option value="Claude" ${s.owner==="Claude"?"selected":""}>Claude</option>
+              <option value="Both" ${s.owner==="Both"?"selected":""}>Both</option>
+            </select>
+            <input class="dueInput" type="date" value="${esc(s.due || "")}" aria-label="Due date" />
+          </div>
+          <textarea class="notes" placeholder="Notes, result, PR link, issue, decision...">${esc(s.notes || "")}</textarea>
+        </div>
+      </article>`;
+    }).join("");
+    return `
+    <section class="phase" id="${phase.id}">
+      <div class="phase-header">
+        <div style="display:flex;gap:12px;align-items:flex-start">
+          <div class="phase-num">${phase.number}</div>
+          <div>
+            <h2>${esc(phase.title)}</h2>
+            <p class="phase-desc">${esc(phase.desc)}</p>
+          </div>
+        </div>
+        <div class="phase-progress" id="${phase.id}-progress"></div>
+      </div>
+      ${tasks}
+    </section>`;
+  }).join("");
+
+  attachTaskEvents();
+  updateStats();
+  applyFilters();
+}
+
+function attachTaskEvents(){
+  document.querySelectorAll(".task").forEach(el => {
+    const id = el.dataset.id;
+    el.querySelector(".task-check").addEventListener("change", e => {
+      state[id].status = e.target.checked ? "done" : "todo";
+      state[id].updatedAt = new Date().toISOString();
+      saveState(); render();
+    });
+    el.querySelector(".statusSelect").addEventListener("change", e => {
+      state[id].status = e.target.value;
+      state[id].updatedAt = new Date().toISOString();
+      saveState(); render();
+    });
+    el.querySelector(".ownerSelect").addEventListener("change", e => {
+      state[id].owner = e.target.value;
+      state[id].updatedAt = new Date().toISOString();
+      saveState(); updateStats();
+    });
+    el.querySelector(".dueInput").addEventListener("change", e => {
+      state[id].due = e.target.value;
+      state[id].updatedAt = new Date().toISOString();
+      saveState();
+    });
+    el.querySelector(".notes").addEventListener("input", e => {
+      state[id].notes = e.target.value;
+      state[id].updatedAt = new Date().toISOString();
+      saveState();
+    });
+    el.querySelector(".copyPrompt").addEventListener("click", async () => {
+      const task = phases.flatMap(p=>p.tasks).find(t=>t.id===id);
+      const sharedContext = `EdBuddies SEO/GEO tracker task: ${task.title}\n\n${task.prompt}\n\nAfter completing the work, report what changed, build/test result, git status, and tell me which tracker task ID to mark done: ${id}.`;
+      try{
+        await navigator.clipboard.writeText(sharedContext);
+        const btn = el.querySelector(".copyPrompt");
+        const old = btn.textContent;
+        btn.textContent = "Copied";
+        setTimeout(()=>btn.textContent=old,1200);
+      }catch(e){
+        alert("Clipboard access failed. Open the Claude instruction section and copy it manually.");
+      }
+    });
+  });
+}
+
+function updateStats(){
+  const allTasks = phases.flatMap(p=>p.tasks);
+  const total = allTasks.length;
+  let done=0,blocked=0;
+  allTasks.forEach(t=>{
+    const s=state[t.id];
+    if(s.status==="done") done++;
+    if(s.status==="blocked") blocked++;
+  });
+  const pct = total ? Math.round(done/total*100) : 0;
+  document.getElementById("overallPercent").textContent = pct+"%";
+  document.getElementById("overallBar").style.width = pct+"%";
+  document.getElementById("doneCount").textContent = done;
+  document.getElementById("remainingCount").textContent = total-done;
+  document.getElementById("blockedCount").textContent = blocked;
+
+  phases.forEach(p=>{
+    const pdone = p.tasks.filter(t=>state[t.id].status==="done").length;
+    const node = document.getElementById(p.id+"-progress");
+    if(node) node.textContent = `${pdone}/${p.tasks.length} done`;
+  });
+}
+
+function applyFilters(){
+  const q = document.getElementById("search").value.trim().toLowerCase();
+  const status = document.getElementById("filterStatus").value;
+  const owner = document.getElementById("filterOwner").value;
+  document.querySelectorAll(".task").forEach(el=>{
+    const id=el.dataset.id;
+    const task=phases.flatMap(p=>p.tasks).find(t=>t.id===id);
+    const hay=(task.title+" "+task.why+" "+task.doneWhen+" "+task.prompt+" "+(state[id].notes||"")).toLowerCase();
+    const showQ=!q || hay.includes(q);
+    const showStatus=status==="all" || state[id].status===status;
+    const showOwner=owner==="all" || state[id].owner===owner;
+    el.classList.toggle("hidden", !(showQ&&showStatus&&showOwner));
+  });
+}
+
+function download(filename, content, type="text/plain"){
+  const blob = new Blob([content], {type});
+  const url = URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();
+  URL.revokeObjectURL(url);
+}
+
+function exportJson(){
+  const payload = {
+    project:"EdBuddies SEO + GEO Automation",
+    version:1,
+    exportedAt:new Date().toISOString(),
+    state
+  };
+  download("seo-geo-progress.json", JSON.stringify(payload,null,2), "application/json");
+}
+
+function exportMarkdown(){
+  const lines=[];
+  lines.push("# EdBuddies SEO + GEO Automation Progress","");
+  lines.push(`Exported: ${new Date().toISOString()}`,"");
+  phases.forEach(p=>{
+    lines.push(`## Phase ${p.number}: ${p.title}`,"");
+    p.tasks.forEach(t=>{
+      const s=state[t.id];
+      const check=s.status==="done"?"x":" ";
+      lines.push(`- [${check}] **${t.id} — ${t.title}**`);
+      lines.push(`  - Status: ${s.status}`);
+      lines.push(`  - Owner: ${s.owner}`);
+      if(s.due) lines.push(`  - Due: ${s.due}`);
+      lines.push(`  - Done when: ${t.doneWhen}`);
+      if(s.notes) lines.push(`  - Notes: ${s.notes.replace(/\n/g," ")}`);
+    });
+    lines.push("");
+  });
+  download("SEO-GEO-PROGRESS.md", lines.join("\n"), "text/markdown");
+}
+
+document.getElementById("search").addEventListener("input", applyFilters);
+document.getElementById("filterStatus").addEventListener("change", applyFilters);
+document.getElementById("filterOwner").addEventListener("change", applyFilters);
+document.getElementById("exportJson").addEventListener("click", exportJson);
+document.getElementById("exportMd").addEventListener("click", exportMarkdown);
+document.getElementById("importBtn").addEventListener("click", ()=>document.getElementById("importFile").click());
+document.getElementById("importFile").addEventListener("change", async e=>{
+  const f=e.target.files[0]; if(!f) return;
+  try{
+    const obj=JSON.parse(await f.text());
+    const incoming=obj.state || obj;
+    state={...defaultState(),...incoming};
+    saveState();render();
+    alert("Progress imported.");
+  }catch(err){
+    alert("Invalid JSON progress file.");
+  }
+  e.target.value="";
+});
+document.getElementById("resetBtn").addEventListener("click", ()=>{
+  if(confirm("Reset all task progress, notes, owners and due dates?")){
+    state=defaultState();saveState();render();
+  }
+});
+
+render();
+</script>
+</body>
+</html>
