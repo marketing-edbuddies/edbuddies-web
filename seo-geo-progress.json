@@ -4,25 +4,25 @@
   "instructions": "This is the shared progress state for SEO-GEO-AUTOMATION-TRACKER.html. Claude Code may update task status/notes after completing work. Do not mark a task done unless its 'Done when' criteria in the HTML tracker are satisfied.",
   "state": {
     "p0-t1": {
-      "status": "todo",
-      "owner": "Kenneth",
-      "notes": "",
+      "status": "done",
+      "owner": "Claude",
+      "notes": "Committed 2026-09-07 (5f35811). Tracker saved to repo root, no website files touched.",
       "due": "",
-      "updatedAt": null
+      "updatedAt": "2026-09-07T07:26:20.000Z"
     },
     "p0-t2": {
-      "status": "todo",
+      "status": "done",
       "owner": "Both",
-      "notes": "",
+      "notes": "seo-geo-progress.json committed to repo root alongside the tracker (5f35811).",
       "due": "",
-      "updatedAt": null
+      "updatedAt": "2026-09-07T07:26:20.000Z"
     },
     "p0-t3": {
-      "status": "todo",
+      "status": "in-progress",
       "owner": "Both",
-      "notes": "",
+      "notes": "Reviewed CLAUDE.md. Current text: 'Do not push, deploy, change domains, transfer ownership or change Vercel settings without Kenneth's approval.' Covers push/deploy/domain/Vercel settings, but does not explicitly say 'no merge' (no PR workflow exists yet, so N/A for now) and isn't scoped to a seo-geo/* branch model. Full explicit wording is Phase 6 (p6-t1: SEO/GEO Automation Permissions section). Leaving in-progress rather than done since the 'done when' asks for explicit merge language.",
       "due": "",
-      "updatedAt": null
+      "updatedAt": "2026-09-07T07:30:00.000Z"
     },
     "p1-t1": {
       "status": "todo",
