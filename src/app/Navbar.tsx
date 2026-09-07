@@ -80,7 +80,6 @@ const featureGroups = [
 const featureItems = featureGroups.flatMap((group) => group.items);
 
 const standardNavLinks = [
-  { href: "/pricing", label: "Pricing", page: "pricing" },
   { href: "/about", label: "About", page: "about" },
   { href: "/contact", label: "Contact", page: "contact" },
 ] as const;
@@ -130,7 +129,7 @@ export default function Navbar({ activePage }: NavbarProps) {
           <div className={`flex items-center justify-between transition-all duration-300 ${scrolled ? "h-16" : "h-28"}`}>
             <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }} className="flex items-center">
               <Link to="/" aria-label="EdBuddies home" onMouseEnter={() => setFeaturesOpen(false)} onFocus={() => setFeaturesOpen(false)}>
-                <img src="/assets/logo-horizontal.png" alt="EdBuddies" className={`w-auto object-contain transition-all duration-300 ${scrolled ? "h-12" : "h-16"}`} />
+                <img src="/assets/logo-horizontal.webp" alt="EdBuddies" className={`w-auto object-contain transition-all duration-300 ${scrolled ? "h-12" : "h-16"}`} />
               </Link>
             </motion.div>
 
@@ -142,7 +141,7 @@ export default function Navbar({ activePage }: NavbarProps) {
               >
                 <Link
                   to="/features"
-                  className={`${linkClass("features")} inline-flex items-center gap-1.5 rounded-md py-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF8000] focus-visible:ring-offset-2`}
+                  className={`${linkClass("features")} inline-flex items-center gap-1.5 rounded-md py-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0FB8F1] focus-visible:ring-offset-2`}
                   aria-haspopup="true"
                   aria-expanded={featuresOpen}
                 >
@@ -191,11 +190,11 @@ export default function Navbar({ activePage }: NavbarProps) {
             >
               <div className="mx-auto grid max-w-6xl grid-cols-[0.9fr_1fr_1fr] gap-7 px-8 py-8">
                 <div className="relative overflow-hidden rounded-2xl bg-[#09244B] p-6 text-white">
-                  <div className="absolute -bottom-16 -right-12 h-40 w-40 rounded-full bg-[#FF8000]/25 blur-2xl" aria-hidden="true" />
+                  <div className="absolute -bottom-16 -right-12 h-40 w-40 rounded-full bg-[#0FB8F1]/25 blur-2xl" aria-hidden="true" />
                   <span className="relative flex h-11 w-11 items-center justify-center rounded-xl bg-white/10"><LayoutGrid className="h-5 w-5 text-[#9DE9F3]" /></span>
                   <p className="relative mt-5 text-xs font-bold uppercase tracking-[0.17em] text-[#9DE9F3]">Feature overview</p>
                   <h2 className="relative mt-2 text-xl font-bold leading-snug">One connected platform for centre operations.</h2>
-                  <Link to="/features-new" className="relative mt-6 inline-flex items-center gap-2 text-sm font-semibold text-white hover:text-[#FFD4AD]">View all features <ArrowRight className="h-4 w-4" /></Link>
+                  <Link to="/features-new" className="relative mt-6 inline-flex items-center gap-2 text-sm font-semibold text-white hover:text-[#B2E8FB]">View all features <ArrowRight className="h-4 w-4" /></Link>
                 </div>
 
                 {featureGroups.map((group) => (
@@ -213,10 +212,10 @@ export default function Navbar({ activePage }: NavbarProps) {
                             onFocus={() => setActiveFeatureHref(item.href)}
                             className={`group flex items-start gap-3 rounded-xl p-3 transition ${isActive ? "bg-[#EEFCFF]" : "hover:bg-slate-50"}`}
                           >
-                            <span className={`mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg transition ${isActive ? "bg-[#FF8000] text-white" : "bg-[#EEFCFF] text-[#08718C] group-hover:bg-[#FF8000] group-hover:text-white"}`}><ItemIcon className="h-4.5 w-4.5" /></span>
+                            <span className={`mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg transition ${isActive ? "bg-[#0FB8F1] text-white" : "bg-[#EEFCFF] text-[#08718C] group-hover:bg-[#0FB8F1] group-hover:text-white"}`}><ItemIcon className="h-4.5 w-4.5" /></span>
                             <span className="min-w-0">
                               <span className="block text-sm font-semibold leading-5 text-[#09244B]">{item.title}</span>
-                              {"badge" in item ? <span className="mt-1 block text-[10px] font-bold uppercase tracking-[0.1em] text-[#B95700]">{item.badge}</span> : null}
+                              {"badge" in item ? <span className="mt-1 block text-[10px] font-bold uppercase tracking-[0.1em] text-[#09769A]">{item.badge}</span> : null}
                             </span>
                           </Link>
                         );
@@ -236,7 +235,7 @@ export default function Navbar({ activePage }: NavbarProps) {
             <motion.div key="backdrop" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }} className="fixed inset-0 z-40 bg-black/30 md:hidden" onClick={closeMobileMenu} />
             <motion.div key="drawer" initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 320, damping: 32 }} className="fixed right-0 top-0 z-50 flex h-full w-[min(22rem,90vw)] flex-col bg-white shadow-2xl md:hidden">
               <div className="flex items-center justify-between border-b border-gray-100 px-6 py-5">
-                <img src="/assets/logo-horizontal.png" alt="EdBuddies" className="h-10 w-auto object-contain" />
+                <img src="/assets/logo-horizontal.webp" alt="EdBuddies" className="h-10 w-auto object-contain" />
                 <button onClick={closeMobileMenu} className="p-2 text-gray-500 hover:text-gray-900" aria-label="Close navigation menu"><X className="h-5 w-5" /></button>
               </div>
 
@@ -250,7 +249,7 @@ export default function Navbar({ activePage }: NavbarProps) {
                     {mobileFeaturesOpen ? (
                       <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
                         <div className="space-y-1 pb-4 pl-2">
-                          <Link to="/features-new" onClick={closeMobileMenu} className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-[#B95700]"><LayoutGrid className="h-4 w-4" />All features overview</Link>
+                          <Link to="/features-new" onClick={closeMobileMenu} className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-[#09769A]"><LayoutGrid className="h-4 w-4" />All features overview</Link>
                           {featureItems.map((item) => { const ItemIcon = item.icon; return (
                             <Link key={item.href} to={item.href} onClick={closeMobileMenu} className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-[#EEFCFF] hover:text-[#09244B]"><span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#EEFCFF] text-[#08718C]"><ItemIcon className="h-4 w-4" /></span>{item.title}</Link>
                           ); })}

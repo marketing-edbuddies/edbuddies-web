@@ -10,10 +10,7 @@ import Footer from "./Footer";
 // ─── Stats ────────────────────────────────────────────────────────────────────
 
 const STATS = [
-  { value: "2",         label: "Active markets — Malaysia & Singapore" },
-  { value: "50K+",      label: "Notifications sent" },
-  { value: "13,300+",   label: "Attendance events tracked" },
-  { value: "99.5%",     label: "Payment reliability" },
+  { value: "2", label: "Active markets — Malaysia & Singapore" },
 ];
 
 const MARKETS = [
@@ -59,6 +56,7 @@ export default function About() {
     <div className="min-h-screen bg-white">
       <Navbar activePage="about" />
 
+      <main id="main-content">
       {/* ── Section 1: Hero ───────────────────────────────────────────────── */}
       <section className="pt-40 pb-20 px-6 lg:px-8 bg-white">
         <div className="max-w-4xl mx-auto text-center">
@@ -68,7 +66,7 @@ export default function About() {
             transition={{ duration: 0.5 }}
             className="inline-flex items-center gap-2 text-sm text-gray-600 mb-6"
           >
-            <CheckCircle2 className="w-4 h-4 text-[#FF8000]" />
+            <CheckCircle2 className="w-4 h-4 text-[#0FB8F1]" />
             <span className="uppercase tracking-wider font-medium">Our Story</span>
           </motion.div>
 
@@ -80,7 +78,7 @@ export default function About() {
           >
             Good tools should be
             <br className="hidden sm:block" />
-            available to <span className="text-[#FF8000]">every centre.</span>
+            available to <span className="text-[#0FB8F1]">every centre.</span>
           </motion.h1>
 
           <motion.p
@@ -197,7 +195,7 @@ export default function About() {
                 transition={{ duration: 0.5, type: "spring", stiffness: 260, damping: 24 }}
                 className="inline-flex items-center gap-2 text-sm text-gray-500"
               >
-                <CheckCircle2 className="w-4 h-4 text-[#FF8000]" />
+                <CheckCircle2 className="w-4 h-4 text-[#0FB8F1]" />
                 <span className="uppercase tracking-wider font-medium">Why we exist</span>
               </motion.div>
 
@@ -252,8 +250,8 @@ export default function About() {
                 {/* Orange accent overlay at bottom */}
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#09244B]/80 to-transparent p-8">
                   <div className="flex items-center gap-2 mb-2">
-                    <div className="w-8 h-0.5 bg-[#FF8000]" />
-                    <span className="text-[#FF8000] text-sm font-semibold uppercase tracking-wider">EdBuddies Mission</span>
+                    <div className="w-8 h-0.5 bg-[#0FB8F1]" />
+                    <span className="text-[#09769A] text-sm font-semibold uppercase tracking-wider">EdBuddies Mission</span>
                   </div>
                   <p className="text-white text-lg font-semibold leading-snug">
                     Good tools should reach every centre, big or small.
@@ -261,7 +259,7 @@ export default function About() {
                 </div>
               </div>
               {/* Decorative orange corner accent */}
-              <div className="absolute -bottom-4 -right-4 w-24 h-24 rounded-2xl bg-[#FF8000]/15 -z-10" />
+              <div className="absolute -bottom-4 -right-4 w-24 h-24 rounded-2xl bg-[#0FB8F1]/15 -z-10" />
               <div className="absolute -top-4 -left-4 w-16 h-16 rounded-xl bg-[#09244B]/08 -z-10" />
             </motion.div>
           </div>
@@ -277,11 +275,11 @@ export default function About() {
             whileInView={{ scaleX: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, ease: "easeOut" }}
-            className="h-1 bg-[#FF8000] rounded-full mb-12 origin-left"
+            className="h-1 bg-[#0FB8F1] rounded-full mb-12 origin-left"
             style={{ maxWidth: "120px" }}
           />
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-10">
+          <div className="flex justify-center">
             {STATS.map(({ value, label }, i) => (
               <motion.div
                 key={label}
@@ -292,7 +290,7 @@ export default function About() {
                 className="flex flex-col gap-2 items-center text-center"
               >
                 <p className="text-4xl sm:text-5xl font-bold text-[#09244B] leading-none">{value}</p>
-                <div className="w-6 h-0.5 bg-[#FF8000] rounded-full" />
+                <div className="w-6 h-0.5 bg-[#0FB8F1] rounded-full" />
                 <p className="text-sm text-gray-500 leading-snug">{label}</p>
               </motion.div>
             ))}
@@ -418,7 +416,7 @@ export default function About() {
                 transition={{ duration: 0.6 }}
                 className="inline-flex items-center gap-2 text-sm text-gray-500 mb-6"
               >
-                <CheckCircle2 className="w-4 h-4 text-[#FF8000]" />
+                <CheckCircle2 className="w-4 h-4 text-[#0FB8F1]" />
                 <span className="uppercase tracking-wider">Join us</span>
               </motion.div>
 
@@ -505,6 +503,7 @@ export default function About() {
           </div>
         </div>
       </section>
+      </main>
 
       <Footer />
     </div>

@@ -38,7 +38,7 @@ export default class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBo
         >
           <h1 style={{ fontSize: "1.5rem", fontWeight: 700 }}>Something went wrong.</h1>
           <p style={{ color: "#475569" }}>Please refresh the page. If the problem continues, contact us at marketing@edbuddies.ai.</p>
-          <a href="/" style={{ color: "#FF8000", fontWeight: 600 }}>Back to Home</a>
+          <a href="/" style={{ color: "#0FB8F1", fontWeight: 600 }}>Back to Home</a>
         </div>
       );
     }

@@ -83,4 +83,4 @@ export function MediaPlaceholder({
 }
 
 export const ctaButtonClass =
-  "h-12 rounded-xl bg-[#FF8000] px-7 text-base text-white shadow-[0_10px_30px_rgba(255,128,0,0.28)] hover:-translate-y-0.5 hover:bg-[#E87300] hover:shadow-[0_16px_40px_rgba(255,128,0,0.34)]";
+  "h-12 rounded-xl bg-[#0FB8F1] px-7 text-base text-white shadow-[0_10px_30px_rgba(15,184,241,0.28)] hover:-translate-y-0.5 hover:bg-[#0DA8DC] hover:shadow-[0_16px_40px_rgba(15,184,241,0.34)]";

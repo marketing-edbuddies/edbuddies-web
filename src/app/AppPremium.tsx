@@ -164,7 +164,7 @@ export default function AppPremium() {
               transition={{ duration: 0.5 }}
             >
               <img
-                src="/assets/logo-horizontal.png"
+                src="/assets/logo-horizontal.webp"
                 alt="EdBuddies"
                 className="h-10 w-auto object-contain"
               />
@@ -327,7 +327,7 @@ export default function AppPremium() {
                 className="flex items-center justify-center mb-5"
               >
                 <img
-                  src="/assets/logo-horizontal.png"
+                  src="/assets/logo-horizontal.webp"
                   alt="EdBuddies"
                   className="h-14 sm:h-16 lg:h-20 w-auto object-contain drop-shadow-sm"
                 />
@@ -570,7 +570,7 @@ export default function AppPremium() {
               style={{ top: "150px" }}
             >
               <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-[0_8px_32px_rgba(9,36,75,0.12)]">
-                <img src="/assets/logo-horizontal.png" alt="EdBuddies" className="h-8 w-auto object-contain" />
+                <img src="/assets/logo-horizontal.webp" alt="EdBuddies" className="h-8 w-auto object-contain" />
               </div>
             </motion.div>
           </div>
@@ -1008,7 +1008,7 @@ export default function AppPremium() {
 
             {/* Brand column */}
             <div className="md:col-span-2">
-              <img src="/assets/logo-horizontal.png" alt="EdBuddies" className="h-9 w-auto object-contain mb-4 brightness-0 invert opacity-90" />
+              <img src="/assets/logo-horizontal.webp" alt="EdBuddies" className="h-9 w-auto object-contain mb-4 brightness-0 invert opacity-90" />
               <p className="text-gray-400 text-sm leading-relaxed max-w-xs">
                 The 100% free centre management app built for tuition centres, freelance tutors, and enrichment providers.
               </p>

@@ -1,13 +1,16 @@
 
-import { lazy, StrictMode, Suspense } from "react";
+import { lazy, StrictMode, Suspense, useEffect, useRef } from "react";
 import { createRoot } from "react-dom/client";
-import { BrowserRouter, Routes, Route } from "react-router";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router";
 import ErrorBoundary from "./app/ErrorBoundary.tsx";
-import { initLinkTracking } from "./app/analytics.ts";
+import { initLinkTracking, trackPageView } from "./app/analytics.ts";
+import CookieConsent from "./app/CookieConsent.tsx";
 import "./styles/index.css";
 import Lenis from "lenis";
 
 const App = lazy(() => import("./app/App.tsx"));
+const PrivacyPolicy = lazy(() => import("./app/PrivacyPolicy.tsx"));
+const Terms = lazy(() => import("./app/Terms.tsx"));
 const Features = lazy(() => import("./app/Features.tsx"));
 const FeaturesNew = lazy(() => import("./app/FeaturesNew.tsx"));
 const FeatureDetail = lazy(() => import("./app/FeatureDetail.tsx"));
@@ -35,10 +38,37 @@ function RouteFallback() {
   return <div style={{ minHeight: "100vh" }} aria-hidden="true" />;
 }
 
+/**
+ * Fires a virtual GA4 page_view on every client-side navigation. GTM's
+ * default Page View trigger only sees the initial document load, so without
+ * this every route after the first is invisible in analytics.
+ */
+function RouteTracker() {
+  const location = useLocation();
+  const isFirstRender = useRef(true);
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    trackPageView(location.pathname + location.search, document.title);
+  }, [location.pathname, location.search]);
+
+  return null;
+}
+
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ErrorBoundary>
       <BrowserRouter>
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-lg focus:bg-[#09244B] focus:text-white focus:font-semibold"
+        >
+          Skip to main content
+        </a>
+        <RouteTracker />
         <Suspense fallback={<RouteFallback />}>
           <Routes>
             <Route path="/"         element={<App />} />
@@ -54,9 +84,12 @@ createRoot(document.getElementById("root")!).render(
             <Route path="/pricing"  element={<Pricing />} />
             <Route path="/contact"  element={<Contact />} />
             <Route path="/about"    element={<About />} />
+            <Route path="/privacy"  element={<PrivacyPolicy />} />
+            <Route path="/terms"    element={<Terms />} />
             <Route path="*"         element={<NotFound />} />
           </Routes>
         </Suspense>
+        <CookieConsent />
       </BrowserRouter>
     </ErrorBoundary>
   </StrictMode>

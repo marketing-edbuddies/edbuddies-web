@@ -4,14 +4,13 @@ import { SHOW_FREE_MESSAGING } from "./flags";
 
 const QUICK_LINKS = [
   { label: "Features", href: "/features" },
-  { label: "Pricing",  href: "/pricing" },
   { label: "About",    href: "/about" },
   { label: "Contact",  href: "/contact" },
 ];
 
 const CONTACT_ITEMS = [
   { label: "marketing@edbuddies.ai", href: "mailto:marketing@edbuddies.ai" },
-  { label: "+6016-306 5935 (MY)",    href: "https://wa.me/60163065935" },
+  { label: "+6017-566 5935 (MY)",    href: "https://wa.me/60175665935" },
   { label: "+65 9837 3314 (SG)",     href: "https://wa.me/6598373314" },
 ];
 
@@ -79,7 +78,7 @@ export default function Footer() {
       <div className="border-t border-white/10">
         <div className="max-w-5xl mx-auto px-6 lg:px-8 py-6 flex items-center justify-center">
           <img
-            src="/assets/logo-horizontal-dark.png"
+            src="/assets/logo-horizontal-dark.webp"
             alt="EdBuddies"
             loading="lazy"
             className="h-28 sm:h-36 lg:h-44 w-auto object-contain opacity-20 select-none"
@@ -90,8 +89,10 @@ export default function Footer() {
       {/* ── Bottom: copyright + socials ─────────────────────────────────────── */}
       <div className="border-t border-white/10">
         <div className="max-w-5xl mx-auto px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-white/40">
-            © {new Date().getFullYear()} EdBuddies. All rights reserved. Built for tuition centres in Malaysia &amp; Singapore.
+          <p className="text-xs text-white/40 flex flex-wrap items-center gap-x-3 gap-y-1 justify-center sm:justify-start">
+            <span>© {new Date().getFullYear()} EdBuddies. All rights reserved. Built for tuition centres in Malaysia &amp; Singapore.</span>
+            <Link to="/privacy" className="underline hover:text-white transition-colors duration-200">Privacy Policy</Link>
+            <Link to="/terms" className="underline hover:text-white transition-colors duration-200">Terms of Service</Link>
           </p>
           <div className="flex items-center gap-5">
             <a

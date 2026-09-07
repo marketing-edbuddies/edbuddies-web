@@ -265,7 +265,7 @@ function ProductPreview({ pillar }: { pillar: Pillar }) {
       <div className="overflow-hidden rounded-[1.35rem] bg-white">
         <div className="flex items-center justify-between border-b border-slate-100 px-5 py-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#FFF1E6] text-[#FF8000]">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#E8F8FE] text-[#0FB8F1]">
               <Icon className="h-5 w-5" />
             </div>
             <div>
@@ -276,7 +276,7 @@ function ProductPreview({ pillar }: { pillar: Pillar }) {
           <div className="flex gap-1.5" aria-hidden="true">
             <span className="h-2 w-2 rounded-full bg-slate-200" />
             <span className="h-2 w-2 rounded-full bg-slate-200" />
-            <span className="h-2 w-2 rounded-full bg-[#FF8000]" />
+            <span className="h-2 w-2 rounded-full bg-[#0FB8F1]" />
           </div>
         </div>
         <div className="bg-[#F8FCFD] p-5 sm:p-7">
@@ -291,7 +291,7 @@ function ProductPreview({ pillar }: { pillar: Pillar }) {
                   <p className="text-sm font-semibold text-[#09244B]">{row.label}</p>
                   <p className="mt-0.5 text-xs text-slate-500">{row.value}</p>
                 </div>
-                <span className="rounded-full bg-[#FFF1E6] px-2.5 py-1 text-[11px] font-semibold text-[#D96900]">{row.status}</span>
+                <span className="rounded-full bg-[#E8F8FE] px-2.5 py-1 text-[11px] font-semibold text-[#09769A]">{row.status}</span>
               </div>
             ))}
           </div>
@@ -309,7 +309,7 @@ function PillarSection({ pillar, index }: { pillar: Pillar; index: number }) {
     <section id={pillar.id} className={`scroll-mt-32 px-4 py-20 sm:px-6 lg:px-8 lg:py-28 ${index % 2 === 1 ? "bg-[#F7FCFD]" : "bg-white"}`}>
       <div className="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-2 lg:gap-20">
         <Reveal className={reverse ? "lg:order-2" : ""}>
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-[#FFF1E6] px-4 py-2 text-sm font-semibold text-[#B95700]">
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-[#E8F8FE] px-4 py-2 text-sm font-semibold text-[#09769A]">
             <Icon className="h-4 w-4" />
             {pillar.eyebrow}
           </div>
@@ -325,7 +325,7 @@ function PillarSection({ pillar, index }: { pillar: Pillar; index: number }) {
               </li>
             ))}
           </ul>
-          <Link to={pillar.href} className="mt-8 inline-flex items-center gap-2 font-semibold text-[#B95700] hover:text-[#8D4300]">
+          <Link to={pillar.href} className="mt-8 inline-flex items-center gap-2 font-semibold text-[#09769A] hover:text-[#086686]">
             View full feature page <ArrowRight className="h-4 w-4" />
           </Link>
         </Reveal>
@@ -343,6 +343,8 @@ export default function FeaturesNew() {
       title: "Features — EdBuddies Education Centre Management Platform",
       description: "Explore EdBuddies features for enrolment, classes, teachers, billing, parent communication and centre reporting.",
       url: "https://edbuddies.ai/features-new",
+      // Internal draft under review — not yet approved to replace /features.
+      noindex: true,
     });
   }, []);
 
@@ -352,11 +354,11 @@ export default function FeaturesNew() {
 
       <main>
         <section className="relative overflow-hidden bg-[#F7FCFD] px-4 pb-20 pt-36 sm:px-6 lg:px-8 lg:pb-28 lg:pt-44">
-          <div className="absolute -right-20 top-24 h-80 w-80 rounded-full bg-[#FF8000]/10 blur-3xl" aria-hidden="true" />
+          <div className="absolute -right-20 top-24 h-80 w-80 rounded-full bg-[#0FB8F1]/10 blur-3xl" aria-hidden="true" />
           <div className="absolute -left-24 bottom-0 h-96 w-96 rounded-full bg-[#8CE5F2]/20 blur-3xl" aria-hidden="true" />
           <div className="relative mx-auto grid max-w-6xl items-center gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20">
             <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.65 }}>
-              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#FF8000]/20 bg-white px-4 py-2 text-sm font-semibold text-[#B95700] shadow-sm">
+              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#0FB8F1]/20 bg-white px-4 py-2 text-sm font-semibold text-[#09769A] shadow-sm">
                 <LayoutDashboard className="h-4 w-4" />
                 One connected centre-management platform
               </div>
@@ -367,7 +369,7 @@ export default function FeaturesNew() {
                 Bring enrolment, classes, teachers, billing, parent updates and reporting into one operating view—so your team can spend less time piecing information together.
               </p>
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-                <Button asChild size="lg" className="h-12 rounded-xl bg-[#FF8000] px-7 text-base text-white shadow-[0_12px_30px_rgba(255,128,0,0.28)] hover:bg-[#E87300]">
+                <Button asChild size="lg" className="h-12 rounded-xl bg-[#0FB8F1] px-7 text-base text-white shadow-[0_12px_30px_rgba(15,184,241,0.28)] hover:bg-[#0DA8DC]">
                   <Link to="/contact">Enquire Now <ArrowRight className="h-4 w-4" /></Link>
                 </Button>
                 <Button asChild size="lg" variant="outline" className="h-12 rounded-xl border-[#09244B]/15 bg-white px-7 text-base text-[#09244B] hover:bg-[#EEFCFF]">
@@ -395,7 +397,7 @@ export default function FeaturesNew() {
               { icon: Smartphone, text: "Available on iOS and Android" },
             ].map(({ icon: Icon, text }) => (
               <div key={text} className="flex items-center justify-center gap-3 rounded-xl bg-white/70 px-4 py-3 text-sm font-semibold text-[#09244B]">
-                <Icon className="h-5 w-5 text-[#FF8000]" />
+                <Icon className="h-5 w-5 text-[#0FB8F1]" />
                 {text}
               </div>
             ))}
@@ -405,18 +407,18 @@ export default function FeaturesNew() {
         <nav aria-label="Feature categories" className="sticky top-16 z-30 border-y border-slate-100 bg-white/95 px-4 shadow-sm backdrop-blur sm:px-6 lg:px-8">
           <div className="mx-auto flex max-w-6xl gap-2 overflow-x-auto py-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {pillars.map((pillar) => (
-              <Link key={pillar.id} to={pillar.href} className="shrink-0 rounded-full px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-[#EEFCFF] hover:text-[#09244B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF8000]">
+              <Link key={pillar.id} to={pillar.href} className="shrink-0 rounded-full px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-[#EEFCFF] hover:text-[#09244B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0FB8F1]">
                 {pillar.navLabel}
               </Link>
             ))}
-            <Link to="/features/ai" className="shrink-0 rounded-full px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-[#FFF1E6] hover:text-[#09244B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF8000]">AI direction</Link>
+            <Link to="/features/ai" className="shrink-0 rounded-full px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-[#E8F8FE] hover:text-[#09244B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0FB8F1]">AI direction</Link>
           </div>
         </nav>
 
         <section id="capabilities" className="scroll-mt-32 px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
           <div className="mx-auto max-w-6xl">
             <Reveal className="mx-auto max-w-3xl text-center">
-              <p className="text-sm font-bold uppercase tracking-[0.2em] text-[#D96900]">Connected capabilities</p>
+              <p className="text-sm font-bold uppercase tracking-[0.2em] text-[#09769A]">Connected capabilities</p>
               <h2 className="mt-4 text-3xl font-bold tracking-[-0.02em] text-[#09244B] sm:text-5xl">One system across the entire centre journey.</h2>
               <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-slate-600">Start with the work your team handles every day, then connect each workflow as your centre grows.</p>
             </Reveal>
@@ -425,13 +427,13 @@ export default function FeaturesNew() {
                 const Icon = pillar.icon;
                 return (
                   <Reveal key={pillar.id} delay={(index % 3) * 0.06}>
-                    <Link to={pillar.href} className="group block h-full rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_8px_30px_rgba(9,36,75,0.06)] transition duration-300 hover:-translate-y-1 hover:border-[#FF8000]/30 hover:shadow-[0_18px_45px_rgba(9,36,75,0.12)]">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#EEFCFF] text-[#08718C] transition group-hover:bg-[#FF8000] group-hover:text-white">
+                    <Link to={pillar.href} className="group block h-full rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_8px_30px_rgba(9,36,75,0.06)] transition duration-300 hover:-translate-y-1 hover:border-[#0FB8F1]/30 hover:shadow-[0_18px_45px_rgba(9,36,75,0.12)]">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#EEFCFF] text-[#08718C] transition group-hover:bg-[#0FB8F1] group-hover:text-white">
                         <Icon className="h-6 w-6" />
                       </div>
                       <h3 className="mt-5 text-xl font-bold text-[#09244B]">{pillar.eyebrow}</h3>
                       <p className="mt-3 text-sm leading-6 text-slate-600">{pillar.description}</p>
-                      <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#B95700]">View feature page <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" /></span>
+                      <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#09769A]">View feature page <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" /></span>
                     </Link>
                   </Reveal>
                 );
@@ -451,7 +453,7 @@ export default function FeaturesNew() {
               </div>
               <h2 className="mt-6 text-3xl font-bold leading-tight sm:text-5xl">EdBuddies AI is being shaped around practical teacher workload.</h2>
               <p className="mt-6 text-lg leading-8 text-white/70">AI-assisted test-paper marking is part of the EdBuddies product direction, designed to help teachers spend less time on repetitive marking work and more time supporting students.</p>
-              <p className="mt-5 rounded-xl border border-[#FFB46B]/25 bg-[#FF8000]/10 p-4 text-sm leading-6 text-[#FFD4AD]">Availability is to be confirmed. Contact our team if you would like to discuss this product direction.</p>
+              <p className="mt-5 rounded-xl border border-[#74D6F7]/25 bg-[#0FB8F1]/10 p-4 text-sm leading-6 text-[#B2E8FB]">Availability is to be confirmed. Contact our team if you would like to discuss this product direction.</p>
               <Button asChild variant="outline" size="lg" className="mt-8 h-12 rounded-xl border-white/25 bg-transparent px-7 text-white hover:bg-white hover:text-[#09244B]">
                 <Link to="/features/ai">Explore EdBuddies AI <ArrowRight className="h-4 w-4" /></Link>
               </Button>
@@ -461,7 +463,7 @@ export default function FeaturesNew() {
                 <div className="rounded-2xl bg-white p-6 text-[#09244B]">
                   <div className="flex items-center justify-between border-b border-slate-100 pb-5">
                     <div className="flex items-center gap-3">
-                      <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#FFF1E6] text-[#FF8000]"><FileCheck2 className="h-6 w-6" /></div>
+                      <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#E8F8FE] text-[#0FB8F1]"><FileCheck2 className="h-6 w-6" /></div>
                       <div><p className="font-bold">Test-paper marking</p><p className="text-xs text-slate-500">AI-assisted workflow concept</p></div>
                     </div>
                     <span className="rounded-full bg-[#EEFCFF] px-3 py-1 text-xs font-semibold text-[#08718C]">Direction</span>
@@ -471,7 +473,7 @@ export default function FeaturesNew() {
                       <div key={text} className="flex items-center gap-4 rounded-xl bg-[#F8FCFD] p-4">
                         <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#09244B] text-sm font-bold text-white">{index + 1}</span>
                         <span className="font-semibold">{text}</span>
-                        <CheckCircle2 className="ml-auto h-5 w-5 text-[#FF8000]" />
+                        <CheckCircle2 className="ml-auto h-5 w-5 text-[#0FB8F1]" />
                       </div>
                     ))}
                   </div>
@@ -484,7 +486,7 @@ export default function FeaturesNew() {
         <section className="bg-[#F7FCFD] px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
           <div className="mx-auto max-w-6xl">
             <Reveal className="max-w-3xl">
-              <p className="text-sm font-bold uppercase tracking-[0.2em] text-[#D96900]">Built around your operation</p>
+              <p className="text-sm font-bold uppercase tracking-[0.2em] text-[#09769A]">Built around your operation</p>
               <h2 className="mt-4 text-3xl font-bold text-[#09244B] sm:text-5xl">A clearer starting point for every education business.</h2>
               <p className="mt-5 text-lg leading-8 text-slate-600">The same connected platform can support different teaching models without forcing every centre into the same workflow.</p>
             </Reveal>
@@ -492,7 +494,7 @@ export default function FeaturesNew() {
               {audiences.map(({ icon: Icon, title, description }, index) => (
                 <Reveal key={title} delay={index * 0.05}>
                   <div className="h-full rounded-2xl border border-slate-200 bg-white p-6">
-                    <Icon className="h-7 w-7 text-[#FF8000]" />
+                    <Icon className="h-7 w-7 text-[#0FB8F1]" />
                     <h3 className="mt-5 text-lg font-bold text-[#09244B]">{title}</h3>
                     <p className="mt-3 text-sm leading-6 text-slate-600">{description}</p>
                   </div>
@@ -505,7 +507,7 @@ export default function FeaturesNew() {
         <section className="px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
           <div className="mx-auto max-w-5xl">
             <Reveal className="text-center">
-              <p className="text-sm font-bold uppercase tracking-[0.2em] text-[#D96900]">Feature directory</p>
+              <p className="text-sm font-bold uppercase tracking-[0.2em] text-[#09769A]">Feature directory</p>
               <h2 className="mt-4 text-3xl font-bold text-[#09244B] sm:text-5xl">Explore the full toolkit.</h2>
               <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-slate-600">The overview stays easy to scan, while the detailed capabilities remain available when you need them.</p>
             </Reveal>
@@ -521,7 +523,7 @@ export default function FeaturesNew() {
                     <div className="grid gap-5 border-t border-slate-100 p-5 sm:grid-cols-2 sm:p-6">
                       {items.map((item) => (
                         <div key={item.title} className="flex gap-3">
-                          <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-[#FF8000]" />
+                          <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-[#0FB8F1]" />
                           <div><h3 className="font-semibold text-[#09244B]">{item.title}</h3><p className="mt-1 text-sm leading-6 text-slate-600">{item.description}</p></div>
                         </div>
                       ))}
@@ -535,10 +537,10 @@ export default function FeaturesNew() {
 
         <section className="px-4 pb-24 sm:px-6 lg:px-8 lg:pb-32">
           <Reveal className="mx-auto max-w-6xl overflow-hidden rounded-[2rem] bg-[#EEFCFF] px-6 py-14 text-center sm:px-10 lg:py-20">
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[#FF8000] text-white shadow-[0_12px_30px_rgba(255,128,0,0.28)]"><Mail className="h-7 w-7" /></div>
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[#0FB8F1] text-white shadow-[0_12px_30px_rgba(15,184,241,0.28)]"><Mail className="h-7 w-7" /></div>
             <h2 className="mx-auto mt-7 max-w-3xl text-3xl font-bold text-[#09244B] sm:text-5xl">See how EdBuddies fits your centre.</h2>
             <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-slate-600">Tell us how your team works today. We’ll help you explore the features that are most relevant to your operation.</p>
-            <Button asChild size="lg" className="mt-8 h-12 rounded-xl bg-[#FF8000] px-7 text-base text-white hover:bg-[#E87300]">
+            <Button asChild size="lg" className="mt-8 h-12 rounded-xl bg-[#0FB8F1] px-7 text-base text-white hover:bg-[#0DA8DC]">
               <Link to="/contact">Enquire Now <ArrowRight className="h-4 w-4" /></Link>
             </Button>
           </Reveal>

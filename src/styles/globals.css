@@ -16,3 +16,18 @@ html { scroll-behavior: smooth; }
 
 /* Prevent horizontal scroll on mobile */
 body { overflow-x: hidden; }
+
+/* Respect the visitor's reduced-motion preference for plain CSS animations
+   and transitions (keyframe floats, hover transitions, smooth scroll).
+   Framer Motion's JS-driven animations (motion.div, the scroll-linked hero,
+   Lenis smooth scroll) aren't covered by this — muting those needs each
+   component wired to useReducedMotion() individually, which is a separate,
+   larger pass. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  html { scroll-behavior: auto; }
+}

@@ -3,6 +3,21 @@
   <html lang="en">
     <head>
 
+      <!-- Consent Mode defaults — must run before GTM loads. Advertising and
+           analytics storage start denied; our cookie banner calls
+           gtag('consent','update', ...) once the visitor makes a choice. -->
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){ dataLayer.push(arguments); }
+        gtag('consent', 'default', {
+          'ad_storage': 'denied',
+          'ad_user_data': 'denied',
+          'ad_personalization': 'denied',
+          'analytics_storage': 'denied',
+          'wait_for_update': 500
+        });
+      </script>
+
       <!-- Google Tag Manager -->
       <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
       new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -18,10 +33,25 @@
       <title>EdBuddies | Centre Management App for Tuition Centres</title>
       <meta name="description" content="EdBuddies is a centre management app for tuition centres and freelance tutors in Malaysia & Singapore. Attendance, billing, invoices, parent communication — all in one app." />
       <meta name="robots" content="index, follow" />
+      <script>
+        // Belt-and-suspenders: flip robots to noindex immediately, before the
+        // React bundle runs, on any host that isn't the live production domain
+        // (e.g. the *.vercel.app review URL). src/app/seo.ts enforces the same
+        // rule for every client-side route change.
+        (function () {
+          var prodHosts = ["edbuddies.ai", "www.edbuddies.ai"];
+          if (prodHosts.indexOf(window.location.hostname) === -1) {
+            var m = document.querySelector('meta[name="robots"]');
+            if (m) m.setAttribute("content", "noindex, nofollow");
+          }
+        })();
+      </script>
       <link rel="canonical" href="https://edbuddies.ai/" />
 
-      <!-- Favicon -->
-      <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+      <!-- Favicon — favicon.svg was dropped: it's a 1.8MB unoptimized vector
+           trace and browsers prefer SVG favicons when listed, so it was
+           downloaded on every page load. The PNG/ICO below are already
+           properly sized. -->
       <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
       <link rel="shortcut icon" href="/favicon.ico" />
       <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />

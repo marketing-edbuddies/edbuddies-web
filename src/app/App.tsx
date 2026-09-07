@@ -3,10 +3,11 @@ import { motion, useScroll, useTransform, useInView } from "motion/react";
 import HeroScroll from "./HeroScroll";
 import { Button } from "./components/ui/button";
 import { ArrowRight, Smartphone, CreditCard, Users, Bell, Calendar, BarChart, BookOpen, School, AlertTriangle, ClipboardList, MessageSquare, DollarSign, CheckCircle2, Settings, Check, Download, ChevronDown, Facebook, Instagram } from "lucide-react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { SHOW_FREE_MESSAGING } from "./flags";
+import { setPageMeta } from "./seo";
 
 function HomeMascot() {
   const [ready, setReady] = useState(false);
@@ -32,6 +33,14 @@ export default function App() {
   const whoSectionRef = useRef<HTMLDivElement>(null);
   const howSectionRef = useRef<HTMLDivElement>(null);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
+
+  useEffect(() => {
+    setPageMeta({
+      title: "EdBuddies | Centre Management App for Tuition Centres",
+      description: "EdBuddies is a centre management app for tuition centres and freelance tutors in Malaysia & Singapore. Attendance, billing, invoices, parent communication — all in one app.",
+      url: "https://edbuddies.ai/",
+    });
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: problemSectionRef,
@@ -109,6 +118,7 @@ export default function App() {
       {/* Navigation */}
       <Navbar />
 
+      <main id="main-content">
       {/* Hero Section removed */}
       {false && <section className="pt-32 pb-8 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
         <div className="max-w-5xl mx-auto">
@@ -392,7 +402,7 @@ export default function App() {
                 className="flex items-center justify-center mb-4"
               >
                 <img
-                  src="/assets/logo-horizontal.png"
+                  src="/assets/logo-horizontal.webp"
                   alt="EdBuddies"
                   className="h-14 sm:h-16 lg:h-20 w-auto object-contain"
                 />
@@ -675,11 +685,11 @@ export default function App() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay }}
-                whileHover={{ y: -6, boxShadow: "0 8px 24px rgba(0,0,0,0.12)", borderColor: "rgba(255,128,0,0.28)", transition: { type: "spring", stiffness: 350, damping: 25 } }}
+                whileHover={{ y: -6, boxShadow: "0 8px 24px rgba(0,0,0,0.12)", borderColor: "rgba(15,184,241,0.28)", transition: { type: "spring", stiffness: 350, damping: 25 } }}
                 whileTap={{ y: 0, transition: { duration: 0.1 } }}
                 className="group bg-white rounded-lg p-6 flex flex-col border border-transparent cursor-pointer" style={{ boxShadow: '0 4px 16px rgba(0,0,0,0.10)' }}
               >
-                <div className="w-12 h-12 mb-3 bg-[#FF8000] rounded-xl flex items-center justify-center shrink-0 transition-all duration-300 group-hover:scale-[1.08] group-hover:-rotate-3 group-hover:shadow-[0_8px_24px_rgba(255,128,0,0.35)]">
+                <div className="w-12 h-12 mb-3 bg-[#0FB8F1] rounded-xl flex items-center justify-center shrink-0 transition-all duration-300 group-hover:scale-[1.08] group-hover:-rotate-3 group-hover:shadow-[0_8px_24px_rgba(15,184,241,0.35)]">
                   <Icon className="w-6 h-6 text-white" />
                 </div>
                 <h3 className="text-base font-semibold text-[#09244B] leading-snug mb-3 sm:min-h-[4rem]">
@@ -741,7 +751,7 @@ export default function App() {
                   {/* Outer glow */}
                   <motion.path
                     d={d}
-                    stroke="#FF8000"
+                    stroke="#0FB8F1"
                     strokeWidth="8"
                     fill="none"
                     strokeLinecap="round"
@@ -762,7 +772,7 @@ export default function App() {
                   {/* Core */}
                   <motion.path
                     d={d}
-                    stroke="#FF8000"
+                    stroke="#0FB8F1"
                     strokeWidth="2"
                     fill="none"
                     strokeLinecap="round"
@@ -797,7 +807,7 @@ export default function App() {
                   scale: [1, 1.06, 1],
                   boxShadow: [
                     "0 4px 12px rgba(0,0,0,0.08)",
-                    "0 4px 16px rgba(255,128,0,0.22)",
+                    "0 4px 16px rgba(15,184,241,0.22)",
                     "0 4px 12px rgba(0,0,0,0.08)",
                   ],
                 }}
@@ -966,22 +976,22 @@ export default function App() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ duration: 0.5, delay: i * 0.12, type: "spring", stiffness: 260, damping: 24 }}
-                whileHover={{ y: -4, boxShadow: "0 8px 24px rgba(0,0,0,0.12)", borderColor: "rgba(255,128,0,0.25)", transition: { type: "spring", stiffness: 350, damping: 25 } }}
+                whileHover={{ y: -4, boxShadow: "0 8px 24px rgba(0,0,0,0.12)", borderColor: "rgba(15,184,241,0.25)", transition: { type: "spring", stiffness: 350, damping: 25 } }}
                 whileTap={{ y: 0, transition: { duration: 0.1 } }}
                 className="group bg-white rounded-lg p-6 relative border border-transparent cursor-pointer"
                 style={{ boxShadow: '0 8px 24px rgba(0,0,0,0.12)' }}
               >
                 {/* Icon bubble — bounces on card hover */}
                 <motion.div
-                  className="absolute -top-3 -right-3 w-12 h-12 bg-[#FF8000] rounded-full flex items-center justify-center"
-                  style={{ boxShadow: '0 4px 16px rgba(255,128,0,0.30)' }}
+                  className="absolute -top-3 -right-3 w-12 h-12 bg-[#0FB8F1] rounded-full flex items-center justify-center"
+                  style={{ boxShadow: '0 4px 16px rgba(15,184,241,0.30)' }}
                   whileHover={{ scale: 1.18, rotate: -8, transition: { type: "spring", stiffness: 400, damping: 18 } }}
                 >
                   <Icon className="w-6 h-6 text-white" />
                 </motion.div>
 
                 <p className="text-sm text-gray-400 mb-2">{step}</p>
-                <h3 className="text-xl font-bold text-[#09244B] mb-2 group-hover:text-[#FF8000] transition-colors duration-200">{title}</h3>
+                <h3 className="text-xl font-bold text-[#09244B] mb-2 group-hover:text-[#09769A] transition-colors duration-200">{title}</h3>
                 <p className="text-gray-600">{desc}</p>
               </motion.div>
 
@@ -992,7 +1002,7 @@ export default function App() {
                   whileInView={{ scaleY: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: i * 0.12 + 0.3 }}
-                  className="self-center w-px bg-gradient-to-b from-[#FF8000] to-transparent origin-top"
+                  className="self-center w-px bg-gradient-to-b from-[#0FB8F1] to-transparent origin-top"
                   style={{ height: '32px' }}
                 />
               )}
@@ -1029,7 +1039,7 @@ export default function App() {
             {/* Card 1 - Top Right - Always visible */}
             <div className="absolute right-[2%] top-[55px] w-80 z-10">
               <div className="bg-white rounded-lg p-6 relative" style={{ boxShadow: '0 8px 24px rgba(0,0,0,0.12)' }}>
-                <div className="absolute -top-3 -right-3 w-12 h-12 bg-[#FF8000] rounded-full flex items-center justify-center" style={{ boxShadow: '0 4px 16px rgba(0,0,0,0.10)' }}>
+                <div className="absolute -top-3 -right-3 w-12 h-12 bg-[#0FB8F1] rounded-full flex items-center justify-center" style={{ boxShadow: '0 4px 16px rgba(0,0,0,0.10)' }}>
                   <MessageSquare className="w-6 h-6 text-white" />
                 </div>
                 <p className="text-sm text-gray-400 mb-2">Step 01</p>
@@ -1044,7 +1054,7 @@ export default function App() {
             <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ zIndex: 0 }} viewBox="0 0 1000 700" preserveAspectRatio="xMidYMid meet">
               <motion.path
                 d="M 400 100 L 820 100 C 970 100 970 105 970 180 Q 800 280 400 340 Q 200 340 180 400 Q 500 500 920 550"
-                stroke="#FF8000"
+                stroke="#0FB8F1"
                 strokeWidth="2"
                 strokeOpacity="0.85"
                 fill="none"
@@ -1059,7 +1069,7 @@ export default function App() {
               className="absolute left-[10%] top-[250px] w-80 z-10"
             >
               <div className="bg-white rounded-lg p-6 relative" style={{ boxShadow: '0 8px 24px rgba(0,0,0,0.12)' }}>
-                <div className="absolute -top-3 -right-3 w-12 h-12 bg-[#FF8000] rounded-full flex items-center justify-center" style={{ boxShadow: '0 4px 16px rgba(0,0,0,0.10)' }}>
+                <div className="absolute -top-3 -right-3 w-12 h-12 bg-[#0FB8F1] rounded-full flex items-center justify-center" style={{ boxShadow: '0 4px 16px rgba(0,0,0,0.10)' }}>
                   <Settings className="w-6 h-6 text-white" />
                 </div>
                 <p className="text-sm text-gray-400 mb-2">Step 02</p>
@@ -1076,7 +1086,7 @@ export default function App() {
               className="absolute right-[10%] top-[500px] w-80 z-10"
             >
               <div className="bg-white rounded-lg p-6 relative" style={{ boxShadow: '0 8px 24px rgba(0,0,0,0.12)' }}>
-                <div className="absolute -top-3 -right-3 w-12 h-12 bg-[#FF8000] rounded-full flex items-center justify-center" style={{ boxShadow: '0 4px 16px rgba(0,0,0,0.10)' }}>
+                <div className="absolute -top-3 -right-3 w-12 h-12 bg-[#0FB8F1] rounded-full flex items-center justify-center" style={{ boxShadow: '0 4px 16px rgba(0,0,0,0.10)' }}>
                   <CheckCircle2 className="w-6 h-6 text-white" />
                 </div>
                 <p className="text-sm text-gray-400 mb-2">Step 03</p>
@@ -1171,20 +1181,20 @@ export default function App() {
                   {/* Column 1 */}
                   <div className="space-y-4">
                     <div className="flex items-start gap-3">
-                      <div className="w-6 h-6 rounded-full bg-[#fff0e6] flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <Check className="w-4 h-4 text-[#FF8000]" />
+                      <div className="w-6 h-6 rounded-full bg-[#E8F8FE] flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <Check className="w-4 h-4 text-[#0FB8F1]" />
                       </div>
                       <span className="text-gray-700">Unlimited students</span>
                     </div>
                     <div className="flex items-start gap-3">
-                      <div className="w-6 h-6 rounded-full bg-[#fff0e6] flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <Check className="w-4 h-4 text-[#FF8000]" />
+                      <div className="w-6 h-6 rounded-full bg-[#E8F8FE] flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <Check className="w-4 h-4 text-[#0FB8F1]" />
                       </div>
                       <span className="text-gray-700">Attendance tracking</span>
                     </div>
                     <div className="flex items-start gap-3">
-                      <div className="w-6 h-6 rounded-full bg-[#fff0e6] flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <Check className="w-4 h-4 text-[#FF8000]" />
+                      <div className="w-6 h-6 rounded-full bg-[#E8F8FE] flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <Check className="w-4 h-4 text-[#0FB8F1]" />
                       </div>
                       <span className="text-gray-700">Invoicing & billing</span>
                     </div>
@@ -1193,20 +1203,20 @@ export default function App() {
                   {/* Column 2 */}
                   <div className="space-y-4">
                     <div className="flex items-start gap-3">
-                      <div className="w-6 h-6 rounded-full bg-[#fff0e6] flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <Check className="w-4 h-4 text-[#FF8000]" />
+                      <div className="w-6 h-6 rounded-full bg-[#E8F8FE] flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <Check className="w-4 h-4 text-[#0FB8F1]" />
                       </div>
                       <span className="text-gray-700">Parent communication</span>
                     </div>
                     <div className="flex items-start gap-3">
-                      <div className="w-6 h-6 rounded-full bg-[#fff0e6] flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <Check className="w-4 h-4 text-[#FF8000]" />
+                      <div className="w-6 h-6 rounded-full bg-[#E8F8FE] flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <Check className="w-4 h-4 text-[#0FB8F1]" />
                       </div>
                       <span className="text-gray-700">Class scheduling</span>
                     </div>
                     <div className="flex items-start gap-3">
-                      <div className="w-6 h-6 rounded-full bg-[#fff0e6] flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <Check className="w-4 h-4 text-[#FF8000]" />
+                      <div className="w-6 h-6 rounded-full bg-[#E8F8FE] flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <Check className="w-4 h-4 text-[#0FB8F1]" />
                       </div>
                       <span className="text-gray-700">Finance overview</span>
                     </div>
@@ -1256,6 +1266,8 @@ export default function App() {
             >
               <button
                 onClick={() => setOpenFaq(openFaq === 0 ? null : 0)}
+                aria-expanded={openFaq === 0}
+                aria-controls="home-faq-panel-0"
                 className="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-gray-50 transition-colors"
               >
                 <span className="text-lg font-semibold text-gray-900">
@@ -1265,10 +1277,12 @@ export default function App() {
                   animate={{ rotate: openFaq === 0 ? 180 : 0 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <ChevronDown className="w-5 h-5 text-[#FF8000]" />
+                  <ChevronDown className="w-5 h-5 text-[#0FB8F1]" />
                 </motion.div>
               </button>
               <motion.div
+                id="home-faq-panel-0"
+                role="region"
                 initial={false}
                 animate={{
                   height: openFaq === 0 ? "auto" : 0,
@@ -1295,6 +1309,8 @@ export default function App() {
             >
               <button
                 onClick={() => setOpenFaq(openFaq === 1 ? null : 1)}
+                aria-expanded={openFaq === 1}
+                aria-controls="home-faq-panel-1"
                 className="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-gray-50 transition-colors"
               >
                 <span className="text-lg font-semibold text-gray-900">
@@ -1304,10 +1320,12 @@ export default function App() {
                   animate={{ rotate: openFaq === 1 ? 180 : 0 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <ChevronDown className="w-5 h-5 text-[#FF8000]" />
+                  <ChevronDown className="w-5 h-5 text-[#0FB8F1]" />
                 </motion.div>
               </button>
               <motion.div
+                id="home-faq-panel-1"
+                role="region"
                 initial={false}
                 animate={{
                   height: openFaq === 1 ? "auto" : 0,
@@ -1332,6 +1350,8 @@ export default function App() {
             >
               <button
                 onClick={() => setOpenFaq(openFaq === 2 ? null : 2)}
+                aria-expanded={openFaq === 2}
+                aria-controls="home-faq-panel-2"
                 className="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-gray-50 transition-colors"
               >
                 <span className="text-lg font-semibold text-gray-900">
@@ -1341,10 +1361,12 @@ export default function App() {
                   animate={{ rotate: openFaq === 2 ? 180 : 0 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <ChevronDown className="w-5 h-5 text-[#FF8000]" />
+                  <ChevronDown className="w-5 h-5 text-[#0FB8F1]" />
                 </motion.div>
               </button>
               <motion.div
+                id="home-faq-panel-2"
+                role="region"
                 initial={false}
                 animate={{
                   height: openFaq === 2 ? "auto" : 0,
@@ -1369,6 +1391,8 @@ export default function App() {
             >
               <button
                 onClick={() => setOpenFaq(openFaq === 3 ? null : 3)}
+                aria-expanded={openFaq === 3}
+                aria-controls="home-faq-panel-3"
                 className="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-gray-50 transition-colors"
               >
                 <span className="text-lg font-semibold text-gray-900">
@@ -1378,10 +1402,12 @@ export default function App() {
                   animate={{ rotate: openFaq === 3 ? 180 : 0 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <ChevronDown className="w-5 h-5 text-[#FF8000]" />
+                  <ChevronDown className="w-5 h-5 text-[#0FB8F1]" />
                 </motion.div>
               </button>
               <motion.div
+                id="home-faq-panel-3"
+                role="region"
                 initial={false}
                 animate={{
                   height: openFaq === 3 ? "auto" : 0,
@@ -1406,6 +1432,8 @@ export default function App() {
             >
               <button
                 onClick={() => setOpenFaq(openFaq === 4 ? null : 4)}
+                aria-expanded={openFaq === 4}
+                aria-controls="home-faq-panel-4"
                 className="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-gray-50 transition-colors"
               >
                 <span className="text-lg font-semibold text-gray-900">
@@ -1415,10 +1443,12 @@ export default function App() {
                   animate={{ rotate: openFaq === 4 ? 180 : 0 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <ChevronDown className="w-5 h-5 text-[#FF8000]" />
+                  <ChevronDown className="w-5 h-5 text-[#0FB8F1]" />
                 </motion.div>
               </button>
               <motion.div
+                id="home-faq-panel-4"
+                role="region"
                 initial={false}
                 animate={{
                   height: openFaq === 4 ? "auto" : 0,
@@ -1428,7 +1458,7 @@ export default function App() {
                 className="overflow-hidden"
               >
                 <div className="px-6 pb-5 text-gray-600 leading-relaxed">
-                  Most centres are fully set up in under 10 minutes.
+                  Our team helps you import your existing students and classes, so you're not starting from scratch. Reach out and we'll walk you through onboarding for your centre.
                 </div>
               </motion.div>
             </motion.div>
@@ -1527,6 +1557,7 @@ export default function App() {
           </div>
         </div>
       </section>
+      </main>
 
       <Footer />
     </div>

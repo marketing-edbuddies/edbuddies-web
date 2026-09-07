@@ -113,10 +113,8 @@ export default function HeroScroll() {
       }
 
       if (progress > revealAt) {
-        heroLeft!.classList.add("hs-visible");
         mascot!.classList.add("hs-visible");
       } else {
-        heroLeft!.classList.remove("hs-visible");
         mascot!.classList.remove("hs-visible");
       }
 
@@ -218,7 +216,7 @@ export default function HeroScroll() {
           will-change: transform, opacity;
           font-family: 'Inter', sans-serif;
         }
-        .hs-brand-bg span { color: #FF8000; }
+        .hs-brand-bg span { color: #0FB8F1; }
         .hs-inner {
           width: 100%;
           max-width: 1200px;
@@ -230,28 +228,17 @@ export default function HeroScroll() {
           z-index: 2;
         }
         .hs-left {
-          flex: 0 0 0%;
-          width: 0;
-          overflow: hidden;
-          display: flex;
-          flex-direction: column;
-          gap: 16px;
-          opacity: 0;
-          transform: translateX(-30px);
-          transition: opacity 0.65s ease, transform 0.65s ease, flex-basis 0s, width 0s;
-          pointer-events: none;
-          white-space: nowrap;
-          font-family: 'Inter', sans-serif;
-        }
-        .hs-left.hs-visible {
           flex: 0 0 50%;
           width: auto;
           overflow: visible;
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
           opacity: 1;
           transform: translateX(0);
           pointer-events: auto;
           white-space: normal;
-          transition: opacity 0.65s ease, transform 0.65s ease;
+          font-family: 'Inter', sans-serif;
         }
         .hs-badge {
           display: inline-flex;
@@ -266,7 +253,7 @@ export default function HeroScroll() {
           color: #09244B;
           width: fit-content;
         }
-        .hs-badge-dot { width: 7px; height: 7px; background: #FF8000; border-radius: 50%; }
+        .hs-badge-dot { width: 7px; height: 7px; background: #0FB8F1; border-radius: 50%; }
         .hs-headline {
           font-size: clamp(34px, 3.6vw, 54px);
           font-weight: 900;
@@ -274,7 +261,7 @@ export default function HeroScroll() {
           color: #09244B;
           letter-spacing: -1.5px;
         }
-        .hs-headline span { color: #FF8000; }
+        .hs-headline span { color: #0FB8F1; }
         .hs-desc {
           font-size: 16px;
           line-height: 1.7;
@@ -292,7 +279,7 @@ export default function HeroScroll() {
           text-decoration: none;
           font-family: 'Inter', sans-serif;
         }
-        .hs-btn-primary:hover { background: #FF8000; transform: translateY(-1px); }
+        .hs-btn-primary:hover { background: #0FB8F1; transform: translateY(-1px); }
         .hs-btn-ghost {
           background: transparent; color: #09244B;
           border: 2px solid rgba(9,36,75,0.2);
@@ -341,7 +328,7 @@ export default function HeroScroll() {
           pointer-events: none; z-index: 0;
         }
         .hs-blob-1 { width: 400px; height: 400px; background: radial-gradient(circle, #a8d8f0, transparent); top: -80px; right: -80px; }
-        .hs-blob-2 { width: 300px; height: 300px; background: radial-gradient(circle, #ffd4a3, transparent); bottom: -60px; left: 60px; }
+        .hs-blob-2 { width: 300px; height: 300px; background: radial-gradient(circle, #A9E6FA, transparent); bottom: -60px; left: 60px; }
 
         .hs-float-icon {
           position: absolute;
@@ -359,7 +346,7 @@ export default function HeroScroll() {
           animation: hs-float 5s ease-in-out infinite;
         }
         .hs-float-icon svg { width: 24px; height: 24px; color: #09244B; }
-        .hs-float-icon.hs-float-accent { background: #FF8000; border-color: #FF8000; }
+        .hs-float-icon.hs-float-accent { background: #0FB8F1; border-color: #0FB8F1; }
         .hs-float-icon.hs-float-accent svg { color: #ffffff; }
         .hs-float-1 { top: 2%;   left: -30px;  animation-duration: 5.4s; animation-delay: 0s; }
         .hs-float-2 { top: 20%;  right: -32px; animation-duration: 4.6s; animation-delay: 0.6s; }
@@ -440,11 +427,11 @@ export default function HeroScroll() {
                   100% Free — No Hidden Charges
                 </div>
               )}
-              <h2 className="hs-headline">
+              <h1 className="hs-headline">
                 Simplify Tuition<br />
                 Centre Management<br />
                 <span>With us!</span>
-              </h2>
+              </h1>
               <p className="hs-desc">
                 The all-in-one management platform built for tuition centres
                 and freelance tutors in Malaysia & Singapore. Attendance, billing,
@@ -463,8 +450,6 @@ export default function HeroScroll() {
                 <span>Available on iOS & Android</span>
                 <span className="hs-trust-dot" />
                 <span>Malaysia & Singapore</span>
-                <span className="hs-trust-dot" />
-                <span>No credit card needed</span>
               </div>
             </div>
 

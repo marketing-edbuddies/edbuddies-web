@@ -64,6 +64,7 @@ export default function Pricing() {
     <div className="min-h-screen bg-white">
       <Navbar activePage="pricing" />
 
+      <main id="main-content">
       {/* ── Section 1: Hero ───────────────────────────────────────────────── */}
       <section className="pt-40 pb-24 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-4xl mx-auto text-center">
@@ -73,7 +74,7 @@ export default function Pricing() {
             transition={{ duration: 0.5 }}
             className="inline-flex items-center gap-2 text-sm text-gray-600 mb-6"
           >
-            <CheckCircle2 className="w-4 h-4 text-[#FF8000]" />
+            <CheckCircle2 className="w-4 h-4 text-[#0FB8F1]" />
             <span className="uppercase tracking-wider font-medium">Pricing</span>
           </motion.div>
 
@@ -84,9 +85,9 @@ export default function Pricing() {
             className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#09244B] leading-tight mb-6"
           >
             {SHOW_FREE_MESSAGING ? (
-              <>The only centre management app<br className="hidden sm:block" />that is <span className="text-[#FF8000]">actually free.</span></>
+              <>The only centre management app<br className="hidden sm:block" />that is <span className="text-[#0FB8F1]">actually free.</span></>
             ) : (
-              <>The centre management app<br className="hidden sm:block" />built for <span className="text-[#FF8000]">education.</span></>
+              <>The centre management app<br className="hidden sm:block" />built for <span className="text-[#0FB8F1]">education.</span></>
             )}
           </motion.h1>
 
@@ -184,11 +185,11 @@ export default function Pricing() {
                   transition={{ duration: 0.4, delay: 0.2 + i * 0.06, type: "spring", stiffness: 260, damping: 24 }}
                   className="flex items-center gap-3"
                 >
-                  <div className="w-8 h-8 rounded-lg bg-[#fff0e6] flex items-center justify-center flex-shrink-0">
-                    <Icon className="w-4 h-4 text-[#FF8000]" />
+                  <div className="w-8 h-8 rounded-lg bg-[#E8F8FE] flex items-center justify-center flex-shrink-0">
+                    <Icon className="w-4 h-4 text-[#0FB8F1]" />
                   </div>
                   <span className="text-gray-700 text-sm font-medium">{label}</span>
-                  <Check className="w-4 h-4 text-[#FF8000] ml-auto flex-shrink-0" />
+                  <Check className="w-4 h-4 text-[#0FB8F1] ml-auto flex-shrink-0" />
                 </motion.div>
               ))}
             </div>
@@ -217,7 +218,7 @@ export default function Pricing() {
                     transition={{ duration: 0.4, delay: 0.75 + i * 0.07 }}
                     className="flex items-center gap-1.5"
                   >
-                    <Check className="w-3.5 h-3.5 text-[#FF8000]" />
+                    <Check className="w-3.5 h-3.5 text-[#0FB8F1]" />
                     <span>{item}</span>
                   </motion.div>
                 ))}
@@ -255,6 +256,8 @@ export default function Pricing() {
               >
                 <button
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  aria-expanded={openFaq === i}
+                  aria-controls={`pricing-faq-panel-${i}`}
                   className="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-gray-50 transition-colors"
                 >
                   <span className="text-lg font-semibold text-gray-900 pr-4">{q}</span>
@@ -263,10 +266,12 @@ export default function Pricing() {
                     transition={{ duration: 0.3 }}
                     className="flex-shrink-0"
                   >
-                    <ChevronDown className="w-5 h-5 text-[#FF8000]" />
+                    <ChevronDown className="w-5 h-5 text-[#0FB8F1]" />
                   </motion.div>
                 </button>
                 <motion.div
+                  id={`pricing-faq-panel-${i}`}
+                  role="region"
                   initial={false}
                   animate={{ height: openFaq === i ? "auto" : 0, opacity: openFaq === i ? 1 : 0 }}
                   transition={{ duration: 0.3 }}
@@ -290,7 +295,7 @@ export default function Pricing() {
             transition={{ duration: 0.6 }}
             className="inline-flex items-center gap-2 text-sm text-gray-500 mb-6"
           >
-            <CheckCircle2 className="w-4 h-4 text-[#FF8000]" />
+            <CheckCircle2 className="w-4 h-4 text-[#0FB8F1]" />
             <span className="uppercase tracking-wider">Get Started</span>
           </motion.div>
 
@@ -386,6 +391,7 @@ export default function Pricing() {
           </motion.p>
         </div>
       </section>
+      </main>
 
       <Footer />
     </div>

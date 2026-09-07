@@ -69,7 +69,7 @@ export default function FeatureReporting() {
               <p className="text-4xl font-bold sm:text-5xl">One centre.</p>
               <p className="mt-2 text-slate-600">Every daily record in one place.</p>
             </div>
-            <ArrowRight className="h-8 w-8 shrink-0 rotate-90 text-[#FF8000] sm:rotate-0" aria-hidden="true" />
+            <ArrowRight className="h-8 w-8 shrink-0 rotate-90 text-[#0FB8F1] sm:rotate-0" aria-hidden="true" />
             <div>
               <p className="text-4xl font-bold sm:text-5xl">Many centres.</p>
               <p className="mt-2 text-slate-600">The same view, held together.</p>

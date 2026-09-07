@@ -142,7 +142,7 @@ export default function FeatureEnrolment() {
                 { n: "03", title: "Place the student", body: "Connect the confirmed student to the right class and ongoing record." },
               ].map((step, index) => (
                 <Reveal key={step.n} delay={index * 0.08} className="border-t border-slate-200 pt-6 sm:border-t-0 sm:border-l sm:pl-8 sm:pt-0 first:border-l-0 first:pl-0">
-                  <p className="text-sm font-bold text-[#FF8000]">{step.n}</p>
+                  <p className="text-sm font-bold text-[#09769A]">{step.n}</p>
                   <h3 className="mt-3 text-xl font-bold">{step.title}</h3>
                   <p className="mt-3 text-base leading-7 text-slate-600">{step.body}</p>
                 </Reveal>

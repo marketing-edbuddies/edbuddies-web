@@ -8,9 +8,12 @@ import { setPageMeta } from "./seo";
 
 export default function NotFound() {
   useEffect(() => {
-    document.title = "Page not found — EdBuddies";
-    const meta = document.querySelector('meta[name="robots"]');
-    if (meta) meta.setAttribute("content", "noindex, nofollow");
+    setPageMeta({
+      title: "Page not found — EdBuddies",
+      description: "The page you're looking for doesn't exist.",
+      url: "https://edbuddies.ai/404",
+      noindex: true,
+    });
   }, []);
 
   return (
@@ -33,7 +36,7 @@ export default function NotFound() {
 
           {/* Logo / mascot */}
           <motion.img
-            src="/assets/logo-horizontal.png"
+            src="/assets/logo-horizontal.webp"
             alt="EdBuddies"
             className="h-12 w-auto mx-auto mb-8 -mt-4"
             initial={{ opacity: 0, scale: 0.9 }}

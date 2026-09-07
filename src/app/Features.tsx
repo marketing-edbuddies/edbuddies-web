@@ -1,4 +1,3 @@
-import { Link } from "react-router";
 import { motion, useScroll, useTransform } from "motion/react";
 import { Button } from "./components/ui/button";
 import {
@@ -61,14 +60,14 @@ function DeepDive({ label, title, desc, bullets, icon: Icon, mockCards, reverse 
               transition={{ duration: 0.5, type: "spring", stiffness: 260, damping: 24 }}
               className="inline-flex items-center gap-2 text-sm text-gray-500"
             >
-              <Icon className="w-4 h-4 text-[#FF8000]" />
+              <Icon className="w-4 h-4 text-[#0FB8F1]" />
               <span className="uppercase tracking-wider font-medium">{label}</span>
             </motion.div>
 
             {/* Animated orange accent line (matches SVG path style from home) */}
             <div className="w-full h-px bg-gray-100 relative overflow-hidden">
               <motion.div
-                className="absolute inset-y-0 left-0 bg-[#FF8000]"
+                className="absolute inset-y-0 left-0 bg-[#0FB8F1]"
                 style={{ width: "60%", scaleX: lineProgress, originX: 0 }}
               />
             </div>
@@ -106,8 +105,8 @@ function DeepDive({ label, title, desc, bullets, icon: Icon, mockCards, reverse 
                   transition={{ duration: 0.45, delay: 0.22 + i * 0.07, type: "spring", stiffness: 260, damping: 24 }}
                   className="flex items-start gap-3"
                 >
-                  <div className="w-6 h-6 rounded-full bg-[#fff0e6] flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <Check className="w-3.5 h-3.5 text-[#FF8000]" />
+                  <div className="w-6 h-6 rounded-full bg-[#E8F8FE] flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <Check className="w-3.5 h-3.5 text-[#0FB8F1]" />
                   </div>
                   <span className="text-gray-700">{b}</span>
                 </motion.li>
@@ -149,7 +148,7 @@ function DeepDive({ label, title, desc, bullets, icon: Icon, mockCards, reverse 
                   whileHover={{
                     y: -4,
                     boxShadow: "0 12px 32px rgba(9,36,75,0.14)",
-                    borderColor: "rgba(255,128,0,0.22)",
+                    borderColor: "rgba(15,184,241,0.22)",
                     transition: { type: "spring", stiffness: 350, damping: 25 },
                   }}
                   className="bg-white rounded-2xl p-4 flex items-center gap-4 cursor-default border border-transparent"
@@ -157,7 +156,7 @@ function DeepDive({ label, title, desc, bullets, icon: Icon, mockCards, reverse 
                 >
                   <motion.div
                     whileHover={{ scale: 1.1, rotate: -6, transition: { type: "spring", stiffness: 400, damping: 18 } }}
-                    className="w-10 h-10 rounded-xl bg-[#FF8000] flex items-center justify-center flex-shrink-0"
+                    className="w-10 h-10 rounded-xl bg-[#0FB8F1] flex items-center justify-center flex-shrink-0"
                   >
                     <MIcon className="w-5 h-5 text-white" />
                   </motion.div>
@@ -193,6 +192,7 @@ export default function Features() {
     <div className="min-h-screen bg-white">
       <Navbar activePage="features" />
 
+      <main id="main-content">
       {/* ── Section 1: Hero ───────────────────────────────────────────────── */}
       <section className="pt-40 pb-20 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-5xl mx-auto text-center">
@@ -203,7 +203,7 @@ export default function Features() {
             transition={{ duration: 0.5 }}
             className="inline-flex items-center gap-2 text-sm text-gray-600 mb-6"
           >
-            <CheckCircle2 className="w-4 h-4 text-[#FF8000]" />
+            <CheckCircle2 className="w-4 h-4 text-[#0FB8F1]" />
             <span className="uppercase tracking-wider font-medium">Features Overview</span>
           </motion.div>
 
@@ -215,7 +215,7 @@ export default function Features() {
             className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#09244B] leading-tight mb-6"
           >
             Everything Your Centre Needs.<br className="hidden sm:block" />
-            <span className="text-[#FF8000]">In One App.</span>
+            <span className="text-[#0FB8F1]">In One App.</span>
           </motion.h1>
 
           {/* Sub */}
@@ -242,13 +242,6 @@ export default function Features() {
                   Enquire Now <ArrowRight className="w-5 h-5" />
                 </Button>
               </a>
-            </motion.div>
-            <motion.div whileHover={{ y: -3 }} whileTap={{ y: 0, scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 22 }}>
-              <Link to="/pricing">
-                <Button size="lg" variant="outline" className="bg-white border-gray-300 px-8 py-6 text-base transition-all duration-200 hover:bg-[#09244B] hover:text-white hover:border-[#09244B] hover:shadow-[0_8px_24px_rgba(9,36,75,0.20)]">
-                  See Pricing
-                </Button>
-              </Link>
             </motion.div>
           </motion.div>
         </div>
@@ -289,12 +282,12 @@ export default function Features() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: i * 0.07 }}
-                whileHover={{ y: -6, boxShadow: "0 20px 52px rgba(9,36,75,0.16)", borderColor: "rgba(255,128,0,0.28)", transition: { type: "spring", stiffness: 350, damping: 25 } }}
+                whileHover={{ y: -6, boxShadow: "0 20px 52px rgba(9,36,75,0.16)", borderColor: "rgba(15,184,241,0.28)", transition: { type: "spring", stiffness: 350, damping: 25 } }}
                 whileTap={{ y: 0, transition: { duration: 0.1 } }}
                 className="group bg-white rounded-2xl p-6 flex flex-col border border-transparent cursor-pointer"
                 style={{ boxShadow: "0 4px 16px rgba(9,36,75,0.12)" }}
               >
-                <div className="w-12 h-12 mb-3 bg-[#FF8000] rounded-xl flex items-center justify-center shrink-0 transition-all duration-300 group-hover:scale-[1.08] group-hover:-rotate-3 group-hover:shadow-[0_8px_24px_rgba(255,128,0,0.35)]">
+                <div className="w-12 h-12 mb-3 bg-[#0FB8F1] rounded-xl flex items-center justify-center shrink-0 transition-all duration-300 group-hover:scale-[1.08] group-hover:-rotate-3 group-hover:shadow-[0_8px_24px_rgba(15,184,241,0.35)]">
                   <Icon className="w-6 h-6 text-white" />
                 </div>
                 <h3 className="text-base font-semibold text-[#09244B] leading-snug mb-3 min-h-[2.5rem]">{title}</h3>
@@ -483,7 +476,7 @@ export default function Features() {
             transition={{ duration: 0.6 }}
             className="inline-flex items-center gap-2 text-sm text-gray-500 mb-6"
           >
-            <CheckCircle2 className="w-4 h-4 text-[#FF8000]" />
+            <CheckCircle2 className="w-4 h-4 text-[#0FB8F1]" />
             <span className="uppercase tracking-wider">Get Started</span>
           </motion.div>
 
@@ -538,6 +531,7 @@ export default function Features() {
           </motion.p>
         </div>
       </section>
+      </main>
 
       <Footer />
     </div>

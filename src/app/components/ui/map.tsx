@@ -19,7 +19,7 @@ const MARKETS: Market[] = [
   { lat: 14.5995, lng: 120.9842, label: "Philippines" },
 ];
 
-const LINE_COLOR = "#FF8000";
+const LINE_COLOR = "#0FB8F1";
 const DOT_COLOR = "#09244B33";
 const HQ_COLOR = "#09244B";
 

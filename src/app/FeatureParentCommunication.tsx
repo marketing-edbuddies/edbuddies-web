@@ -73,7 +73,7 @@ export default function FeatureParentCommunication() {
                 </p>
               </Reveal>
               <Reveal delay={0.12} className="sm:border-l sm:border-slate-200 sm:pl-16">
-                <p className="text-sm font-bold uppercase tracking-[0.14em] text-[#B95700]">With EdBuddies</p>
+                <p className="text-sm font-bold uppercase tracking-[0.14em] text-[#09769A]">With EdBuddies</p>
                 <p className="mt-4 text-lg leading-8 text-slate-600">
                   Announcements, class updates and homework connect to the right student and family automatically. A parent&apos;s question has one place to be answered from.
                 </p>

@@ -143,7 +143,7 @@ export default function FeatureBilling() {
             <div className="relative mt-12 space-y-10 border-l border-slate-200 pl-8">
               {steps.map((step, index) => (
                 <Reveal key={step.title} delay={index * 0.08} className="relative">
-                  <span className="absolute -left-[41px] flex h-5 w-5 items-center justify-center rounded-full border-2 border-white bg-[#FF8000]" aria-hidden="true" />
+                  <span className="absolute -left-[41px] flex h-5 w-5 items-center justify-center rounded-full border-2 border-white bg-[#0FB8F1]" aria-hidden="true" />
                   <h3 className="text-xl font-bold">{step.title}</h3>
                   <p className="mt-2 text-base leading-7 text-slate-600">{step.body}</p>
                 </Reveal>
