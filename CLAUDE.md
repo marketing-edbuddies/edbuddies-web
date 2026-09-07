@@ -21,6 +21,11 @@ Use these documents before changing product claims or marketing copy:
 
 - The public `edbuddies.ai` website remains on WordPress.
 - This repository remains on Vercel for review and production preparation.
+- GitHub repo is `marketing-edbuddies/edbuddies-web` (transferred from Kenneth's
+  personal account 2026-08-27) and Vercel project `edbuddies-web` (team
+  `edbuddies-projects`) is git-connected: **`git push origin master` auto-deploys
+  to production within ~1 minute.** Push is the real "go live" step here, not
+  just commit — treat it with the same care as a manual deploy.
 - Do not push, deploy, change domains, transfer ownership or change Vercel
   settings without Kenneth's approval.
 - Do not publish product pricing or free/zero-cost claims unless Kenneth
@@ -28,6 +33,18 @@ Use these documents before changing product claims or marketing copy:
 - Do not expose passwords, API keys, access tokens, customer data or tracking
   credentials.
 - Keep files in `public/assets` unless the code references have been checked.
+- **Brand secondary color is blue (`#0FB8F1`), not orange**, as of 2026-09-07 —
+  see Session update below. Do not reintroduce `#FF8000` or any of its
+  derived shades; the parent EdBuddies project's brand docs
+  (`04-Brand-and-Assets/Design-System/design-system.html`, that project's
+  `CLAUDE.md`) still say orange and have not been updated to match — treat
+  this repo as the current source of truth for the live site's color, not
+  those docs, until someone reconciles them.
+- This local checkout has had commits appear from something other than an
+  interactive session (an "SEO/GEO automation" tracker/progress-state commit
+  pair, 2026-09-07) — some automated process may be running against this same
+  repo. Don't assume you're the only thing changing it; `git fetch` and check
+  for divergence before committing or pushing.
 
 ## Before making a change
 
@@ -47,8 +64,85 @@ Use these documents before changing product claims or marketing copy:
 ## Current notes
 
 - `src/app/flags.ts` keeps retired free messaging switched off.
-- GA4, Google Tag Manager and Meta Pixel still require a separate connection
-  audit.
+- Consent: `src/app/CookieConsent.tsx` + `src/app/analytics.ts` implement
+  Google Consent Mode (default-denied in `index.html`, before GTM loads) and
+  a real cookie banner; `/privacy` and `/terms` pages exist and are linked
+  from the footer and above the Contact form. Meta Pixel doesn't understand
+  Consent Mode the way Google's tools do — a GTM-side trigger checking the
+  `consent_marketing` dataLayer event still needs to be built in the GTM
+  container itself (outside this repo) before Meta tracking actually respects
+  a visitor's choice.
+- SPA route changes now fire a GA4 `page_view` (`RouteTracker` in
+  `src/main.tsx`) — previously only the first page load of a visit was ever
+  counted.
+- `vercel.json` has security headers (X-Frame-Options, X-Content-Type-Options,
+  Referrer-Policy, Permissions-Policy) live, and a Content-Security-Policy in
+  **Report-Only** mode (logs violations, blocks nothing). Before switching it
+  to enforcing: deploy to preview and watch the browser console for
+  `Content-Security-Policy-Report-Only` violations for a few days — the
+  allow-list was built from every external domain found in the code, but GTM
+  loads some tags from its own dashboard config, which this repo can't see.
+- `.github/workflows/ci.yml` runs `npm run build` (typecheck + build) on every
+  push/PR to master/main/staging — not yet pushed, so not active on GitHub yet.
+- Pricing page (`/pricing`) is hidden from the Navbar, Footer, and the
+  Features-page CTA as of 2026-09-07 — the route itself still works for
+  anyone with the direct link, and it's off `public/sitemap.xml`. Nothing
+  else about the page changed.
+- A full outside audit of this site (claims accuracy, performance,
+  accessibility, security headers, analytics) lives at
+  `EdBuddies_Website_Audit_Report.html` (not in this repo —
+  `~/.codex/.chatgpt-projects/g-p-69240b1587c48191be52b8d22a9e0331/`), kept
+  updated with fix status per issue as work lands.
+
+## Session update — 2026-09-07
+
+Committed locally as `76aa12e` ("feat: rebrand to logo blue, audit fixes, and
+site cleanup"). **Not pushed** — nothing has gone live from this session.
+
+### Brand color: orange → logo blue
+
+Site-wide secondary color changed from `#FF8000` to `#0FB8F1` (sampled
+directly from the new logo file, `public/assets/logo-horizontal.webp`).
+Every derived shade (hover-darkens, light tints, darkened-for-contrast text
+variants, gradient partners) was recalculated from `#FF8000`'s shade rather
+than hand-picked, so contrast ratios and tint relationships carry over
+unchanged — see `theme.css`'s `--secondary` token for the anchor value.
+Left alone on purpose: the semantic warning-orange (`text-orange-500` on
+`AlertTriangle` icons), the "Coming Soon" status badges, Google's/Instagram's
+own brand colors in their icon SVGs, the destructive/error red token, and
+`AppPremium.tsx` (confirmed dead code — not imported or routed anywhere).
+
+### Logo
+
+New logo (mascot + wordmark, navy/light-blue) replaces the old one in the
+Navbar and Footer. Source files for all four variants (brand-mark, wordmark,
+horizontal and stacked combinations, plus a light-on-dark variant for the
+footer) are under `public/assets/New Logo/`. The live files are
+`logo-horizontal.webp` (Navbar, light background) and
+`logo-horizontal-dark.webp` (Footer watermark, dark background) — both WebP,
+~200KB each, down from ~1.2MB PNGs.
+
+### Other changes this session
+
+- Malaysia WhatsApp number corrected to `+6017-566 5935` (Footer + Contact
+  page) — the old number was wrong.
+- Real product mockup (`public/assets/EdBuddies-mockup.webp`) replaces a
+  stock Unsplash placeholder in the homepage's "Everything Your Centre Needs"
+  section.
+- Animated Southeast Asia markets map (`src/app/components/ui/map.tsx`,
+  `dotted-map` package) added to the About page, replacing a static image.
+- Mobile hero bug fixed: floating feature icons were overlapping the
+  headline text on screens ≤1100px (a stuck scroll-linked CSS transform never
+  reset when the scroll animation is disabled at that breakpoint).
+- Performance: mascot video 4.6MB → 153KB, both logo files ~1.2MB → ~200KB
+  each, a 1.8MB unused `favicon.svg` removed entirely.
+- Accessibility: skip link + `<main>` landmark added to all 7 pages that
+  lacked one (home, Features, Pricing, Contact, About, Privacy, Terms);
+  Contact form labels connected to inputs; all FAQ accordions (12 buttons
+  across home/Pricing/Contact) get `aria-expanded`/`aria-controls`; small
+  orange text darkened for contrast; `prefers-reduced-motion` respected for
+  plain CSS animations (Framer Motion's JS-driven animations aren't covered —
+  would need each component wired to `useReducedMotion()` individually).
 
 ## Features architecture draft — 2026-07-30
 
