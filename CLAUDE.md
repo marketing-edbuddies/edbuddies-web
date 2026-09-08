@@ -43,6 +43,100 @@ editing. Never use Claude's automatic worktree mode for this repository while
 these three manual worktrees exist. Never work on website source from the mixed
 parent `Projects` repository or from the `EdBuddies` Marketing folder.
 
+## Multi-Agent Worktree Structure
+
+CONTROL
+Path:
+/Users/kenneth/Documents/Claude/Projects/EdBuddies-Website
+Branch:
+master
+
+Purpose:
+Review and integrate approved Development and SEO work.
+Production push/deploy only with Kenneth's explicit approval.
+
+
+DEVELOPMENT
+Path:
+/Users/kenneth/Documents/Claude/Projects/EdBuddies-Development
+Branch:
+website-dev/main
+
+Purpose:
+UI, components, responsive development, features, functionality,
+animations, forms, content implementation and general website fixes.
+
+
+SEO/GEO
+Path:
+/Users/kenneth/Documents/Claude/Projects/EdBuddies-SEO
+Branch:
+seo-geo/main
+
+Purpose:
+SEO, GEO, metadata, canonical tags, sitemap, robots.txt,
+schema/structured data, internal linking and AI-search optimisation.
+
+
+## Shared Coordination
+
+Shared local handoff directory:
+
+/Users/kenneth/Documents/Claude/Projects/.edbuddies-handoff
+
+At the beginning of every meaningful session:
+
+1. Verify pwd.
+2. Verify current branch.
+3. Verify git status.
+4. Stop if folder and branch do not match the assigned role.
+5. Read:
+   - .edbuddies-handoff/README.md
+   - .edbuddies-handoff/SEO.md
+   - .edbuddies-handoff/DEVELOPMENT.md
+   - .edbuddies-handoff/CONTROL.md
+6. Update ONLY the current agent's own status file.
+7. Declare FILES_IN_SCOPE before making substantial edits.
+8. Check other ACTIVE agents for overlapping scope.
+9. Stop and request coordination if overlapping files are detected.
+
+Claude's built-in automatic Worktree feature must NOT be used for
+these EdBuddies workspaces because dedicated physical Git worktrees
+already exist.
+
+
+## Ownership
+
+SEO/GEO owns:
+- SEO-GEO-AUTOMATION-TRACKER.html
+- seo-geo-progress.json
+- SEO/GEO-specific implementation
+
+Development should not modify those tracker files without Kenneth's instruction.
+
+Development owns normal website implementation.
+
+If SEO requires modifications to files also actively being modified by
+Development, the SEO agent must flag the overlap before editing.
+
+CONTROL owns:
+- integration
+- branch review
+- master
+- production approval workflow
+
+
+## Git / Production Rules
+
+- Never switch to another agent's branch for normal work.
+- Never directly edit another agent's physical worktree.
+- Never push master without Kenneth's approval.
+- Never deploy production without Kenneth's approval.
+- Never reset/rebase/revert another agent's work.
+- Development and SEO commit only to their assigned branches.
+- CONTROL integrates completed work into master.
+- Read-only git diff/show/log inspection across branches is allowed.
+
 ## Safety rules
 
 - The public `edbuddies.ai` website remains on WordPress.
