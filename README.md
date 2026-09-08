@@ -12,6 +12,16 @@ The `master` branch is connected to Vercel through GitHub. Pushing to GitHub
 may create a new deployment. Do not push, deploy, change the domain or transfer
 the repository without Kenneth's approval.
 
+## Working folders
+
+- `EdBuddies-Website` — CONTROL and final integration on `master`
+- `EdBuddies-Development` — website development on `website-dev/main`
+- `EdBuddies-SEO` — SEO/GEO work on `seo-geo/main`
+
+Always open the folder for the task. Do not switch these worktrees onto one
+another's branches, and do not use Claude's automatic worktree mode for this
+repository.
+
 ## Start the website on your computer
 
 1. Install the required packages:
@@ -62,7 +72,7 @@ Do not guess tracking IDs or add secret keys to the code.
 
 ## GitHub
 
-- Repository: `Kennethwong19/edbuddies-web`
+- Repository: `marketing-edbuddies/edbuddies-web`
 - Main branch: `master`
 - Production preparation: Vercel
 - Final live transfer: a later step that requires Kenneth's approval

@@ -17,6 +17,32 @@ Use these documents before changing product claims or marketing copy:
 - `02-Marketing/00-Marketing-Guide/product-facts.md`
 - `02-Marketing/00-Marketing-Guide/brand-brief.md`
 
+## Workspace roles — check before every task
+
+This repository has three deliberate checkouts. Run `pwd`,
+`git rev-parse --show-toplevel`, `git branch --show-current`, and
+`git status --short --branch` before making changes.
+
+- `/Users/kenneth/Documents/Claude/Projects/EdBuddies-Website`
+  - Role: **CONTROL / final integration**
+  - Required branch: `master`
+  - Do not use for routine development or SEO work.
+  - A push of `master` may deploy; never push without Kenneth's explicit
+    deployment approval.
+- `/Users/kenneth/Documents/Claude/Projects/EdBuddies-Development`
+  - Role: **WEBSITE DEVELOPMENT**
+  - Required branch: `website-dev/main`
+  - Do not switch branches, deploy or push `master` from this checkout.
+- `/Users/kenneth/Documents/Claude/Projects/EdBuddies-SEO`
+  - Role: **SEO / GEO**
+  - Required branch: `seo-geo/main`
+  - Do not switch branches, deploy or push `master` from this checkout.
+
+If the folder and branch do not match this table, stop and tell Kenneth before
+editing. Never use Claude's automatic worktree mode for this repository while
+these three manual worktrees exist. Never work on website source from the mixed
+parent `Projects` repository or from the `EdBuddies` Marketing folder.
+
 ## Safety rules
 
 - The public `edbuddies.ai` website remains on WordPress.
