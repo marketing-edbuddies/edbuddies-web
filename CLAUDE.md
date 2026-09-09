@@ -130,12 +130,98 @@ CONTROL owns:
 
 - Never switch to another agent's branch for normal work.
 - Never directly edit another agent's physical worktree.
-- Never push master without Kenneth's approval.
-- Never deploy production without Kenneth's approval.
+- Never push master — not from this checkout, ever. `master` only moves through the
+  release script described in "Automated Production Release" below.
+- Never deploy production without Kenneth's approval. Deployment is always
+  Git-triggered (a push to `master` on GitHub auto-deploys via Vercel) — never run a
+  manual `vercel deploy`/`vercel --prod` command.
 - Never reset/rebase/revert another agent's work.
-- Development and SEO commit only to their assigned branches.
-- CONTROL integrates completed work into master.
+- Commit and push completed work to `website-dev/main` only.
+- CONTROL integrates completed work into master via the release script, not by hand.
 - Read-only git diff/show/log inspection across branches is allowed.
+
+## Normal Development Workflow
+
+This is Kenneth's everyday website-editing workspace. Unless he explicitly says a
+task is **local-only**, once a requested task is complete:
+
+1. Verify this worktree is still on `website-dev/main` (`git branch --show-current`).
+2. Run the build (`npm run build`) and any tests; fix failures before continuing.
+3. Commit the completed work to `website-dev/main`.
+4. Push `website-dev/main` to origin — this is pre-authorized and needs no prompt.
+   Never push `master` from here.
+5. GitHub triggers the Vercel Preview deployment automatically — do not run any
+   manual `vercel` command.
+6. Verify the resulting Preview via Composio (see "Vercel / Composio" below) —
+   confirm the Preview deployment's commit matches what was just pushed — then tell
+   Kenneth in plain language what changed and that the Preview is ready to look at.
+
+If Kenneth does say a task is local-only, stop after step 3 (commit) and say so
+explicitly — do not push.
+
+## Automated Production Release
+
+Kenneth should never need to open the CONTROL worktree
+(`/Users/kenneth/Documents/Claude/Projects/EdBuddies-Website`) himself, and this
+session should never switch away from `website-dev/main` to perform a release.
+Instead, operate on CONTROL's path directly via `git -C` (or the release script
+below, which does this internally) — each worktree keeps its own independent `HEAD`,
+so this never touches this session's own checked-out branch.
+
+**Trigger phrase:** Kenneth's exact approval phrase is **"Publish approved preview to
+production."** There is no technical permission that understands conversational
+approval — enforcing this phrase is Claude's own responsibility, on top of the
+narrowly-scoped Bash permission that lets the release script run without a prompt.
+Do not run the script with `--execute` for any softer signal ("looks good," "the
+preview's fine," a thumbs-up emoji) — only for the literal phrase, or something
+Kenneth clearly intends as that same explicit instruction.
+
+**Mechanism — `.edbuddies-handoff/release-to-production.sh`:**
+- Run it without arguments first — a dry run that verifies everything and pushes
+  nothing (both the dry-run and `--execute` forms are pre-authorized, no prompt).
+- Once the dry run reports every check passing, and only after the approval phrase,
+  run it again with `--execute`.
+- It fetches origin, confirms this Development worktree is clean and fully pushed,
+  confirms CONTROL is on `master` with no uncommitted changes, confirms
+  `origin/master` hasn't diverged unexpectedly, fast-forwards CONTROL's `master` to
+  `origin/website-dev/main` when that's a clean fast-forward, runs the production
+  build in CONTROL, and only then pushes CONTROL's `master`. It never force pushes
+  and never resets/cleans/rebases/checks out/switches branches anywhere — in
+  Development's worktree or CONTROL's.
+- If anything fails — divergence, uncommitted work anywhere, a failed build, an auth
+  problem — it stops and explains exactly why, without attempting a fix. Report that
+  to Kenneth verbatim and wait; do not try to resolve it by hand-running git commands
+  against CONTROL.
+- This script is the *only* sanctioned path to pushing `master`. Never construct an
+  equivalent push by hand.
+
+**After a successful push**, verify Production the same way as the Preview check
+(see below) but against the `production` target, confirm the commit matches what was
+just pushed, then give Kenneth a short success report: what shipped, in plain
+language, and the live URL.
+
+## Vercel / Composio
+
+All Vercel status checks for this project — Preview or Production — go through the
+Composio connection alias **`edbuddies-marketing`**, never the default/native Vercel
+MCP connection. That default connection is authenticated to Kenneth's unrelated
+personal Hobby team and cannot see this project at all.
+
+- Vercel team: `edbuddies-projects` (`team_aVqhkJdvOcBzz7IcG96Hr9jm`)
+- Vercel project: `edbuddies-web` (`prj_eZetli8vwHTvWF0WLORYiLo1Hzrh`)
+- Call pattern: `COMPOSIO_MULTI_EXECUTE_TOOL` with `tool_slug: "VERCEL_GET_PROJECTS"`,
+  `account: "edbuddies-marketing"`, `arguments: {"search": "edbuddies-web"}` (or
+  `{"teamId": "team_aVqhkJdvOcBzz7IcG96Hr9jm"}`). Read `targets.preview` /
+  `targets.production` → `meta.githubCommitSha` and `meta.githubCommitRef` to confirm
+  which commit/branch is actually live.
+- Composio is for *verification only* here — reading deployment/commit status. Never
+  use it to push files, create a deployment, or modify the GitHub repo; use native
+  `git` for that (the push in step 4 above, or the release script).
+- Separately: the local `git` CLI in these worktrees authenticates as Kenneth's
+  personal GitHub account (`Kennethwong19`, via `gh`/`osxkeychain`) — that's what
+  actually pushes code. The Composio GitHub connection alias `EdBuddies-marketing`
+  authenticates as the repo-owning account (`marketing-edbuddies`) and is a separate
+  credential, not used for pushing.
 
 ## Safety rules
 
@@ -179,7 +265,9 @@ CONTROL owns:
 2. Explain what changed in simple English.
 3. Explain how Kenneth can test it.
 4. Show the Git status.
-5. Do not push unless Kenneth clearly asks for it.
+5. Follow "Normal Development Workflow" above: commit and push `website-dev/main`
+   automatically unless Kenneth said this task is local-only. Never push `master`
+   from here under any circumstance.
 
 ## Current notes
 
