@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router";
 import { motion } from "motion/react";
 import {
   ArrowRight,
+  Calculator,
   Check,
   CheckCircle2,
   FileCheck2,
@@ -41,27 +42,27 @@ const featurePages: Record<string, FeaturePage> = {
   ai: {
     slug: "ai",
     shortTitle: "EdBuddies AI",
-    eyebrow: "Product direction",
-    title: "Shape AI around practical teacher workload—not novelty.",
+    eyebrow: "Coming soon",
+    title: "AI-assisted marking for MCQ, long-answer and math papers.",
     description:
-      "AI-assisted test-paper marking is part of the EdBuddies product direction, intended to reduce repetitive marking work while keeping teachers in oversight of the process.",
+      "EdBuddies AI is built to assist with marking MCQ, long-answer, and mathematics-formula questions — cutting the repetitive parts of grading while teachers keep final say on every mark. It's built and not yet released; launch timing is to be confirmed.",
     icon: Sparkles,
     direction: true,
-    workflowTitle: "The marking workflow being explored",
+    workflowTitle: "The marking workflow",
     workflow: [
-      { step: "01", title: "Review submitted answers", description: "Bring student answers into an AI-assisted review workflow." },
-      { step: "02", title: "Assist with marking", description: "Use AI assistance for repetitive parts of the marking process." },
-      { step: "03", title: "Keep teacher oversight", description: "Maintain teacher review and judgement as part of the workflow." },
+      { step: "01", title: "Collect answers", description: "Bring in MCQ, long-answer and math-formula responses from a test paper." },
+      { step: "02", title: "AI-assisted marking", description: "MCQ is marked automatically; long-answer and formula responses are AI-assisted and flagged for review." },
+      { step: "03", title: "Teacher confirms", description: "Every mark stays open for teacher review and adjustment before it's recorded." },
     ],
     capabilities: [
-      { icon: FileCheck2, title: "Test-paper focus", description: "Develop the capability around a real, repeatable teacher task." },
-      { icon: Sparkles, title: "AI assistance", description: "Explore assistance for repetitive marking work rather than replacing teachers." },
-      { icon: UserCheck, title: "Teacher oversight", description: "Keep professional review and judgement within the process." },
-      { icon: GraduationCap, title: "Education context", description: "Shape the workflow around the needs of education teams." },
-      { icon: CheckCircle2, title: "Practical workflow", description: "Connect the direction to work teachers already perform." },
-      { icon: MessageSquare, title: "Customer input", description: "Invite centres to discuss the product direction with the EdBuddies team." },
+      { icon: FileCheck2, title: "MCQ marking", description: "Multiple-choice questions are marked automatically against the answer key." },
+      { icon: MessageSquare, title: "Long-answer support", description: "Long-answer responses get AI-assisted review, with teacher judgement staying central." },
+      { icon: Calculator, title: "Math formula recognition", description: "Reads and checks formula-based working and answers." },
+      { icon: UserCheck, title: "Teacher oversight", description: "Every AI-assisted mark can be reviewed and adjusted before it's final." },
+      { icon: GraduationCap, title: "Built for real test papers", description: "Built and tested using real past-year test papers, not generic samples." },
+      { icon: CheckCircle2, title: "Faster turnaround", description: "Cuts down time spent on the repetitive parts of marking each paper." },
     ],
-    outcomes: ["Less repetitive marking work", "Teacher review stays central", "A practical use of AI for education operations"],
+    outcomes: ["Less time on repetitive marking", "Teachers keep final say on every mark", "One workflow for MCQ, long-answer and math papers"],
   },
 };
 
@@ -128,7 +129,7 @@ export default function FeatureDetail() {
                 <div className="inline-flex items-center gap-2 rounded-full border border-[#0FB8F1]/20 bg-white px-4 py-2 text-sm font-semibold text-[#09769A] shadow-sm"><Icon className="h-4 w-4" />{page.eyebrow}</div>
                 <h1 className="mt-6 text-4xl font-bold leading-[1.08] tracking-[-0.03em] sm:text-5xl lg:text-6xl">{page.title}</h1>
                 <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-600 sm:text-xl">{page.description}</p>
-                {page.direction ? <p className="mt-5 rounded-xl border border-[#0FB8F1]/20 bg-[#E8F8FE] p-4 text-sm leading-6 text-[#086686]">This is a product direction. Availability is to be confirmed.</p> : null}
+                {page.direction ? <p className="mt-5 rounded-xl border border-[#0FB8F1]/20 bg-[#E8F8FE] p-4 text-sm leading-6 text-[#086686]">This feature is built and completing rollout preparation. It isn't available to centres yet.</p> : null}
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                   <Button asChild size="lg" className="h-12 rounded-xl bg-[#0FB8F1] px-7 text-base text-white hover:bg-[#0DA8DC]"><Link to="/contact">Enquire Now <ArrowRight className="h-4 w-4" /></Link></Button>
                 </div>
