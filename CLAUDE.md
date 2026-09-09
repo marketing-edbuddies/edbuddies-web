@@ -2,6 +2,16 @@
 
 Read `README.md` before changing this project.
 
+This file is intentionally identical across all three EdBuddies worktrees
+(CONTROL, DEVELOPMENT, SEO/GEO) — it only holds rules that apply everywhere.
+Anything specific to one role lives outside this tracked file, in
+`.edbuddies-handoff/CONTROL.md`, `.edbuddies-handoff/DEVELOPMENT.md`, or
+`.edbuddies-handoff/SEO.md` (all local-only, never part of website Git
+history). Keeping this file identical everywhere is what lets CONTROL's
+`master` stay a clean fast-forward target of `website-dev/main` — do not
+reintroduce worktree-specific edits here; put them in the relevant
+`.edbuddies-handoff/*.md` file instead.
+
 ## Source of truth
 
 This folder is the active source code for the new EdBuddies marketing website.
@@ -27,8 +37,9 @@ This repository has three deliberate checkouts. Run `pwd`,
   - Role: **CONTROL / final integration**
   - Required branch: `master`
   - Do not use for routine development or SEO work.
-  - A push of `master` may deploy; never push without Kenneth's explicit
-    deployment approval.
+  - `master` only ever moves via
+    `.edbuddies-handoff/release-to-production.sh --execute`, after Kenneth's
+    explicit approval phrase — never a raw `git push origin master`.
 - `/Users/kenneth/Documents/Claude/Projects/EdBuddies-Development`
   - Role: **WEBSITE DEVELOPMENT**
   - Required branch: `website-dev/main`
@@ -42,6 +53,10 @@ If the folder and branch do not match this table, stop and tell Kenneth before
 editing. Never use Claude's automatic worktree mode for this repository while
 these three manual worktrees exist. Never work on website source from the mixed
 parent `Projects` repository or from the `EdBuddies` Marketing folder.
+
+Read the `.edbuddies-handoff/<ROLE>.md` file matching this checkout's role for
+day-to-day operating detail (e.g. the normal Development commit/push flow, or
+CONTROL's release checklist) — this file only carries what's shared.
 
 ## Multi-Agent Worktree Structure
 
@@ -130,75 +145,67 @@ CONTROL owns:
 
 - Never switch to another agent's branch for normal work.
 - Never directly edit another agent's physical worktree.
-- Never push master — not from this checkout, ever. `master` only moves through the
-  release script described in "Automated Production Release" below.
-- Never deploy production without Kenneth's approval. Deployment is always
-  Git-triggered (a push to `master` on GitHub auto-deploys via Vercel) — never run a
-  manual `vercel deploy`/`vercel --prod` command.
+- `master` only moves through
+  `.edbuddies-handoff/release-to-production.sh --execute` (see "Automated
+  Production Release" below) — never a raw `git push origin master`, from any
+  checkout, ever.
+- Never deploy production without Kenneth's approval. Deployment itself is
+  always Git-triggered (a push to `master` on GitHub auto-deploys via Vercel;
+  a push to `website-dev/main` auto-builds a Preview) — never run a manual
+  `vercel deploy`/`vercel --prod` command.
 - Never reset/rebase/revert another agent's work.
-- Commit and push completed work to `website-dev/main` only.
-- CONTROL integrates completed work into master via the release script, not by hand.
+- Development commits and pushes completed work to `website-dev/main` only —
+  automatically, once a task's build passes, unless Kenneth says the task is
+  local-only. SEO commits only to `seo-geo/main` and stays local-only (no
+  automatic push) — see `.edbuddies-handoff/SEO.md`.
+- CONTROL integrates completed work into `master` via the release script, not
+  by hand.
 - Read-only git diff/show/log inspection across branches is allowed.
-
-## Normal Development Workflow
-
-This is Kenneth's everyday website-editing workspace. Unless he explicitly says a
-task is **local-only**, once a requested task is complete:
-
-1. Verify this worktree is still on `website-dev/main` (`git branch --show-current`).
-2. Run the build (`npm run build`) and any tests; fix failures before continuing.
-3. Commit the completed work to `website-dev/main`.
-4. Push `website-dev/main` to origin — this is pre-authorized and needs no prompt.
-   Never push `master` from here.
-5. GitHub triggers the Vercel Preview deployment automatically — do not run any
-   manual `vercel` command.
-6. Verify the resulting Preview via Composio (see "Vercel / Composio" below) —
-   confirm the Preview deployment's commit matches what was just pushed — then tell
-   Kenneth in plain language what changed and that the Preview is ready to look at.
-
-If Kenneth does say a task is local-only, stop after step 3 (commit) and say so
-explicitly — do not push.
+- Do not make independent, role-specific edits to files tracked identically
+  across worktrees (like this one) — that breaks `master`'s ability to
+  cleanly fast-forward to `website-dev/main`. Put role-specific instructions
+  in the relevant `.edbuddies-handoff/*.md` file instead.
 
 ## Automated Production Release
 
-Kenneth should never need to open the CONTROL worktree
-(`/Users/kenneth/Documents/Claude/Projects/EdBuddies-Website`) himself, and this
-session should never switch away from `website-dev/main` to perform a release.
-Instead, operate on CONTROL's path directly via `git -C` (or the release script
-below, which does this internally) — each worktree keeps its own independent `HEAD`,
-so this never touches this session's own checked-out branch.
+Kenneth should never need to open the CONTROL worktree himself. The full
+Development → CONTROL → production handoff can be run from wherever Kenneth is
+already working (normally the Development session) via `git -C` against
+CONTROL's path — that's safe because each worktree keeps its own independent
+`HEAD`; operating on CONTROL's path never switches the calling session's own
+branch.
 
 **Trigger phrase:** Kenneth's exact approval phrase is **"Publish approved preview to
-production."** There is no technical permission that understands conversational
-approval — enforcing this phrase is Claude's own responsibility, on top of the
-narrowly-scoped Bash permission that lets the release script run without a prompt.
-Do not run the script with `--execute` for any softer signal ("looks good," "the
-preview's fine," a thumbs-up emoji) — only for the literal phrase, or something
-Kenneth clearly intends as that same explicit instruction.
+production."** The release script has no way to verify that this was actually said —
+enforcing it is Claude's responsibility. Do not run the script with `--execute` for
+any other reason (not "looks ready," not "the preview looked fine," not an
+implicit go-ahead) — wait for the literal phrase, or something Kenneth clearly means
+as that same explicit instruction.
 
 **Mechanism — `.edbuddies-handoff/release-to-production.sh`:**
-- Run it without arguments first — a dry run that verifies everything and pushes
-  nothing (both the dry-run and `--execute` forms are pre-authorized, no prompt).
-- Once the dry run reports every check passing, and only after the approval phrase,
-  run it again with `--execute`.
-- It fetches origin, confirms this Development worktree is clean and fully pushed,
-  confirms CONTROL is on `master` with no uncommitted changes, confirms
-  `origin/master` hasn't diverged unexpectedly, fast-forwards CONTROL's `master` to
-  `origin/website-dev/main` when that's a clean fast-forward, runs the production
-  build in CONTROL, and only then pushes CONTROL's `master`. It never force pushes
-  and never resets/cleans/rebases/checks out/switches branches anywhere — in
-  Development's worktree or CONTROL's.
-- If anything fails — divergence, uncommitted work anywhere, a failed build, an auth
-  problem — it stops and explains exactly why, without attempting a fix. Report that
-  to Kenneth verbatim and wait; do not try to resolve it by hand-running git commands
-  against CONTROL.
-- This script is the *only* sanctioned path to pushing `master`. Never construct an
-  equivalent push by hand.
+- Run without arguments first (`.../release-to-production.sh`) — a dry run that
+  verifies everything and pushes nothing. It's allow-listed exactly like the
+  `--execute` form, so it costs no permission prompt.
+- Once the dry run reports every check passing, and only after the approval phrase
+  has been given, run it again with `--execute`.
+- Internally it: fetches origin, confirms Development is on `website-dev/main` with
+  no uncommitted changes and fully pushed, confirms CONTROL is on `master` with no
+  uncommitted changes, confirms `origin/master` hasn't diverged, fast-forwards
+  CONTROL's `master` to `origin/website-dev/main` when that's a clean fast-forward,
+  runs `npm run build`, and only then pushes `master` to `origin`. It never force
+  pushes and never resets/cleans/rebases/checks out/switches branches anywhere.
+- If any check fails — divergence, uncommitted work, a failed build, an auth
+  failure — it stops and prints exactly why. Do not work around a stop by editing
+  git state manually; report it to Kenneth and wait for instruction.
+- This script is the *only* path that may push `master`. Never construct an
+  equivalent `git push origin master` by hand, even if the script isn't available for
+  some reason — if it's missing or broken, stop and tell Kenneth rather than
+  improvising.
 
-**After a successful push**, verify Production the same way as the Preview check
-(see below) but against the `production` target, confirm the commit matches what was
-just pushed, then give Kenneth a short success report: what shipped, in plain
-language, and the live URL.
+**After a successful push**, verify production the same way as the Preview check
+below, but against the `production` target — confirm the new deployment's commit
+matches the SHA the script just pushed, then give Kenneth a short success report
+(what shipped, in plain language, plus the live URL).
 
 ## Vercel / Composio
 
@@ -215,13 +222,13 @@ personal Hobby team and cannot see this project at all.
   `targets.production` → `meta.githubCommitSha` and `meta.githubCommitRef` to confirm
   which commit/branch is actually live.
 - Composio is for *verification only* here — reading deployment/commit status. Never
-  use it to push files, create a deployment, or modify the GitHub repo; use native
-  `git` for that (the push in step 4 above, or the release script).
+  use it to push files, create a deployment, or modify the GitHub repo; those go
+  through native `git` (Development's push, or the release script above).
 - Separately: the local `git` CLI in these worktrees authenticates as Kenneth's
   personal GitHub account (`Kennethwong19`, via `gh`/`osxkeychain`) — that's what
   actually pushes code. The Composio GitHub connection alias `EdBuddies-marketing`
   authenticates as the repo-owning account (`marketing-edbuddies`) and is a separate
-  credential, not used for pushing.
+  credential, used only if a Composio GitHub check is ever needed — not for pushing.
 
 ## Safety rules
 
@@ -265,9 +272,10 @@ personal Hobby team and cannot see this project at all.
 2. Explain what changed in simple English.
 3. Explain how Kenneth can test it.
 4. Show the Git status.
-5. Follow "Normal Development Workflow" above: commit and push `website-dev/main`
-   automatically unless Kenneth said this task is local-only. Never push `master`
-   from here under any circumstance.
+5. Commit/push conventions differ by worktree — see
+   `.edbuddies-handoff/<ROLE>.md` for the day-to-day flow. Never push `master`
+   directly from any checkout; only the release script may do that, and only
+   after Kenneth's exact approval phrase.
 
 ## Current notes
 
