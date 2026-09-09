@@ -10,7 +10,10 @@ import Footer from "./Footer";
 // ─── Stats ────────────────────────────────────────────────────────────────────
 
 const STATS = [
-  { value: "2", label: "Active markets — Malaysia & Singapore" },
+  { value: "300+", label: "Students managed on EdBuddies" },
+  { value: "6", label: "Core capabilities in one app" },
+  { value: "3", label: "Business types supported — centres, freelance tutors, enrichment centres" },
+  { value: "100%", label: "Built for education businesses" },
 ];
 
 const MARKETS = [
@@ -279,7 +282,7 @@ export default function About() {
             style={{ maxWidth: "120px" }}
           />
 
-          <div className="flex justify-center">
+          <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-4">
             {STATS.map(({ value, label }, i) => (
               <motion.div
                 key={label}
@@ -287,11 +290,11 @@ export default function About() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.1, type: "spring", stiffness: 260, damping: 24 }}
-                className="flex flex-col gap-2 items-center text-center"
+                className="flex flex-col items-center gap-2 text-center"
               >
                 <p className="text-4xl sm:text-5xl font-bold text-[#09244B] leading-none">{value}</p>
                 <div className="w-6 h-0.5 bg-[#0FB8F1] rounded-full" />
-                <p className="text-sm text-gray-500 leading-snug">{label}</p>
+                <p className="max-w-[14rem] text-sm text-gray-500 leading-snug">{label}</p>
               </motion.div>
             ))}
           </div>

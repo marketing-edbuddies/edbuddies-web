@@ -962,12 +962,12 @@ export default function App() {
           <span className="inline-flex items-center bg-[#DBE3F8] text-[#09244B] text-xs font-semibold uppercase tracking-widest px-3 py-1.5 rounded-full border border-[rgba(9,36,75,0.08)] mb-4">
             How It Works
           </span>
-          <h2 className="text-4xl font-bold text-[#09244B]">Up and Running in Under 10 Minutes</h2>
+          <h2 className="text-4xl font-bold text-[#09244B]">Get Started in 3 Simple Steps</h2>
         </div>
         <div className="flex flex-col gap-0">
           {[
             { step: 'Step 01', title: 'Contact us', desc: "Tell us about your centre. We'll get you set up in no time.", Icon: MessageSquare },
-            { step: 'Step 02', title: 'Set up your centre', desc: 'Add your classes, students, and teachers in minutes.', Icon: Settings },
+            { step: 'Step 02', title: 'Set up your centre', desc: "Add your classes, students, and teachers, and you're ready to go.", Icon: Settings },
             { step: 'Step 03', title: 'Start managing', desc: 'Attendance, invoices, communication, all handled from one place.', Icon: CheckCircle2 },
           ].map(({ step, title, desc, Icon }, i) => (
             <div key={step} className="flex flex-col items-stretch">
@@ -1030,7 +1030,7 @@ export default function App() {
               How It Works
             </span>
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#09244B] mb-4">
-              Up and Running in<br className="hidden sm:block" /> Under 10 Minutes
+              Get Started in<br className="hidden sm:block" /> 3 Simple Steps
             </h2>
           </div>
 
@@ -1075,7 +1075,7 @@ export default function App() {
                 <p className="text-sm text-gray-400 mb-2">Step 02</p>
                 <h3 className="text-xl font-bold text-[#09244B] mb-2">Set up your centre</h3>
                 <p className="text-gray-600">
-                  Add your classes, students, and teachers in minutes.
+                  Add your classes, students, and teachers, and you're ready to go.
                 </p>
               </div>
             </motion.div>

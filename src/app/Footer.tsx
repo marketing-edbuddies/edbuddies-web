@@ -11,7 +11,7 @@ const QUICK_LINKS = [
 const CONTACT_ITEMS = [
   { label: "marketing@edbuddies.ai", href: "mailto:marketing@edbuddies.ai" },
   { label: "+6017-566 5935 (MY)",    href: "https://wa.me/60175665935" },
-  { label: "+65 9837 3314 (SG)",     href: "https://wa.me/6598373314" },
+  { label: "+65 8772 5422 (SG)",     href: "https://wa.me/6587725422" },
 ];
 
 export default function Footer() {

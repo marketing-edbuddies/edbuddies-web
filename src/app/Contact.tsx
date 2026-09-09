@@ -28,8 +28,8 @@ const CONTACT_INFO = [
       </svg>
     ),
     label: "WhatsApp Singapore",
-    value: "+65 9837 3314",
-    href: "https://wa.me/6598373314",
+    value: "+65 8772 5422",
+    href: "https://wa.me/6587725422",
   },
   {
     icon: <Mail className="w-5 h-5 text-[#0FB8F1]" />,
