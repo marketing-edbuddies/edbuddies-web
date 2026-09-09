@@ -130,12 +130,81 @@ CONTROL owns:
 
 - Never switch to another agent's branch for normal work.
 - Never directly edit another agent's physical worktree.
-- Never push master without Kenneth's approval.
-- Never deploy production without Kenneth's approval.
+- Never push master without Kenneth's approval. The only sanctioned mechanism for
+  pushing master is `.edbuddies-handoff/release-to-production.sh --execute` (see
+  "Automated Production Release" below) — never a raw `git push origin master`.
+- Never deploy production without Kenneth's approval. Deployment itself is always
+  Git-triggered (a push to `master` on GitHub auto-deploys via Vercel) — never run a
+  manual `vercel deploy`/`vercel --prod` command.
 - Never reset/rebase/revert another agent's work.
-- Development and SEO commit only to their assigned branches.
-- CONTROL integrates completed work into master.
+- Development commits to `website-dev/main` and pushes it automatically once a task's
+  build passes, unless Kenneth says the task is local-only. SEO commits only to
+  `seo-geo/main` and stays local-only (no automatic push) — see SEO/GEO CLAUDE.md.
+- CONTROL integrates completed work into master via the release script, not by hand.
 - Read-only git diff/show/log inspection across branches is allowed.
+
+## Automated Production Release
+
+Kenneth should never need to open this CONTROL worktree himself. The full
+Development → CONTROL → production handoff runs from wherever Kenneth is already
+working (normally the Development session) via `git -C` against this CONTROL path —
+that is safe because each worktree keeps its own independent `HEAD`; operating on
+CONTROL's path never switches Development's own branch.
+
+**Trigger phrase:** Kenneth's exact approval phrase is **"Publish approved preview to
+production."** The release script has no way to verify that this was actually said —
+enforcing it is Claude's responsibility. Do not run the script with `--execute` for
+any other reason (not "looks ready," not "the preview looked fine," not an
+implicit go-ahead) — wait for the literal phrase, or something Kenneth clearly means
+as that same explicit instruction.
+
+**Mechanism — `.edbuddies-handoff/release-to-production.sh`:**
+- Run without arguments first (`.../release-to-production.sh`) — a dry run that
+  verifies everything and pushes nothing. Its allow-listed exactly like the
+  `--execute` form, so it costs no permission prompt.
+- Once the dry run reports every check passing, and only after the approval phrase
+  has been given, run it again with `--execute`.
+- Internally it: fetches origin, confirms Development is on `website-dev/main` with
+  no uncommitted changes and fully pushed, confirms CONTROL is on `master` with no
+  uncommitted changes, confirms `origin/master` hasn't diverged, fast-forwards
+  CONTROL's `master` to `origin/website-dev/main` when that's a clean fast-forward,
+  runs `npm run build`, and only then pushes `master` to `origin`. It never force
+  pushes and never resets/cleans/rebases/checks out/switches branches anywhere.
+- If any check fails — divergence, uncommitted work, a failed build, an auth
+  failure — it stops and prints exactly why. Do not work around a stop by editing
+  git state manually; report it to Kenneth and wait for instruction.
+- This script is the *only* path that may push `master`. Never construct an
+  equivalent `git push origin master` by hand, even if the script isn't available for
+  some reason — if it's missing or broken, stop and tell Kenneth rather than
+  improvising.
+
+**After a successful push**, verify production the same way as the Preview check
+below, but against the `production` target — confirm the new deployment's commit
+matches the SHA the script just pushed, then give Kenneth a short success report
+(what shipped, in plain language, plus the live URL).
+
+## Vercel / Composio
+
+All Vercel status checks for this project — Preview or Production — go through the
+Composio connection alias **`edbuddies-marketing`**, never the default/native Vercel
+MCP connection. That default connection is authenticated to Kenneth's unrelated
+personal Hobby team and cannot see this project at all.
+
+- Vercel team: `edbuddies-projects` (`team_aVqhkJdvOcBzz7IcG96Hr9jm`)
+- Vercel project: `edbuddies-web` (`prj_eZetli8vwHTvWF0WLORYiLo1Hzrh`)
+- Call pattern: `COMPOSIO_MULTI_EXECUTE_TOOL` with `tool_slug: "VERCEL_GET_PROJECTS"`,
+  `account: "edbuddies-marketing"`, `arguments: {"search": "edbuddies-web"}` (or
+  `{"teamId": "team_aVqhkJdvOcBzz7IcG96Hr9jm"}`). Read `targets.preview` /
+  `targets.production` → `meta.githubCommitSha` and `meta.githubCommitRef` to confirm
+  which commit/branch is actually live.
+- Composio is for *verification only* here — reading deployment/commit status. Never
+  use it to push files, create a deployment, or modify the GitHub repo; those go
+  through native `git` (Development's push, or the release script above).
+- Separately: the local `git` CLI in these worktrees authenticates as Kenneth's
+  personal GitHub account (`Kennethwong19`, via `gh`/`osxkeychain`) — that's what
+  actually pushes code. The Composio GitHub connection alias `EdBuddies-marketing`
+  authenticates as the repo-owning account (`marketing-edbuddies`) and is a separate
+  credential, used only if a Composio GitHub check is ever needed — not for pushing.
 
 ## Safety rules
 
@@ -179,7 +248,10 @@ CONTROL owns:
 2. Explain what changed in simple English.
 3. Explain how Kenneth can test it.
 4. Show the Git status.
-5. Do not push unless Kenneth clearly asks for it.
+5. This applies to direct manual edits in this CONTROL checkout (rare — routine
+   development happens in the Development worktree). Never push master by hand;
+   the only sanctioned push path is the release script in "Automated Production
+   Release" above, after Kenneth's exact approval phrase.
 
 ## Current notes
 
