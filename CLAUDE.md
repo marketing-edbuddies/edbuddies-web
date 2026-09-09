@@ -2,6 +2,16 @@
 
 Read `README.md` before changing this project.
 
+This file is intentionally identical across all three EdBuddies worktrees
+(CONTROL, DEVELOPMENT, SEO/GEO) — it only holds rules that apply everywhere.
+Anything specific to one role lives outside this tracked file, in
+`.edbuddies-handoff/CONTROL.md`, `.edbuddies-handoff/DEVELOPMENT.md`, or
+`.edbuddies-handoff/SEO.md` (all local-only, never part of website Git
+history). Keeping this file identical everywhere is what lets CONTROL's
+`master` stay a clean fast-forward target of `website-dev/main` — do not
+reintroduce worktree-specific edits here; put them in the relevant
+`.edbuddies-handoff/*.md` file instead.
+
 ## Source of truth
 
 This folder is the active source code for the new EdBuddies marketing website.
@@ -27,8 +37,9 @@ This repository has three deliberate checkouts. Run `pwd`,
   - Role: **CONTROL / final integration**
   - Required branch: `master`
   - Do not use for routine development or SEO work.
-  - A push of `master` may deploy; never push without Kenneth's explicit
-    deployment approval.
+  - `master` only ever moves via
+    `.edbuddies-handoff/release-to-production.sh --execute`, after Kenneth's
+    explicit approval phrase — never a raw `git push origin master`.
 - `/Users/kenneth/Documents/Claude/Projects/EdBuddies-Development`
   - Role: **WEBSITE DEVELOPMENT**
   - Required branch: `website-dev/main`
@@ -42,6 +53,10 @@ If the folder and branch do not match this table, stop and tell Kenneth before
 editing. Never use Claude's automatic worktree mode for this repository while
 these three manual worktrees exist. Never work on website source from the mixed
 parent `Projects` repository or from the `EdBuddies` Marketing folder.
+
+Read the `.edbuddies-handoff/<ROLE>.md` file matching this checkout's role for
+day-to-day operating detail (e.g. the normal Development commit/push flow, or
+CONTROL's release checklist) — this file only carries what's shared.
 
 ## Multi-Agent Worktree Structure
 
@@ -130,26 +145,35 @@ CONTROL owns:
 
 - Never switch to another agent's branch for normal work.
 - Never directly edit another agent's physical worktree.
-- Never push master without Kenneth's approval. The only sanctioned mechanism for
-  pushing master is `.edbuddies-handoff/release-to-production.sh --execute` (see
-  "Automated Production Release" below) — never a raw `git push origin master`.
-- Never deploy production without Kenneth's approval. Deployment itself is always
-  Git-triggered (a push to `master` on GitHub auto-deploys via Vercel) — never run a
-  manual `vercel deploy`/`vercel --prod` command.
+- `master` only moves through
+  `.edbuddies-handoff/release-to-production.sh --execute` (see "Automated
+  Production Release" below) — never a raw `git push origin master`, from any
+  checkout, ever.
+- Never deploy production without Kenneth's approval. Deployment itself is
+  always Git-triggered (a push to `master` on GitHub auto-deploys via Vercel;
+  a push to `website-dev/main` auto-builds a Preview) — never run a manual
+  `vercel deploy`/`vercel --prod` command.
 - Never reset/rebase/revert another agent's work.
-- Development commits to `website-dev/main` and pushes it automatically once a task's
-  build passes, unless Kenneth says the task is local-only. SEO commits only to
-  `seo-geo/main` and stays local-only (no automatic push) — see SEO/GEO CLAUDE.md.
-- CONTROL integrates completed work into master via the release script, not by hand.
+- Development commits and pushes completed work to `website-dev/main` only —
+  automatically, once a task's build passes, unless Kenneth says the task is
+  local-only. SEO commits only to `seo-geo/main` and stays local-only (no
+  automatic push) — see `.edbuddies-handoff/SEO.md`.
+- CONTROL integrates completed work into `master` via the release script, not
+  by hand.
 - Read-only git diff/show/log inspection across branches is allowed.
+- Do not make independent, role-specific edits to files tracked identically
+  across worktrees (like this one) — that breaks `master`'s ability to
+  cleanly fast-forward to `website-dev/main`. Put role-specific instructions
+  in the relevant `.edbuddies-handoff/*.md` file instead.
 
 ## Automated Production Release
 
-Kenneth should never need to open this CONTROL worktree himself. The full
-Development → CONTROL → production handoff runs from wherever Kenneth is already
-working (normally the Development session) via `git -C` against this CONTROL path —
-that is safe because each worktree keeps its own independent `HEAD`; operating on
-CONTROL's path never switches Development's own branch.
+Kenneth should never need to open the CONTROL worktree himself. The full
+Development → CONTROL → production handoff can be run from wherever Kenneth is
+already working (normally the Development session) via `git -C` against
+CONTROL's path — that's safe because each worktree keeps its own independent
+`HEAD`; operating on CONTROL's path never switches the calling session's own
+branch.
 
 **Trigger phrase:** Kenneth's exact approval phrase is **"Publish approved preview to
 production."** The release script has no way to verify that this was actually said —
@@ -160,7 +184,7 @@ as that same explicit instruction.
 
 **Mechanism — `.edbuddies-handoff/release-to-production.sh`:**
 - Run without arguments first (`.../release-to-production.sh`) — a dry run that
-  verifies everything and pushes nothing. Its allow-listed exactly like the
+  verifies everything and pushes nothing. It's allow-listed exactly like the
   `--execute` form, so it costs no permission prompt.
 - Once the dry run reports every check passing, and only after the approval phrase
   has been given, run it again with `--execute`.
@@ -248,10 +272,10 @@ personal Hobby team and cannot see this project at all.
 2. Explain what changed in simple English.
 3. Explain how Kenneth can test it.
 4. Show the Git status.
-5. This applies to direct manual edits in this CONTROL checkout (rare — routine
-   development happens in the Development worktree). Never push master by hand;
-   the only sanctioned push path is the release script in "Automated Production
-   Release" above, after Kenneth's exact approval phrase.
+5. Commit/push conventions differ by worktree — see
+   `.edbuddies-handoff/<ROLE>.md` for the day-to-day flow. Never push `master`
+   directly from any checkout; only the release script may do that, and only
+   after Kenneth's exact approval phrase.
 
 ## Current notes
 
