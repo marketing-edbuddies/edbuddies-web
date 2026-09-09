@@ -1,5 +1,5 @@
 import { useEffect, useState, type FocusEvent } from "react";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import { AnimatePresence, motion } from "motion/react";
 import {
   ArrowRight,
@@ -91,7 +91,13 @@ export default function Navbar({ activePage }: NavbarProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [featuresOpen, setFeaturesOpen] = useState(false);
   const [mobileFeaturesOpen, setMobileFeaturesOpen] = useState(activePage === "features");
-  const [activeFeatureHref, setActiveFeatureHref] = useState(featureItems[0].href);
+  const location = useLocation();
+  const currentFeatureHref = featureItems.find((item) => item.href === location.pathname)?.href;
+  const [activeFeatureHref, setActiveFeatureHref] = useState(currentFeatureHref ?? featureItems[0].href);
+
+  useEffect(() => {
+    setActiveFeatureHref(currentFeatureHref ?? featureItems[0].href);
+  }, [currentFeatureHref]);
 
   const activeFeature = featureItems.find((item) => item.href === activeFeatureHref) ?? featureItems[0];
 
@@ -136,8 +142,8 @@ export default function Navbar({ activePage }: NavbarProps) {
             <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }} className="hidden items-center gap-8 md:flex">
               <div
                 className="flex h-full items-center"
-                onMouseEnter={() => setFeaturesOpen(true)}
-                onFocus={() => setFeaturesOpen(true)}
+                onMouseEnter={() => { setActiveFeatureHref(currentFeatureHref ?? featureItems[0].href); setFeaturesOpen(true); }}
+                onFocus={() => { setActiveFeatureHref(currentFeatureHref ?? featureItems[0].href); setFeaturesOpen(true); }}
               >
                 <Link
                   to="/features"

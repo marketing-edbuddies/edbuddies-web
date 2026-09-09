@@ -39,6 +39,24 @@ function RouteFallback() {
 }
 
 /**
+ * React Router keeps the browser's scroll position across client-side
+ * navigations. Without this, following a link while scrolled down lands on
+ * the new page at the same scroll offset instead of the top. Lenis owns
+ * actual scroll rendering, so window.scrollTo alone isn't enough — it has to
+ * be told directly too.
+ */
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    lenis.scrollTo(0, { immediate: true });
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
+
+/**
  * Fires a virtual GA4 page_view on every client-side navigation. GTM's
  * default Page View trigger only sees the initial document load, so without
  * this every route after the first is invisible in analytics.
@@ -68,6 +86,7 @@ createRoot(document.getElementById("root")!).render(
         >
           Skip to main content
         </a>
+        <ScrollToTop />
         <RouteTracker />
         <Suspense fallback={<RouteFallback />}>
           <Routes>
