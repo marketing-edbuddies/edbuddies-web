@@ -20,7 +20,6 @@
 // A failure anywhere in this script fails the build (non-zero exit) — a
 // broken prerender should never silently ship.
 
-import puppeteer from "puppeteer";
 import { mkdir, writeFile } from "node:fs/promises";
 import { createReadStream, existsSync, statSync } from "node:fs";
 import http from "node:http";
@@ -119,10 +118,30 @@ async function main() {
   // so a real non-production deployment (e.g. a *.vercel.app preview URL)
   // still gets correctly noindexed at request time regardless of what this
   // script baked in at build time.
-  const browser = await puppeteer.launch({
-    headless: "new",
-    args: ["--host-resolver-rules=MAP edbuddies.ai 127.0.0.1,MAP www.edbuddies.ai 127.0.0.1"],
-  });
+  // Vercel's build container is Amazon Linux, missing the shared libraries
+  // (libnspr4.so etc.) that full `puppeteer`'s bundled Chrome needs — so on
+  // Vercel we launch @sparticuz/chromium (a Chromium build made for exactly
+  // this kind of serverless/Lambda-style container) via puppeteer-core
+  // instead. Locally (npm run build on a dev machine), regular `puppeteer`
+  // with its own bundled Chrome still works fine and is simpler to debug.
+  const hostResolverArg =
+    "--host-resolver-rules=MAP edbuddies.ai 127.0.0.1,MAP www.edbuddies.ai 127.0.0.1";
+  let browser;
+  if (process.env.VERCEL) {
+    const { default: chromium } = await import("@sparticuz/chromium");
+    const { default: puppeteerCore } = await import("puppeteer-core");
+    browser = await puppeteerCore.launch({
+      args: [...chromium.args, hostResolverArg],
+      executablePath: await chromium.executablePath(),
+      headless: chromium.headless,
+    });
+  } else {
+    const { default: puppeteer } = await import("puppeteer");
+    browser = await puppeteer.launch({
+      headless: "new",
+      args: [hostResolverArg],
+    });
+  }
   const origin = `http://edbuddies.ai:${port}`;
   const failures = [];
 
