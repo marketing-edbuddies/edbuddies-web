@@ -42,8 +42,7 @@ type Pillar = {
   icon: ElementType;
   bullets: string[];
   previewTitle: string;
-  previewMetric: string;
-  previewRows: { label: string; value: string; status?: string }[];
+  previewImage: string;
 };
 
 type DirectoryGroup = {
@@ -69,12 +68,7 @@ const pillars: Pillar[] = [
       "One history your admin team can follow",
     ],
     previewTitle: "Admissions overview",
-    previewMetric: "12 active applications",
-    previewRows: [
-      { label: "New enquiries", value: "5", status: "Today" },
-      { label: "Pending registration", value: "4", status: "Follow up" },
-      { label: "Ready for class", value: "3", status: "Complete" },
-    ],
+    previewImage: "/assets/features/enrolment/edbuddies-enrolment-overview.webp",
   },
   {
     id: "class-management",
@@ -92,12 +86,7 @@ const pillars: Pillar[] = [
       "Teacher schedules and class assignments",
     ],
     previewTitle: "Today’s classes",
-    previewMetric: "8 sessions scheduled",
-    previewRows: [
-      { label: "Primary Mathematics", value: "16 students", status: "4:00 PM" },
-      { label: "English Writing", value: "12 students", status: "5:30 PM" },
-      { label: "Science Workshop", value: "10 students", status: "7:00 PM" },
-    ],
+    previewImage: "/assets/features/class-management/edbuddies-class-management-overview.webp",
   },
   {
     id: "payroll-leave-management",
@@ -115,12 +104,7 @@ const pillars: Pillar[] = [
       "Finance and daily administration in one view",
     ],
     previewTitle: "Staff admin overview",
-    previewMetric: "6 staff records connected",
-    previewRows: [
-      { label: "Leave requests", value: "2 pending", status: "Review" },
-      { label: "Approved leave", value: "1 this week", status: "Recorded" },
-      { label: "Payroll cycle", value: "Linked to attendance", status: "Up to date" },
-    ],
+    previewImage: "/assets/features/payroll-leave-management/edbuddies-payroll-leave-management-overview.webp",
   },
   {
     id: "billing-payments",
@@ -138,12 +122,7 @@ const pillars: Pillar[] = [
       "Support finance and day-to-day administration",
     ],
     previewTitle: "Payment summary",
-    previewMetric: "RM 28,450 recorded",
-    previewRows: [
-      { label: "Paid", value: "RM 21,800", status: "Recorded" },
-      { label: "Pending", value: "RM 5,100", status: "Due" },
-      { label: "Overdue", value: "RM 1,550", status: "Review" },
-    ],
+    previewImage: "/assets/features/billing-payments/edbuddies-billing-payments-overview.webp",
   },
   {
     id: "parent-communication",
@@ -161,12 +140,7 @@ const pillars: Pillar[] = [
       "Less dependence on scattered chat threads",
     ],
     previewTitle: "Communication centre",
-    previewMetric: "3 updates ready",
-    previewRows: [
-      { label: "Class reminder", value: "Primary 4", status: "Sent" },
-      { label: "Homework update", value: "English", status: "Delivered" },
-      { label: "Centre notice", value: "All parents", status: "Draft" },
-    ],
+    previewImage: "/assets/features/parent-communication/edbuddies-parent-communication-overview.webp",
   },
   {
     id: "reporting",
@@ -184,12 +158,7 @@ const pillars: Pillar[] = [
       "A consistent system as your business grows",
     ],
     previewTitle: "Centre overview",
-    previewMetric: "4 locations connected",
-    previewRows: [
-      { label: "Central branch", value: "286 students", status: "Active" },
-      { label: "North branch", value: "194 students", status: "Active" },
-      { label: "South branch", value: "148 students", status: "Active" },
-    ],
+    previewImage: "/assets/features/reporting/edbuddies-reporting-overview.webp",
   },
 ];
 
@@ -258,46 +227,13 @@ function Reveal({ children, delay = 0, className = "" }: { children: React.React
 }
 
 function ProductPreview({ pillar }: { pillar: Pillar }) {
-  const Icon = pillar.icon;
-
   return (
-    <div className="relative rounded-[2rem] bg-[#09244B] p-3 shadow-[0_28px_80px_rgba(9,36,75,0.20)] sm:p-5">
-      <div className="overflow-hidden rounded-[1.35rem] bg-white">
-        <div className="flex items-center justify-between border-b border-slate-100 px-5 py-4">
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#E8F8FE] text-[#0FB8F1]">
-              <Icon className="h-5 w-5" />
-            </div>
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">EdBuddies</p>
-              <p className="font-semibold text-[#09244B]">{pillar.previewTitle}</p>
-            </div>
-          </div>
-          <div className="flex gap-1.5" aria-hidden="true">
-            <span className="h-2 w-2 rounded-full bg-slate-200" />
-            <span className="h-2 w-2 rounded-full bg-slate-200" />
-            <span className="h-2 w-2 rounded-full bg-[#0FB8F1]" />
-          </div>
-        </div>
-        <div className="bg-[#F8FCFD] p-5 sm:p-7">
-          <div className="mb-5 rounded-2xl bg-[#EEFCFF] p-5">
-            <p className="text-sm text-slate-500">Current overview</p>
-            <p className="mt-1 text-2xl font-bold text-[#09244B]">{pillar.previewMetric}</p>
-          </div>
-          <div className="space-y-3">
-            {pillar.previewRows.map((row) => (
-              <div key={row.label} className="grid grid-cols-[1fr_auto] items-center gap-4 rounded-xl border border-slate-100 bg-white p-4">
-                <div>
-                  <p className="text-sm font-semibold text-[#09244B]">{row.label}</p>
-                  <p className="mt-0.5 text-xs text-slate-500">{row.value}</p>
-                </div>
-                <span className="rounded-full bg-[#E8F8FE] px-2.5 py-1 text-[11px] font-semibold text-[#09769A]">{row.status}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
+    <img
+      src={pillar.previewImage}
+      alt={`${pillar.previewTitle} screenshot`}
+      loading="lazy"
+      className="mx-auto w-full max-w-[520px] object-contain"
+    />
   );
 }
 
