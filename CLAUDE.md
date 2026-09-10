@@ -156,8 +156,11 @@ CONTROL owns:
 - Never reset/rebase/revert another agent's work.
 - Development commits and pushes completed work to `website-dev/main` only —
   automatically, once a task's build passes, unless Kenneth says the task is
-  local-only. SEO commits only to `seo-geo/main` and stays local-only (no
-  automatic push) — see `.edbuddies-handoff/SEO.md`.
+  local-only. SEO commits and pushes completed work to `seo-geo/main` only —
+  automatically, once a task's build passes, unless Kenneth says the task is
+  local-only (as of 2026-09-10, superseding the earlier local-only-by-default
+  decision recorded in `.edbuddies-handoff/SEO.md`) — see that file for
+  day-to-day detail.
 - CONTROL integrates completed work into `master` via the release script, not
   by hand.
 - Read-only git diff/show/log inspection across branches is allowed.
@@ -428,3 +431,18 @@ pushed or deployed.
   `/features` route with `FeaturesNew` and whether the new feature pages should
   be added to footer navigation and the sitemap. Do not make that swap or deploy
   without explicit approval.
+
+## Session update — 2026-09-10
+
+Kenneth asked for SEO to get the same auto-push + approval-phrase workflow
+Development already uses (see "Git / Production Rules" above, now updated).
+This session (Development) updated the shared `.claude/settings.local.json`
+at the main checkout (`EdBuddies-Website`) to allow `git push origin
+seo-geo/main` alongside the existing `website-dev/main` rule — `master` and
+force-push stay explicitly denied, unchanged. This session did not touch the
+`EdBuddies-SEO` worktree itself (it has substantial uncommitted in-progress
+work per `.edbuddies-handoff/SEO.md` and must not be edited from another
+worktree). The next session that runs in `EdBuddies-SEO` needs to pull in
+this CLAUDE.md change (merge/rebase from `origin/website-dev/main` or
+`origin/master`) before its own auto-push behavior takes effect — that step
+should happen from within the SEO worktree itself, not from here.
