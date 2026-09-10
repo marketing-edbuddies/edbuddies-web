@@ -429,12 +429,11 @@ export default function HeroScroll() {
               )}
               <h1 className="hs-headline">
                 Simplify Tuition<br />
-                Centre Management<br />
-                <span>With us!</span>
+                Centre Management
               </h1>
               <p className="hs-desc">
-                The all-in-one management platform built for tuition centres
-                and freelance tutors in Malaysia & Singapore. Attendance, billing,
+                The all-in-one management app built for tuition centres
+                and freelance tutors in Singapore and Malaysia. Attendance, billing,
                 invoices, parent communication — all in one app.
               </p>
               <div className="hs-ctas">
@@ -449,7 +448,7 @@ export default function HeroScroll() {
               <div className="hs-trust">
                 <span>Available on iOS & Android</span>
                 <span className="hs-trust-dot" />
-                <span>Malaysia & Singapore</span>
+                <span>Singapore & Malaysia</span>
               </div>
             </div>
 

@@ -156,10 +156,19 @@ CONTROL owns:
 - Never reset/rebase/revert another agent's work.
 - Development commits and pushes completed work to `website-dev/main` only —
   automatically, once a task's build passes, unless Kenneth says the task is
-  local-only. SEO commits only to `seo-geo/main` and stays local-only (no
-  automatic push) — see `.edbuddies-handoff/SEO.md`.
+  local-only. SEO commits and pushes completed work to `seo-geo/main` only —
+  automatically, once a task's build passes, unless Kenneth says the task is
+  local-only (as of 2026-09-10, superseding the earlier local-only-by-default
+  decision recorded in `.edbuddies-handoff/SEO.md`) — see that file for
+  day-to-day detail.
 - CONTROL integrates completed work into `master` via the release script, not
-  by hand.
+  by hand. SEO's `seo-geo/main` isn't a fast-forward of `master` (unlike
+  Development's branch), so it goes through a separate step first — see
+  "Integrating SEO/GEO work" below.
+- Before starting new SEO/GEO work, or before pushing a preview, SEO should
+  first sync `seo-geo/main` with the latest `origin/master` (merge, not
+  rebase) so it isn't working from stale files that Development has since
+  changed — this is what caused the stale-screenshot mix-up on 2026-09-10.
 - Read-only git diff/show/log inspection across branches is allowed.
 - Do not make independent, role-specific edits to files tracked identically
   across worktrees (like this one) — that breaks `master`'s ability to
@@ -191,9 +200,11 @@ as that same explicit instruction.
 - Internally it: fetches origin, confirms Development is on `website-dev/main` with
   no uncommitted changes and fully pushed, confirms CONTROL is on `master` with no
   uncommitted changes, confirms `origin/master` hasn't diverged, fast-forwards
-  CONTROL's `master` to `origin/website-dev/main` when that's a clean fast-forward,
-  runs `npm run build`, and only then pushes `master` to `origin`. It never force
-  pushes and never resets/cleans/rebases/checks out/switches branches anywhere.
+  CONTROL's `master` to `origin/website-dev/main` when that's a clean fast-forward
+  (or verifies as-is when local master is already ahead — e.g. after a SEO/GEO
+  merge, see below), runs `npm run build`, and only then pushes `master` to
+  `origin`. It never force pushes and never resets/cleans/rebases/checks
+  out/switches branches anywhere.
 - If any check fails — divergence, uncommitted work, a failed build, an auth
   failure — it stops and prints exactly why. Do not work around a stop by editing
   git state manually; report it to Kenneth and wait for instruction.
@@ -206,6 +217,31 @@ as that same explicit instruction.
 below, but against the `production` target — confirm the new deployment's commit
 matches the SHA the script just pushed, then give Kenneth a short success report
 (what shipped, in plain language, plus the live URL).
+
+## Integrating SEO/GEO work
+
+SEO's `seo-geo/main` has its own independent commit history — it is not a
+fast-forward of `master` the way `website-dev/main` is, so it cannot go
+through `release-to-production.sh` directly. Bring it into CONTROL first with
+`.edbuddies-handoff/merge-seo-to-control.sh`:
+
+- Run without arguments first — a dry run that tests the merge (via
+  `git merge --no-commit`) and always undoes it afterward, so it commits and
+  pushes nothing. Safe to run any time.
+- If the dry run reports a conflict, it lists exactly which files and stops
+  there — it will never attempt to resolve a conflict itself. Resolving one
+  needs an actual read of both sides' changes to decide what's correct, not a
+  blind pick.
+- Once the dry run is clean, `--execute` performs the real merge **and
+  build-verifies it, but does not push** — pushing `master` still only ever
+  happens through `release-to-production.sh --execute`, after Kenneth's exact
+  approval phrase. This script only prepares local `master` so that a later
+  `release-to-production.sh` run has SEO's work included alongside
+  Development's.
+- `release-to-production.sh` was updated 2026-09-10 to recognize this case:
+  it no longer treats local `master` being *ahead* of `origin/website-dev/main`
+  (because SEO's work was merged into it) as an unexpected divergence — it
+  just verifies and pushes what's already there.
 
 ## Vercel / Composio
 
@@ -243,6 +279,15 @@ personal Hobby team and cannot see this project at all.
   settings without Kenneth's approval.
 - Do not publish product pricing or free/zero-cost claims unless Kenneth
   approves the exact wording.
+- **Competitor-comparison guardrail (SEO/GEO automation, added 2026-09-09):**
+  Claude may identify competitor-content opportunities (e.g. an AOne or
+  Illumine comparison page a competitor's SEO makes visible) but may NOT
+  publish or modify a factual comparison against AOne, Illumine or any other
+  named competitor without both (a) a fresh evidence review at the time of
+  writing — competitor pricing/features/positioning change, so an old finding
+  from a prior session cannot be assumed still accurate — and (b) Kenneth's
+  explicit approval of the specific comparison content before it ships. This
+  applies to on-page copy, meta descriptions, and structured data alike.
 - Do not expose passwords, API keys, access tokens, customer data or tracking
   credentials.
 - Keep files in `public/assets` unless the code references have been checked.
@@ -258,6 +303,78 @@ personal Hobby team and cannot see this project at all.
   pair, 2026-09-07) — some automated process may be running against this same
   repo. Don't assume you're the only thing changing it; `git fetch` and check
   for divergence before committing or pushing.
+
+## SEO/GEO Approved File Scope
+
+This section defines which files SEO/GEO work may touch, and at what level of
+caution, independent of the push question above — it governs edits within an
+approved task.
+
+**Always allowed** (no need to ask first, for a task Kenneth has approved):
+- `public/robots.txt`, `public/sitemap.xml`, `public/404.html`
+- `SEO-GEO-AUTOMATION-TRACKER.html`, `seo-geo-progress.json`,
+  `SEO-GEO-ENTITY-FACTS.md`
+- `src/app/seo.ts` (the shared `setPageMeta`/canonical/JSON-LD helper)
+- Per-route `setPageMeta({...})` calls inside `src/app/*.tsx` — title,
+  description, canonical `url`, `noindex`, `jsonLd` fields
+- Reordering or correcting *already-approved* facts already live elsewhere
+  on the site (e.g. "Malaysia & Singapore" → "Singapore & Malaysia"), and
+  fixing clear bugs (a broken link, a wrong href) — not introducing new
+  wording or claims
+- `scripts/` (build/audit tooling, e.g. `scripts/prerender.mjs`)
+
+**Approval required first** (flag it, explain the change, wait for a yes):
+- Any new visible headline, tagline or body-copy wording — anything a
+  visitor would read as a new claim or new phrasing, not a reorder of
+  existing approved words
+- `vercel.json`, `package.json`, `package-lock.json` (hosting config,
+  dependencies, build scripts)
+- `CLAUDE.md` itself
+- Creating any new page, route or file not already covered by an approved
+  task
+- `src/app/analytics.ts`, `src/app/CookieConsent.tsx`, or the
+  consent/GTM script block in `index.html`
+- Anything touching `/pricing` (Kenneth's standing instruction: leave as-is
+  unless he says otherwise)
+- Files under `public/assets` (per the existing rule above: check code
+  references first)
+
+**Never, regardless of approval:**
+- Anything in `.env`, or any secret, API key, token or credential
+- `.github/workflows/*` (CI/CD configuration)
+- Files clearly owned by another agent (see Ownership above) outside a
+  flagged, coordinated overlap
+- `AppPremium.tsx` (confirmed dead code, not routed — no SEO reason to
+  touch it)
+- `node_modules/`, `dist/` (generated, gitignored)
+- Vercel or GitHub account/project settings, domain or DNS configuration
+
+## SEO/GEO Automatic Stop Conditions
+
+Stop and explain rather than guessing or pushing through when any of these
+happen mid-task:
+
+- The build or typecheck fails and the fix isn't obviously within the
+  current task's own scope.
+- A claim would rely on something not in `product-facts.md`,
+  `brand-brief.md`, `SEO-GEO-ENTITY-FACTS.md`, or verified live site
+  content — don't infer or extrapolate a fact, stop and ask.
+- The task is about to touch pricing, "free"/zero-cost wording, or any
+  customer name/testimonial.
+- The task is about to touch a competitor comparison (AOne, Illumine, or
+  any other named competitor) — see the competitor-comparison guardrail
+  above; a fresh evidence review and Kenneth's approval are required every
+  time, not just once.
+- The task would change analytics/tracking configuration, or touch
+  anything that looks like a secret or credential.
+- The diff for one task grows well beyond what the task actually asked
+  for, or starts touching files outside SEO/GEO Approved File Scope above.
+- A route's behavior changes in a way the task didn't ask for (e.g. a page
+  starts rendering differently, an unexpected redirect appears, indexation
+  of an already-live page would change).
+- Any destructive operation would be needed (deleting files, force-push,
+  `git reset --hard`, etc.) — this should essentially never come up in
+  SEO/GEO work; if it seems to, stop first.
 
 ## Before making a change
 
@@ -428,3 +545,25 @@ pushed or deployed.
   `/features` route with `FeaturesNew` and whether the new feature pages should
   be added to footer navigation and the sitemap. Do not make that swap or deploy
   without explicit approval.
+
+## Session update — 2026-09-10 (SEO/GEO integration)
+
+SEO's `seo-geo/main` was merged into CONTROL's local `master` for the first
+time this session, resolving two real conflicts:
+
+- **CLAUDE.md**: SEO's branch had added its policy content (competitor
+  guardrail, file-scope rules, stop conditions) directly into this file,
+  under the file's older, pre-restructure shape. This merge kept the current
+  restructured shape and folded SEO's policy content into the "Safety rules"
+  / new "SEO/GEO Approved File Scope" and "SEO/GEO Automatic Stop Conditions"
+  sections above instead of losing it.
+- **src/app/About.tsx**: Development had replaced the old single "Active
+  markets" stat with a redesigned 4-stat block; SEO, on the old version of
+  that same stat, had only reordered it to "Singapore & Malaysia". Kept
+  Development's redesigned stats (the older stat no longer exists to
+  reorder), kept SEO's Singapore-first wording everywhere else in the file
+  (meta description, image alt text) since those didn't conflict.
+
+This merge is local to CONTROL only — nothing has been pushed. Next step:
+`release-to-production.sh` (dry run first), pushed only after Kenneth's exact
+approval phrase.

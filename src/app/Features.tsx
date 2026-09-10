@@ -183,7 +183,7 @@ export default function Features() {
   useEffect(() => {
     setPageMeta({
       title: "Features — EdBuddies | Centre Management App",
-      description: "EdBuddies gives tuition centres and freelance tutors the tools they need for attendance tracking, invoicing, billing, parent communication, and class scheduling. iOS & Android.",
+      description: "EdBuddies helps tuition and enrichment centres in Singapore and Malaysia manage attendance, billing, invoicing, parent communication and class scheduling.",
       url: "https://edbuddies.ai/features",
     });
   }, []);
@@ -226,7 +226,7 @@ export default function Features() {
             className="text-lg text-gray-600 max-w-2xl mx-auto mb-10"
           >
             From attendance to invoices, parent communication to class scheduling —
-            all in one app built for tuition centres and freelance tutors in Malaysia &amp; Singapore.
+            all in one app built for tuition centres and freelance tutors in Singapore &amp; Malaysia.
           </motion.p>
 
           {/* CTAs — staggered */}
@@ -461,7 +461,7 @@ export default function Features() {
             transition={{ duration: 0.6, delay: 0.5 }}
             className="text-white/40 text-sm mt-8"
           >
-            {SHOW_FREE_MESSAGING ? "Used by centres in Malaysia & Singapore · Free forever" : "Used by centres in Malaysia & Singapore"}
+            {SHOW_FREE_MESSAGING ? "Used by centres in Singapore & Malaysia · Free forever" : "Used by centres in Singapore & Malaysia"}
           </motion.p>
         </div>
       </section>
@@ -497,7 +497,7 @@ export default function Features() {
             transition={{ duration: 0.6, delay: 0.18 }}
             className="text-xl text-gray-600 leading-relaxed mb-10"
           >
-            Join tuition centres and freelance tutors across Malaysia and Singapore who've ditched the spreadsheets.
+            Join tuition centres and freelance tutors across Singapore and Malaysia who've ditched the spreadsheets.
           </motion.p>
 
           <motion.div

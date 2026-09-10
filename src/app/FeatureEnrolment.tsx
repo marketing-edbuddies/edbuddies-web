@@ -15,6 +15,15 @@ export default function FeatureEnrolment() {
       description:
         "Keep enquiries, registration, parent details and class placement in one connected student record, from first enquiry to confirmed class.",
       url: "https://edbuddies.ai/features/enrolment",
+      jsonLd: {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: "https://edbuddies.ai/" },
+          { "@type": "ListItem", position: 2, name: "Features", item: "https://edbuddies.ai/features" },
+          { "@type": "ListItem", position: 3, name: "Enrolment & Admissions", item: "https://edbuddies.ai/features/enrolment" },
+        ],
+      },
     });
   }, []);
 
@@ -28,7 +37,7 @@ export default function FeatureEnrolment() {
           <div className="mx-auto max-w-6xl">
             <nav aria-label="Breadcrumb" className="mb-10 flex flex-wrap items-center gap-2 text-sm text-slate-500">
               <Link to="/" className="hover:text-[#09244B]">Home</Link><span aria-hidden="true">/</span>
-              <Link to="/features-new" className="hover:text-[#09244B]">Features</Link><span aria-hidden="true">/</span>
+              <Link to="/features" className="hover:text-[#09244B]">Features</Link><span aria-hidden="true">/</span>
               <span className="font-semibold text-[#09244B]" aria-current="page">Enrolment &amp; Admissions</span>
             </nav>
 

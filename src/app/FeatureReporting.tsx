@@ -15,6 +15,15 @@ export default function FeatureReporting() {
       description:
         "Bring operational, finance, attendance and centre information into clearer management views for one location or a growing group of branches.",
       url: "https://edbuddies.ai/features/reporting",
+      jsonLd: {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: "https://edbuddies.ai/" },
+          { "@type": "ListItem", position: 2, name: "Features", item: "https://edbuddies.ai/features" },
+          { "@type": "ListItem", position: 3, name: "Reporting & Multi-Branch", item: "https://edbuddies.ai/features/reporting" },
+        ],
+      },
     });
   }, []);
 
@@ -28,7 +37,7 @@ export default function FeatureReporting() {
           <div className="mx-auto max-w-6xl">
             <nav aria-label="Breadcrumb" className="mb-10 flex flex-wrap items-center gap-2 text-sm text-slate-500">
               <Link to="/" className="hover:text-[#09244B]">Home</Link><span aria-hidden="true">/</span>
-              <Link to="/features-new" className="hover:text-[#09244B]">Features</Link><span aria-hidden="true">/</span>
+              <Link to="/features" className="hover:text-[#09244B]">Features</Link><span aria-hidden="true">/</span>
               <span className="font-semibold text-[#09244B]" aria-current="page">Reporting &amp; Multi-Branch</span>
             </nav>
 
