@@ -133,7 +133,12 @@ CONTROL owns:
 - Never push master without Kenneth's approval.
 - Never deploy production without Kenneth's approval.
 - Never reset/rebase/revert another agent's work.
-- Development and SEO commit only to their assigned branches.
+- Development commits and pushes completed work to `website-dev/main` only —
+  automatically, once a task's build passes, unless Kenneth says the task is
+  local-only. SEO commits and pushes completed work to `seo-geo/main` only —
+  automatically, once a task's build passes, unless Kenneth says the task is
+  local-only (as of 2026-09-10, superseding the earlier local-only-by-default
+  decision — see `.edbuddies-handoff/SEO.md` for day-to-day detail).
 - CONTROL integrates completed work into master.
 - Read-only git diff/show/log inspection across branches is allowed.
 
@@ -150,6 +155,15 @@ CONTROL owns:
   settings without Kenneth's approval.
 - Do not publish product pricing or free/zero-cost claims unless Kenneth
   approves the exact wording.
+- **Competitor-comparison guardrail (SEO/GEO automation, added 2026-09-09):**
+  Claude may identify competitor-content opportunities (e.g. an AOne or
+  Illumine comparison page a competitor's SEO makes visible) but may NOT
+  publish or modify a factual comparison against AOne, Illumine or any other
+  named competitor without both (a) a fresh evidence review at the time of
+  writing — competitor pricing/features/positioning change, so an old finding
+  from a prior session cannot be assumed still accurate — and (b) Kenneth's
+  explicit approval of the specific comparison content before it ships. This
+  applies to on-page copy, meta descriptions, and structured data alike.
 - Do not expose passwords, API keys, access tokens, customer data or tracking
   credentials.
 - Keep files in `public/assets` unless the code references have been checked.
@@ -165,6 +179,83 @@ CONTROL owns:
   pair, 2026-09-07) — some automated process may be running against this same
   repo. Don't assume you're the only thing changing it; `git fetch` and check
   for divergence before committing or pushing.
+
+## SEO/GEO Approved File Scope
+
+Kenneth decided (2026-09-09) that SEO/GEO automation would stay **local-only**
+— no branch pushes, no pull requests. As of 2026-09-10 that decision is
+superseded: SEO now commits and pushes completed work to `seo-geo/main`
+automatically once a task's build passes, matching Development's workflow
+(see "Git / Production Rules" above and `.edbuddies-handoff/SEO.md`), unless
+Kenneth says a given task is local-only. This section defines which files
+SEO/GEO work may touch, and at what level of caution, independent of that
+push question — it governs edits within an approved task.
+
+**Always allowed** (no need to ask first, for a task Kenneth has approved):
+- `public/robots.txt`, `public/sitemap.xml`, `public/404.html`
+- `SEO-GEO-AUTOMATION-TRACKER.html`, `seo-geo-progress.json`,
+  `SEO-GEO-ENTITY-FACTS.md`
+- `src/app/seo.ts` (the shared `setPageMeta`/canonical/JSON-LD helper)
+- Per-route `setPageMeta({...})` calls inside `src/app/*.tsx` — title,
+  description, canonical `url`, `noindex`, `jsonLd` fields
+- Reordering or correcting *already-approved* facts already live elsewhere
+  on the site (e.g. "Malaysia & Singapore" → "Singapore & Malaysia"), and
+  fixing clear bugs (a broken link, a wrong href) — not introducing new
+  wording or claims
+- `scripts/` (build/audit tooling, e.g. `scripts/prerender.mjs`)
+
+**Approval required first** (flag it, explain the change, wait for a yes):
+- Any new visible headline, tagline or body-copy wording — anything a
+  visitor would read as a new claim or new phrasing, not a reorder of
+  existing approved words
+- `vercel.json`, `package.json`, `package-lock.json` (hosting config,
+  dependencies, build scripts)
+- `CLAUDE.md` itself
+- Creating any new page, route or file not already covered by an approved
+  task
+- `src/app/analytics.ts`, `src/app/CookieConsent.tsx`, or the
+  consent/GTM script block in `index.html`
+- Anything touching `/pricing` (Kenneth's standing instruction: leave as-is
+  unless he says otherwise)
+- Files under `public/assets` (per the existing rule above: check code
+  references first)
+
+**Never, regardless of approval:**
+- Anything in `.env`, or any secret, API key, token or credential
+- `.github/workflows/*` (CI/CD configuration)
+- Files clearly owned by another agent (see Ownership above) outside a
+  flagged, coordinated overlap
+- `AppPremium.tsx` (confirmed dead code, not routed — no SEO reason to
+  touch it)
+- `node_modules/`, `dist/` (generated, gitignored)
+- Vercel or GitHub account/project settings, domain or DNS configuration
+
+## SEO/GEO Automatic Stop Conditions
+
+Stop and explain rather than guessing or pushing through when any of these
+happen mid-task:
+
+- The build or typecheck fails and the fix isn't obviously within the
+  current task's own scope.
+- A claim would rely on something not in `product-facts.md`,
+  `brand-brief.md`, `SEO-GEO-ENTITY-FACTS.md`, or verified live site
+  content — don't infer or extrapolate a fact, stop and ask.
+- The task is about to touch pricing, "free"/zero-cost wording, or any
+  customer name/testimonial.
+- The task is about to touch a competitor comparison (AOne, Illumine, or
+  any other named competitor) — see the competitor-comparison guardrail
+  above; a fresh evidence review and Kenneth's approval are required every
+  time, not just once.
+- The task would change analytics/tracking configuration, or touch
+  anything that looks like a secret or credential.
+- The diff for one task grows well beyond what the task actually asked
+  for, or starts touching files outside SEO/GEO Approved File Scope above.
+- A route's behavior changes in a way the task didn't ask for (e.g. a page
+  starts rendering differently, an unexpected redirect appears, indexation
+  of an already-live page would change).
+- Any destructive operation would be needed (deleting files, force-push,
+  `git reset --hard`, etc.) — this should essentially never come up in
+  SEO/GEO work; if it seems to, stop first.
 
 ## Before making a change
 
@@ -332,3 +423,29 @@ pushed or deployed.
   `/features` route with `FeaturesNew` and whether the new feature pages should
   be added to footer navigation and the sitemap. Do not make that swap or deploy
   without explicit approval.
+
+## Session update — 2026-09-10
+
+Kenneth asked for SEO to get the same auto-push + publish workflow Development
+already uses (see "Git / Production Rules" and "SEO/GEO Approved File Scope"
+above, now updated), superseding the 2026-09-09 local-only decision. He
+confirmed this directly in chat, including that the Development session had
+already added a `git push origin seo-geo/main` (and `-u` variant) permission
+rule to the shared `.claude/settings.local.json` at the main checkout —
+`master` and force-push remain explicitly denied there, unchanged.
+
+`seo-geo/main` had never been pushed before this (no `origin/seo-geo/main`
+existed). This session pushed it for the first time, carrying only the commits
+already on the branch as of 2026-09-10 — the substantial Phase 1-8 SEO/GEO
+work sitting uncommitted in this worktree (tracked in
+`.edbuddies-handoff/SEO.md`) was deliberately left uncommitted and was not
+swept into this push; committing/pushing that work is a separate decision for
+Kenneth to make task by task, same as Development's per-task flow.
+
+Note for a future session: `website-dev/main`'s copy of this file has since
+diverged further — it was restructured so that only rules shared across all
+three worktrees live in tracked `CLAUDE.md`, with role-specific content moved
+to `.edbuddies-handoff/*.md`. This SEO/GEO branch's `CLAUDE.md` was not
+restructured to match (that's a bigger change than what was asked for here);
+only the auto-push language itself was carried over. Reconciling the two
+file structures is still open.
