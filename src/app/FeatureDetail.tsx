@@ -32,6 +32,7 @@ type FeaturePage = {
   description: string;
   icon: ElementType;
   direction?: boolean;
+  disabled?: boolean;
   workflowTitle: string;
   workflow: { step: string; title: string; description: string }[];
   capabilities: Capability[];
@@ -48,6 +49,7 @@ const featurePages: Record<string, FeaturePage> = {
       "EdBuddies AI is built to assist with marking MCQ, long-answer, and mathematics-formula questions — cutting the repetitive parts of grading while teachers keep final say on every mark. It's built and not yet released; launch timing is to be confirmed.",
     icon: Sparkles,
     direction: true,
+    disabled: true,
     workflowTitle: "The marking workflow",
     workflow: [
       { step: "01", title: "Collect answers", description: "Bring in MCQ, long-answer and math-formula responses from a test paper." },
@@ -101,7 +103,7 @@ export default function FeatureDetail() {
   const page = featureId ? featurePages[featureId] : undefined;
 
   useEffect(() => {
-    if (!page) return;
+    if (!page || page.disabled) return;
     setPageMeta({
       title: `${page.shortTitle} — EdBuddies Features`,
       description: page.description,
@@ -109,7 +111,7 @@ export default function FeatureDetail() {
     });
   }, [page]);
 
-  if (!page) return <NotFound />;
+  if (!page || page.disabled) return <NotFound />;
   const Icon = page.icon;
 
   return (

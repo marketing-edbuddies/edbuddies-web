@@ -72,6 +72,7 @@ const featureGroups = [
         description: "Explore the direction for AI-assisted test-paper marking.",
         icon: Sparkles,
         badge: "Product direction",
+        disabled: true,
       },
     ],
   },
@@ -210,6 +211,23 @@ export default function Navbar({ activePage }: NavbarProps) {
                       {group.items.map((item) => {
                         const ItemIcon = item.icon;
                         const isActive = item.href === activeFeature.href;
+
+                        if ("disabled" in item && item.disabled) {
+                          return (
+                            <div
+                              key={item.href}
+                              aria-disabled="true"
+                              className="flex cursor-not-allowed items-start gap-3 rounded-xl p-3 opacity-50"
+                            >
+                              <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-400"><ItemIcon className="h-4.5 w-4.5" /></span>
+                              <span className="min-w-0">
+                                <span className="block text-sm font-semibold leading-5 text-slate-400">{item.title}</span>
+                                {"badge" in item ? <span className="mt-1 block text-[10px] font-bold uppercase tracking-[0.1em] text-slate-400">{item.badge}</span> : null}
+                              </span>
+                            </div>
+                          );
+                        }
+
                         return (
                           <Link
                             key={item.href}
@@ -256,9 +274,19 @@ export default function Navbar({ activePage }: NavbarProps) {
                       <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
                         <div className="space-y-1 pb-4 pl-2">
                           <Link to="/features-new" onClick={closeMobileMenu} className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-[#09769A]"><LayoutGrid className="h-4 w-4" />All features overview</Link>
-                          {featureItems.map((item) => { const ItemIcon = item.icon; return (
-                            <Link key={item.href} to={item.href} onClick={closeMobileMenu} className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-[#EEFCFF] hover:text-[#09244B]"><span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#EEFCFF] text-[#08718C]"><ItemIcon className="h-4 w-4" /></span>{item.title}</Link>
-                          ); })}
+                          {featureItems.map((item) => {
+                            const ItemIcon = item.icon;
+                            if ("disabled" in item && item.disabled) {
+                              return (
+                                <div key={item.href} aria-disabled="true" className="flex cursor-not-allowed items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-400 opacity-50">
+                                  <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100 text-slate-400"><ItemIcon className="h-4 w-4" /></span>{item.title}
+                                </div>
+                              );
+                            }
+                            return (
+                              <Link key={item.href} to={item.href} onClick={closeMobileMenu} className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-[#EEFCFF] hover:text-[#09244B]"><span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#EEFCFF] text-[#08718C]"><ItemIcon className="h-4 w-4" /></span>{item.title}</Link>
+                            );
+                          })}
                         </div>
                       </motion.div>
                     ) : null}
