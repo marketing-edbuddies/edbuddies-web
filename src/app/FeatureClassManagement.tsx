@@ -21,6 +21,15 @@ export default function FeatureClassManagement() {
       description:
         "Bring schedules, teachers, attendance, homework and progress together so the whole team works from the same class record.",
       url: "https://edbuddies.ai/features/class-management",
+      jsonLd: {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: "https://edbuddies.ai/" },
+          { "@type": "ListItem", position: 2, name: "Features", item: "https://edbuddies.ai/features" },
+          { "@type": "ListItem", position: 3, name: "Classes & Student Management", item: "https://edbuddies.ai/features/class-management" },
+        ],
+      },
     });
   }, []);
 
@@ -34,7 +43,7 @@ export default function FeatureClassManagement() {
           <div className="mx-auto max-w-6xl">
             <nav aria-label="Breadcrumb" className="mb-10 flex flex-wrap items-center gap-2 text-sm text-slate-500">
               <Link to="/" className="hover:text-[#09244B]">Home</Link><span aria-hidden="true">/</span>
-              <Link to="/features-new" className="hover:text-[#09244B]">Features</Link><span aria-hidden="true">/</span>
+              <Link to="/features" className="hover:text-[#09244B]">Features</Link><span aria-hidden="true">/</span>
               <span className="font-semibold text-[#09244B]" aria-current="page">Classes &amp; Student Management</span>
             </nav>
 

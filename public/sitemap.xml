@@ -41,6 +41,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://edbuddies.ai/features/ai</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://edbuddies.ai/about</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

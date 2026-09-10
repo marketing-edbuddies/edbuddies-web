@@ -10,7 +10,7 @@ import Footer from "./Footer";
 // ─── Stats ────────────────────────────────────────────────────────────────────
 
 const STATS = [
-  { value: "2", label: "Active markets — Malaysia & Singapore" },
+  { value: "2", label: "Active markets — Singapore & Malaysia" },
 ];
 
 const MARKETS = [
@@ -47,7 +47,7 @@ export default function About() {
   useEffect(() => {
     setPageMeta({
       title: "About — EdBuddies | Our Story",
-      description: "EdBuddies was built to close the gap between education and technology — giving every tuition centre, big or small, the tools they deserve.",
+      description: "EdBuddies was built to close the gap between education and technology, giving tuition centres across Singapore and Malaysia the tools they deserve.",
       url: "https://edbuddies.ai/about",
     });
   }, []);
@@ -239,7 +239,7 @@ export default function About() {
               <div className="relative rounded-3xl overflow-hidden group cursor-pointer" style={{ boxShadow: "0 12px 48px rgba(9,36,75,0.18)" }}>
                 <motion.img
                   src="/assets/why-we-exist.webp"
-                  alt="EdBuddies team — building education management tools for tuition centres in Malaysia and Singapore"
+                  alt="EdBuddies team — building education management tools for tuition centres in Singapore and Malaysia"
                   loading="lazy"
                   className="w-full h-[480px] object-cover"
                   whileHover={{ scale: 1.07 }}

@@ -3,6 +3,10 @@ interface PageMeta {
   description: string;
   url: string;
   noindex?: boolean;
+  // Page-specific JSON-LD (FAQPage, BreadcrumbList, etc), if this page has
+  // any. Site-wide schema (Organization, WebSite) lives as a static script
+  // in index.html instead, since it's the same on every route.
+  jsonLd?: object;
 }
 
 // Custom domain isn't connected yet (see CLAUDE.md) — every other host
@@ -15,7 +19,9 @@ export function isReviewHost(): boolean {
   return !PRODUCTION_HOSTS.includes(window.location.hostname);
 }
 
-export function setPageMeta({ title, description, url, noindex = false }: PageMeta) {
+const JSONLD_SCRIPT_ID = "jsonld-page";
+
+export function setPageMeta({ title, description, url, noindex = false, jsonLd }: PageMeta) {
   document.title = title;
 
   const setMeta = (sel: string, attr: string, val: string) => {
@@ -35,4 +41,19 @@ export function setPageMeta({ title, description, url, noindex = false }: PageMe
   // leaves later routes noindexed for the rest of the SPA session.
   const forceNoindex = noindex || isReviewHost();
   setMeta('meta[name="robots"]', "content", forceNoindex ? "noindex, nofollow" : "index, follow");
+
+  // Same shared-DOM problem as the robots tag: only one page-specific JSON-LD
+  // script can exist at a time, so every call must either replace it (jsonLd
+  // passed) or remove it (jsonLd omitted) — otherwise a previous page's
+  // FAQ/breadcrumb schema would keep describing the wrong page.
+  const existing = document.getElementById(JSONLD_SCRIPT_ID);
+  if (!jsonLd) {
+    existing?.remove();
+  } else {
+    const el = (existing as HTMLScriptElement | null) ?? document.createElement("script");
+    el.id = JSONLD_SCRIPT_ID;
+    el.setAttribute("type", "application/ld+json");
+    el.textContent = JSON.stringify(jsonLd);
+    if (!existing) document.head.appendChild(el);
+  }
 }

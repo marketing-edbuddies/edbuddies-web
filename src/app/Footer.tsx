@@ -27,8 +27,8 @@ export default function Footer() {
             <p className="text-xs font-bold uppercase tracking-widest text-white/40 mb-5">About Us</p>
             <p className="text-sm text-white/60 leading-relaxed mb-6">
               {SHOW_FREE_MESSAGING
-                ? "Free centre management app for tuition centres and freelance tutors in Malaysia & Singapore. No fees, no limits."
-                : "Centre management app for tuition centres and freelance tutors in Malaysia & Singapore."}
+                ? "Free centre management app for tuition centres and freelance tutors in Singapore & Malaysia. No fees, no limits."
+                : "Centre management app for tuition centres and freelance tutors in Singapore & Malaysia."}
             </p>
             <div className="flex items-center gap-4">
               <a href="https://www.facebook.com/profile.php?id=61573123059740" target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-white transition-colors duration-200" aria-label="Facebook">
@@ -77,9 +77,12 @@ export default function Footer() {
       {/* ── Middle: logo ───────────────────────────────────────────────────── */}
       <div className="border-t border-white/10">
         <div className="max-w-5xl mx-auto px-6 lg:px-8 py-6 flex items-center justify-center">
+          {/* Purely decorative watermark — the brand name is already real
+              text in the copyright line below, so empty alt avoids a
+              screen reader announcing "EdBuddies" redundantly. */}
           <img
             src="/assets/logo-horizontal-dark.webp"
-            alt="EdBuddies"
+            alt=""
             loading="lazy"
             className="h-28 sm:h-36 lg:h-44 w-auto object-contain opacity-20 select-none"
           />
@@ -90,7 +93,7 @@ export default function Footer() {
       <div className="border-t border-white/10">
         <div className="max-w-5xl mx-auto px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-white/40 flex flex-wrap items-center gap-x-3 gap-y-1 justify-center sm:justify-start">
-            <span>© {new Date().getFullYear()} EdBuddies. All rights reserved. Built for tuition centres in Malaysia &amp; Singapore.</span>
+            <span>© {new Date().getFullYear()} EdBuddies. All rights reserved. Built for tuition centres in Singapore &amp; Malaysia.</span>
             <Link to="/privacy" className="underline hover:text-white transition-colors duration-200">Privacy Policy</Link>
             <Link to="/terms" className="underline hover:text-white transition-colors duration-200">Terms of Service</Link>
           </p>

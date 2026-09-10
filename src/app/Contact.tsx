@@ -52,7 +52,7 @@ const FAQS_FREE = [
   },
   {
     q: "Which countries do you support?",
-    a: "We're currently active in Malaysia and Singapore, with Vietnam and the Philippines coming soon. Our team responds to enquiries from both markets.",
+    a: "We're currently active in Singapore and Malaysia, with Vietnam and the Philippines coming soon. Our team responds to enquiries from both markets.",
   },
   {
     q: "How do I get my centre started?",
@@ -75,7 +75,7 @@ const FAQS_DEFAULT = [
   },
   {
     q: "Which countries do you support?",
-    a: "We're currently active in Malaysia and Singapore, with Vietnam and the Philippines coming soon. Our team responds to enquiries from both markets.",
+    a: "We're currently active in Singapore and Malaysia, with Vietnam and the Philippines coming soon. Our team responds to enquiries from both markets.",
   },
   {
     q: "How do I get my centre started?",
@@ -137,8 +137,19 @@ export default function Contact() {
   useEffect(() => {
     setPageMeta({
       title: "Contact — EdBuddies | Get in Touch",
-      description: "Contact EdBuddies for centre onboarding, general enquiries, or technical support. WhatsApp us in Malaysia or Singapore, or send us an email.",
+      description: "Contact EdBuddies for centre onboarding, general enquiries, or technical support. WhatsApp us in Singapore or Malaysia, or send us an email.",
       url: "https://edbuddies.ai/contact",
+      // Built directly from FAQS (the same data the accordion below renders),
+      // so it can never drift out of sync with the visible content.
+      jsonLd: {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: FAQS.map(({ q, a }) => ({
+          "@type": "Question",
+          name: q,
+          acceptedAnswer: { "@type": "Answer", text: a },
+        })),
+      },
     });
   }, []);
 
@@ -265,7 +276,10 @@ export default function Contact() {
                   <div className="w-16 h-16 rounded-full bg-[#E8F8FE] flex items-center justify-center mx-auto mb-5">
                     <Send className="w-7 h-7 text-[#0FB8F1]" />
                   </div>
-                  <h3 className="text-xl font-bold text-[#09244B] mb-2">Message sent!</h3>
+                  {/* h2, not h3: no h2 section exists before this in the DOM
+                      (it sits right after the page's single h1), so h3 here
+                      would skip a level. */}
+                  <h2 className="text-xl font-bold text-[#09244B] mb-2">Message sent!</h2>
                   <p className="text-gray-500 text-sm">We'll get back to you within 1–2 working days.</p>
                 </div>
               ) : (
