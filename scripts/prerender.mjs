@@ -85,7 +85,6 @@ const ROUTES = [
   "/features/billing-payments",
   "/features/parent-communication",
   "/features/reporting",
-  "/features/ai",
   "/pricing",
   "/contact",
   "/about",
