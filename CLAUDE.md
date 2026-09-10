@@ -546,6 +546,15 @@ pushed or deployed.
   be added to footer navigation and the sitemap. Do not make that swap or deploy
   without explicit approval.
 
+## Session update — 2026-09-10 (SEO auto-push enabled)
+
+Kenneth asked for SEO to get the same auto-push + approval-phrase workflow
+Development already uses (see "Git / Production Rules" above). The
+Development session updated the shared `.claude/settings.local.json` at this
+main checkout to allow `git push origin seo-geo/main` alongside the existing
+`website-dev/main` rule — `master` and force-push stay explicitly denied,
+unchanged.
+
 ## Session update — 2026-09-10 (SEO/GEO integration)
 
 SEO's `seo-geo/main` was merged into CONTROL's local `master` for the first
@@ -555,7 +564,7 @@ time this session, resolving two real conflicts:
   guardrail, file-scope rules, stop conditions) directly into this file,
   under the file's older, pre-restructure shape. This merge kept the current
   restructured shape and folded SEO's policy content into the "Safety rules"
-  / new "SEO/GEO Approved File Scope" and "SEO/GEO Automatic Stop Conditions"
+  / "SEO/GEO Approved File Scope" and "SEO/GEO Automatic Stop Conditions"
   sections above instead of losing it.
 - **src/app/About.tsx**: Development had replaced the old single "Active
   markets" stat with a redesigned 4-stat block; SEO, on the old version of
@@ -563,6 +572,14 @@ time this session, resolving two real conflicts:
   Development's redesigned stats (the older stat no longer exists to
   reorder), kept SEO's Singapore-first wording everywhere else in the file
   (meta description, image alt text) since those didn't conflict.
+
+A mechanical build issue surfaced after the merge, unrelated to the conflict
+resolution itself: `scripts/prerender.mjs` still listed the now-disabled
+`/features/ai` route (Development 404s it directly), so prerendering hung
+waiting for content that no longer renders. Removed it from the route list
+to match SEO's own already-approved 14-route production list. `npm install`
+was also run in CONTROL to pick up `puppeteer` and other dependencies SEO's
+branch added. Build passes clean, all 14 routes prerender successfully.
 
 This merge is local to CONTROL only — nothing has been pushed. Next step:
 `release-to-production.sh` (dry run first), pushed only after Kenneth's exact
