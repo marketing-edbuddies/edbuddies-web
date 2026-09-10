@@ -162,7 +162,13 @@ CONTROL owns:
   decision recorded in `.edbuddies-handoff/SEO.md`) — see that file for
   day-to-day detail.
 - CONTROL integrates completed work into `master` via the release script, not
-  by hand.
+  by hand. SEO's `seo-geo/main` isn't a fast-forward of `master` (unlike
+  Development's branch), so it goes through a separate step first — see
+  "Integrating SEO/GEO work" below.
+- Before starting new SEO/GEO work, or before pushing a preview, SEO should
+  first sync `seo-geo/main` with the latest `origin/master` (merge, not
+  rebase) so it isn't working from stale files that Development has since
+  changed — this is what caused the stale-screenshot mix-up on 2026-09-10.
 - Read-only git diff/show/log inspection across branches is allowed.
 - Do not make independent, role-specific edits to files tracked identically
   across worktrees (like this one) — that breaks `master`'s ability to
@@ -209,6 +215,31 @@ as that same explicit instruction.
 below, but against the `production` target — confirm the new deployment's commit
 matches the SHA the script just pushed, then give Kenneth a short success report
 (what shipped, in plain language, plus the live URL).
+
+## Integrating SEO/GEO work
+
+SEO's `seo-geo/main` has its own independent commit history — it is not a
+fast-forward of `master` the way `website-dev/main` is, so it cannot go
+through `release-to-production.sh` directly. Bring it into CONTROL first with
+`.edbuddies-handoff/merge-seo-to-control.sh`:
+
+- Run without arguments first — a dry run that tests the merge (via
+  `git merge --no-commit`) and always undoes it afterward, so it commits and
+  pushes nothing. Safe to run any time.
+- If the dry run reports a conflict, it lists exactly which files and stops
+  there — it will never attempt to resolve a conflict itself. Resolving one
+  needs an actual read of both sides' changes to decide what's correct, not a
+  blind pick.
+- Once the dry run is clean, `--execute` performs the real merge **and
+  build-verifies it, but does not push** — pushing `master` still only ever
+  happens through `release-to-production.sh --execute`, after Kenneth's exact
+  approval phrase. This script only prepares local `master` so that a later
+  `release-to-production.sh` run has SEO's work included alongside
+  Development's.
+- `release-to-production.sh` was updated 2026-09-10 to recognize this case:
+  it no longer treats local `master` being *ahead* of `origin/website-dev/main`
+  (because SEO's work was merged into it) as an unexpected divergence — it
+  just verifies and pushes what's already there.
 
 ## Vercel / Composio
 
