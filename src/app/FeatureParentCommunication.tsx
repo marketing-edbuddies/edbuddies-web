@@ -15,6 +15,15 @@ export default function FeatureParentCommunication() {
       description:
         "Connect announcements, class information, homework and student updates to the right families, so communication stays timely and easy to follow.",
       url: "https://edbuddies.ai/features/parent-communication",
+      jsonLd: {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: "https://edbuddies.ai/" },
+          { "@type": "ListItem", position: 2, name: "Features", item: "https://edbuddies.ai/features" },
+          { "@type": "ListItem", position: 3, name: "Parent Communication", item: "https://edbuddies.ai/features/parent-communication" },
+        ],
+      },
     });
   }, []);
 
@@ -28,7 +37,7 @@ export default function FeatureParentCommunication() {
           <div className="mx-auto max-w-6xl">
             <nav aria-label="Breadcrumb" className="mb-10 flex flex-wrap items-center gap-2 text-sm text-slate-500">
               <Link to="/" className="hover:text-[#09244B]">Home</Link><span aria-hidden="true">/</span>
-              <Link to="/features-new" className="hover:text-[#09244B]">Features</Link><span aria-hidden="true">/</span>
+              <Link to="/features" className="hover:text-[#09244B]">Features</Link><span aria-hidden="true">/</span>
               <span className="font-semibold text-[#09244B]" aria-current="page">Parent Communication</span>
             </nav>
 

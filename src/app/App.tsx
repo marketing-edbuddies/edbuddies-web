@@ -37,8 +37,58 @@ export default function App() {
   useEffect(() => {
     setPageMeta({
       title: "EdBuddies | Centre Management App for Tuition Centres",
-      description: "EdBuddies is a centre management app for tuition centres and freelance tutors in Malaysia & Singapore. Attendance, billing, invoices, parent communication — all in one app.",
+      description: "EdBuddies is a centre management app for tuition centres and freelance tutors in Singapore and Malaysia — attendance, billing, invoicing and parent communication in one app.",
       url: "https://edbuddies.ai/",
+      // Mirrors the 5 visible FAQ accordions below exactly, including the
+      // SHOW_FREE_MESSAGING-gated first question/answer.
+      jsonLd: {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: [
+          {
+            "@type": "Question",
+            name: SHOW_FREE_MESSAGING ? "Is EdBuddies really free?" : "What's included with EdBuddies?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: SHOW_FREE_MESSAGING
+                ? "Yes, completely. No subscription, no per-student fee, no hidden charges. Download it and use it at no cost."
+                : "EdBuddies brings attendance, billing and invoicing, parent communication, class scheduling, teacher management, homework and daily admin into one app for tuition centres and freelance tutors.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Does it work for freelance tutors?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Absolutely. Whether you run one class or twenty, EdBuddies works for solo tutors and multi-teacher centres alike.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Is EdBuddies available in Singapore?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Yes. EdBuddies is actively used by centres in both Singapore and Malaysia.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "What devices does it support?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "EdBuddies is available on iOS and Android. Centre owners and teachers run it from their phones, no desktop needed.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "How long does setup take?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Our team helps you import your existing students and classes, so you're not starting from scratch. Reach out and we'll walk you through onboarding for your centre.",
+            },
+          },
+        ],
+      },
     });
   }, []);
 
@@ -475,7 +525,7 @@ export default function App() {
             transition={{ duration: 0.5 }}
             className="text-center text-sm text-gray-500 mb-10"
           >
-            Used by tuition centres and freelance tutors across Malaysia & Singapore
+            Used by tuition centres and freelance tutors across Singapore & Malaysia
           </motion.p>
 
           {/* Infinite Scrolling Logos */}
@@ -1294,7 +1344,7 @@ export default function App() {
                 <div className="px-6 pb-5 text-gray-600 leading-relaxed">
                   {SHOW_FREE_MESSAGING
                     ? "Yes, completely. No subscription, no per-student fee, no hidden charges. Download it and use it at no cost."
-                    : "EdBuddies is built to help tuition centres and freelance tutors manage their operations from a single app. Get in touch to learn more about what's included."}
+                    : "EdBuddies brings attendance, billing and invoicing, parent communication, class scheduling, teacher management, homework and daily admin into one app for tuition centres and freelance tutors."}
                 </div>
               </motion.div>
             </motion.div>
@@ -1376,7 +1426,7 @@ export default function App() {
                 className="overflow-hidden"
               >
                 <div className="px-6 pb-5 text-gray-600 leading-relaxed">
-                  Yes. EdBuddies is actively used by centres in both Malaysia and Singapore.
+                  Yes. EdBuddies is actively used by centres in both Singapore and Malaysia.
                 </div>
               </motion.div>
             </motion.div>
@@ -1483,7 +1533,7 @@ export default function App() {
                   Your Centre, Managed.
                 </h2>
                 <p className="text-xl text-gray-600 leading-relaxed">
-                  Join tuition centres and freelance tutors across Malaysia and Singapore who've ditched the spreadsheets.
+                  Join tuition centres and freelance tutors across Singapore and Malaysia who've ditched the spreadsheets.
                 </p>
               </div>
 

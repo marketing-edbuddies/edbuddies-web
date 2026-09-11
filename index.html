@@ -31,7 +31,7 @@
 
       <!-- Primary Meta -->
       <title>EdBuddies | Centre Management App for Tuition Centres</title>
-      <meta name="description" content="EdBuddies is a centre management app for tuition centres and freelance tutors in Malaysia & Singapore. Attendance, billing, invoices, parent communication — all in one app." />
+      <meta name="description" content="EdBuddies is a centre management app for tuition centres and freelance tutors in Singapore and Malaysia — attendance, billing, invoicing and parent communication in one app." />
       <meta name="robots" content="index, follow" />
       <script>
         // Belt-and-suspenders: flip robots to noindex immediately, before the
@@ -61,7 +61,7 @@
       <meta property="og:type" content="website" />
       <meta property="og:url" content="https://edbuddies.ai/" />
       <meta property="og:title" content="EdBuddies | Centre Management App" />
-      <meta property="og:description" content="The centre management app built for tuition centres and freelance tutors. Attendance, billing, invoices, parent communication — all in one app." />
+      <meta property="og:description" content="EdBuddies is a centre management app for tuition centres and freelance tutors in Singapore and Malaysia — attendance, billing, invoicing and parent communication in one app." />
       <meta property="og:image" content="https://edbuddies.ai/og-image.webp" />
       <meta property="og:image:type" content="image/webp" />
       <meta property="og:image:width" content="1734" />
@@ -72,8 +72,54 @@
       <!-- Twitter / X -->
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content="EdBuddies | Centre Management App" />
-      <meta name="twitter:description" content="The centre management app built for tuition centres and freelance tutors. Attendance, billing, invoices, parent communication — all in one app." />
+      <meta name="twitter:description" content="EdBuddies is a centre management app for tuition centres and freelance tutors in Singapore and Malaysia — attendance, billing, invoicing and parent communication in one app." />
       <meta name="twitter:image" content="https://edbuddies.ai/og-image.webp" />
+
+      <!-- Site-wide structured data. Static (not JS-injected) since it's the
+           same on every route. Only verified, already-public facts are used
+           here — no address, ratings, awards or customer counts, since none
+           of those are confirmed for EdBuddies. -->
+      <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "EdBuddies",
+        "url": "https://edbuddies.ai/",
+        "logo": "https://edbuddies.ai/assets/logo-horizontal.webp",
+        "sameAs": [
+          "https://www.facebook.com/profile.php?id=61573123059740",
+          "https://www.instagram.com/edbuddies.ai"
+        ],
+        "contactPoint": [
+          {
+            "@type": "ContactPoint",
+            "contactType": "customer service",
+            "email": "marketing@edbuddies.ai",
+            "areaServed": ["MY", "SG"]
+          },
+          {
+            "@type": "ContactPoint",
+            "contactType": "customer service",
+            "telephone": "+60175665935",
+            "areaServed": "MY"
+          },
+          {
+            "@type": "ContactPoint",
+            "contactType": "customer service",
+            "telephone": "+6598373314",
+            "areaServed": "SG"
+          }
+        ]
+      }
+      </script>
+      <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "EdBuddies",
+        "url": "https://edbuddies.ai/"
+      }
+      </script>
 
       <style>html, body { height: 100%; margin: 0; } #root { height: 100%; }</style>
 

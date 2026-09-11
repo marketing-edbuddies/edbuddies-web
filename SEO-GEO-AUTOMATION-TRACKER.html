@@ -161,6 +161,47 @@
     }
     .footer-note{color:var(--muted);font-size:13px;text-align:center;padding:20px}
     .hidden{display:none!important}
+    /* Tabs + SEO/GEO report view — additive only, does not touch any tracker rule above */
+    .view-tabs{display:flex;gap:8px;margin:18px 0}
+    .view-tab{
+      border:1px solid var(--line);background:var(--panel);color:var(--muted);
+      border-radius:999px;padding:10px 18px;font-weight:650;font-size:14px;
+    }
+    .view-tab.active{background:var(--brand);color:#fff;border-color:var(--brand)}
+    .report-panel{
+      background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+      padding:24px;box-shadow:var(--shadow);margin-bottom:18px;
+    }
+    .report-panel h2{margin:0 0 6px;font-size:22px}
+    .report-panel h3{margin:26px 0 8px;font-size:17px}
+    .report-panel p{color:#3c4961}
+    .report-intro{
+      background:#f8faff;border-left:3px solid var(--brand-2);
+      padding:14px 16px;border-radius:8px;margin:14px 0 22px;
+    }
+    .report-table{width:100%;border-collapse:collapse;font-size:14px;margin-top:10px}
+    .report-table th{
+      text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.04em;
+      color:var(--muted);padding:8px 10px;border-bottom:2px solid var(--line);
+    }
+    .report-table td{padding:12px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+    .report-table tr:last-child td{border-bottom:none}
+    .tag{
+      display:inline-flex;align-items:center;white-space:nowrap;border-radius:999px;
+      padding:4px 10px;font-size:12px;font-weight:650;
+    }
+    .tag.seo{background:var(--chip);color:var(--brand)}
+    .tag.geo{background:#eaf7f0;color:var(--good)}
+    .tag.both{background:#fff3e0;color:var(--warn)}
+    .tag.proc{background:#f1f2f5;color:var(--muted)}
+    .report-summary{
+      background:#f4fbf7;border:1px solid #bfe2ce;border-radius:12px;
+      padding:16px 18px;margin-top:22px;
+    }
+    .report-summary strong{color:var(--good)}
+    @media(max-width:640px){
+      .report-table{display:block;overflow-x:auto;white-space:nowrap}
+    }
     @media(max-width:980px){
       .topbar{grid-template-columns:repeat(2,1fr)}
       .layout{grid-template-columns:1fr}
@@ -200,9 +241,17 @@
       </div>
     </section>
 
+    <div class="view-tabs">
+      <button class="view-tab active" id="tabTracker" type="button">Task Tracker</button>
+      <button class="view-tab" id="tabReport" type="button">SEO/GEO Report</button>
+    </div>
+
+    <div id="trackerView">
     <div class="warning">
-      <strong>Important:</strong> browser checkmarks are saved locally on this device. Claude Code cannot see your browser's localStorage.
-      Use <strong>Export JSON</strong> or <strong>Export Markdown</strong> and keep the exported file in the repo so Claude and you share the same progress state.
+      <strong>Important:</strong> Claude updates this file directly after finishing a task, so opening it fresh always shows Claude's latest progress —
+      no import needed. But any box <em>you</em> check yourself is saved only in this browser's local storage, and Claude cannot see or edit that.
+      If you've checked things off yourself, click <strong>Import JSON</strong> and pick <strong>seo-geo-progress.json</strong> any time to pull in newer
+      Claude updates without losing your own checkmarks.
     </div>
 
     <section class="topbar">
@@ -256,6 +305,156 @@
 
     <div class="footer-note">
       Suggested repo filename: <strong>SEO-GEO-AUTOMATION-TRACKER.html</strong> · Progress file: <strong>seo-geo-progress.json</strong>
+    </div>
+    </div>
+
+    <div id="reportView" class="hidden">
+      <div class="report-panel">
+        <h2>Which work is SEO, which is GEO — and why</h2>
+        <p>A plain-terms breakdown of the tasks completed so far, for Kenneth's reporting use.</p>
+
+        <div class="report-intro">
+          <strong>SEO (Search Engine Optimization)</strong> = making your website show up well in classic Google
+          search — the list of blue links people click through.<br/><br/>
+          <strong>GEO (Generative / AI-Search Optimization)</strong> = making your website understandable and
+          trustworthy to AI tools like ChatGPT, Perplexity, or Google's AI Overviews — so when someone asks an AI
+          "what's a good centre management app in Singapore," the AI can find EdBuddies, describe it correctly,
+          and recommend it instead of getting confused or skipping it.<br/><br/>
+          They overlap a lot — a lot of what helps Google also helps AI tools — but not always.
+        </div>
+
+        <h3>Task-by-task breakdown</h3>
+        <div style="overflow-x:auto">
+        <table class="report-table">
+          <thead>
+            <tr><th>Task</th><th>Type</th><th>Why it helps (plain terms)</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Full site audit</td>
+              <td><span class="tag both">SEO + GEO</span></td>
+              <td>Found the problems before fixing anything blind.</td>
+            </tr>
+            <tr>
+              <td><strong>Decide how pages load</strong></td>
+              <td><span class="tag both">Both — the biggest one</span></td>
+              <td>Your site was JavaScript-only, meaning Google (on first pass) and almost every AI tool saw a
+                <strong>blank page</strong> for every URL except the homepage. This is the single most important
+                fix on this whole list.</td>
+            </tr>
+            <tr>
+              <td>Which pages should/shouldn't show in search</td>
+              <td><span class="tag seo">SEO</span></td>
+              <td>Stops internal draft pages from confusing Google or diluting the real pages.</td>
+            </tr>
+            <tr>
+              <td>Page speed check</td>
+              <td><span class="tag seo">SEO</span></td>
+              <td>Slow pages rank worse in Google; less relevant to AI tools.</td>
+            </tr>
+            <tr>
+              <td>Page titles &amp; descriptions</td>
+              <td><span class="tag seo">SEO</span></td>
+              <td>This is literally the blue link + snippet text people see in Google results.</td>
+            </tr>
+            <tr>
+              <td>Canonical links, sitemap, robots.txt</td>
+              <td><span class="tag seo">SEO</span></td>
+              <td>Housekeeping that tells Google exactly which pages exist and which one is the "real" version.</td>
+            </tr>
+            <tr>
+              <td><strong>Structured data</strong> (hidden info tags: "this is a company," "this is an FAQ,"
+                "this is a breadcrumb trail")</td>
+              <td><span class="tag geo">GEO-heavy</span></td>
+              <td>Written specifically for machines, not humans. AI tools lean on this heavily to pull out facts
+                confidently. Classic Google also uses some of it for the little extra info boxes in results.</td>
+            </tr>
+            <tr>
+              <td>Fixing heading structure (one clear title per page)</td>
+              <td><span class="tag both">Both</span></td>
+              <td>Google uses headings to understand what a page is about; AI tools use the same structure to
+                summarise a page correctly.</td>
+            </tr>
+            <tr>
+              <td>Image descriptions (alt text)</td>
+              <td><span class="tag seo">SEO (minor)</span></td>
+              <td>Helps Google Images and screen readers; not really an AI-chat factor.</td>
+            </tr>
+            <tr>
+              <td>Fixing broken/wrong internal links</td>
+              <td><span class="tag seo">SEO</span></td>
+              <td>Google follows your links to discover pages; broken ones waste that.</td>
+            </tr>
+            <tr>
+              <td>Fixing "page not found" behaviour</td>
+              <td><span class="tag seo">SEO</span></td>
+              <td>Google was seeing every broken link as "this page is fine" (200) instead of "this page doesn't
+                exist" (404) — confusing, and can hurt trust in the whole site.</td>
+            </tr>
+            <tr>
+              <td><strong>Building the actual working version of the page-loading fix</strong></td>
+              <td><span class="tag both">Both</span></td>
+              <td>This is where a bug was caught that would've made Google stop showing the site entirely — a
+                good example of why testing matters.</td>
+            </tr>
+            <tr>
+              <td>Matching search terms to the right page</td>
+              <td><span class="tag seo">SEO</span></td>
+              <td>Makes sure two pages aren't competing against each other for the same Google search.</td>
+            </tr>
+            <tr>
+              <td>Rewriting homepage/feature-page wording for search terms</td>
+              <td><span class="tag seo">SEO</span></td>
+              <td>Makes the wording match what people actually type into Google.</td>
+            </tr>
+            <tr>
+              <td><strong>Internal "facts sheet" about what EdBuddies actually is</strong></td>
+              <td><span class="tag geo">GEO</span></td>
+              <td>Doesn't go on the website — it's a reference so any future AI-search work stays factually
+                consistent, since AI tools get confused (and less confident/accurate) when a company describes
+                itself differently in different places.</td>
+            </tr>
+            <tr>
+              <td><strong>Making FAQs directly answer the question</strong> (instead of "contact us to find out")</td>
+              <td><span class="tag geo">GEO-heavy</span></td>
+              <td>AI tools copy/extract direct answers. A vague non-answer gives them nothing useful to quote.</td>
+            </tr>
+            <tr>
+              <td><strong>Calling EdBuddies the same thing everywhere</strong> ("app," not sometimes "platform")</td>
+              <td><span class="tag geo">GEO-heavy</span></td>
+              <td>AI tools build a mental model of what the product is — inconsistent wording makes that model
+                fuzzier and less trustworthy.</td>
+            </tr>
+            <tr>
+              <td>Competitor-claims safety rule</td>
+              <td><span class="tag proc">Risk mgmt</span></td>
+              <td>Stops an AI (or Google) from ever surfacing an unapproved or inaccurate comparison claim about a
+                competitor.</td>
+            </tr>
+            <tr>
+              <td>Automation permission rules</td>
+              <td><span class="tag proc">Neither</span></td>
+              <td>Process/governance only — defines how Claude is allowed to work going forward, not something
+                that affects rankings or AI visibility.</td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+
+        <div class="report-summary">
+          <strong>The short version:</strong>
+          <ul>
+            <li><strong>SEO work</strong> = making sure Google can find, correctly read, and fairly rank every real
+              page on the site (titles, links, speed, page structure).</li>
+            <li><strong>GEO work</strong> = making sure AI tools can correctly understand and confidently describe
+              EdBuddies when someone asks them about it (structured data, direct answers, consistent facts and
+              wording).</li>
+            <li>The single biggest win covers both: the site was invisible to almost every non-Chrome-style
+              crawler because it needed JavaScript to show anything. Fixing that is the foundation everything
+              else builds on.</li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -864,12 +1063,59 @@ const phases = [
 
 const STORAGE_KEY = "edbuddies-seo-geo-tracker-v1";
 
+// Claude updates this block directly (kept in sync with seo-geo-progress.json's
+// "state" object) each time a task is finished, so opening this file in a
+// browser that has never touched it shows current progress with no import
+// step. Any task NOT listed here falls back to a blank "todo" in defaultState().
+// If you've already checked things off yourself in this browser, your own
+// localStorage entries still win for those task ids (see loadState() below) —
+// re-import seo-geo-progress.json via the "Import JSON" button any time to
+// pull in newer Claude updates on top of your own checkmarks.
+const KNOWN_PROGRESS = {
+  "p0-t1": {status:"done", owner:"Claude", notes:"Committed 2026-09-07 (5f35811). Tracker saved to repo root, no website files touched.", due:"", updatedAt:"2026-09-07T07:26:20.000Z"},
+  "p0-t2": {status:"done", owner:"Both", notes:"seo-geo-progress.json committed to repo root alongside the tracker (5f35811).", due:"", updatedAt:"2026-09-07T07:26:20.000Z"},
+  "p0-t3": {status:"in-progress", owner:"Both", notes:"CLAUDE.md covers push/deploy/domain/Vercel settings but not explicit 'no merge' wording scoped to a seo-geo/* branch model. Full explicit wording is Phase 6 (p6-t1). Leaving in-progress.", due:"", updatedAt:"2026-09-07T07:30:00.000Z"},
+  "p1-t1": {status:"done", owner:"Claude", notes:"Full ranked SEO/GEO audit complete (Singapore = primary market). CRITICAL: CSR-only/no SSR, soft-404 rewrite in vercel.json, ungated 'Free' claim in homepage H1 (App.tsx 393/411). HIGH: broken heading hierarchy on 4 pages, zero structured data, orphaned /pricing not noindexed, no hreflang/SG locale signal. MEDIUM: /features/ai missing from sitemap, unoptimized About-page images, unverified canonical-host redirect. LOW: dead og-image.png, stale AppPremium.tsx copy, Terms.tsx names only Malaysia. Full detail in seo-geo-progress.json.", due:"", updatedAt:"2026-09-08T05:45:00.000Z"},
+  "p1-t2": {status:"done", owner:"Both", notes:"Rendering strategy decided: build-time static prerendering via a custom Puppeteer post-build snapshot script (not vite-react-ssg -- de-prioritized by its own maintainers for React Router v7 -- and not a full RR7 framework-mode migration, which is too large a change for this need). Key reason: main.tsx instantiates Lenis at module scope with no window guard, so a Node-based SSG renderer would likely crash; a real-headless-browser snapshot avoids that entirely. Exact routes, build steps, risks and rollback plan in seo-geo-progress.json. Decision only, nothing implemented.", due:"", updatedAt:"2026-09-08T06:20:00.000Z"},
+  "p1-t3": {status:"done", owner:"Both", notes:"Route indexation table built for all 16 routes in main.tsx. INDEX: /, /features, all 6 concrete feature-detail routes, /features/ai (missing from sitemap.xml -- needs fixing), /contact, /about, /privacy, /terms. Already-correct NOINDEX: /features-new (draft under review), * / NotFound (its HTTP status is still 200 not a real 404 -- tracked under p1-t2's fix, not a classification issue). N/A: /features/:featureId for any slug other than 'ai' falls through to NotFound. OPEN DECISION for Kenneth: /pricing is currently indexable by default despite being fully orphaned since 2026-09-07 -- recommend NOINDEX (not remove, to avoid 404ing existing links) but this is a product/marketing call, not applied yet. AppPremium.tsx flagged as confirmed not a live route (not in main.tsx). Full table in seo-geo-progress.json.", due:"", updatedAt:"2026-09-08T07:05:00.000Z"},
+  "p1-t4": {status:"done", owner:"Claude", notes:"Ran a real npm run build + vite preview and measured with the browser's real Performance/Resource Timing APIs -- no source files changed. Real bundle data: every page pays a shared cost of ~68kB gzip (vendor runtime) + ~56kB gzip from a chunk misleadingly named seo-*.js (actually a large shared vendor dep, not seo.ts itself -- worth renaming/splitting). About.tsx is BY FAR the heaviest route at 157kB gzip (2x+ every other route combined, almost certainly the Southeast Asia map component) and also eagerly loads a 153.7KB autoplay video with no lazy/preload control. Meta Pixel (fbevents.js, third-party via GTM) added 106KB on its own. LIMITATION DISCLOSED: true Core Web Vitals (LCP/CLS/TBT) could not be captured -- this sandboxed browser tool's tab reports visibilityState='hidden' even when fronted, which the browser spec correctly suppresses those specific PerformanceObserver entries for; recommend a real Lighthouse/PageSpeed Insights run for authoritative scores. Also noted in passing, out of scope: npm install flagged 1 high-severity dependency vulnerability, not investigated (not an SEO issue). Full writeup in seo-geo-progress.json.", due:"", updatedAt:"2026-09-08T08:10:00.000Z"},
+  "p2-t1": {status:"done", owner:"Claude", notes:"First task this session to actually edit website source files -- confirmed with Kenneth first; /pricing stays untouched per his instruction. Used the copywriting skill plus product-facts.md/brand-brief.md for approved claims and voice. Changed: App.tsx + index.html (homepage description/OG/Twitter tags reordered Singapore-first and synced to all agree), Features.tsx (tightened + given a Singapore-first mention), Contact.tsx (reordered to Singapore-first), About.tsx (added a natural Singapore-first mention), FeatureDetail.tsx (fixed a spotted bug: /features/ai's title was duplicating the brand name as 'EdBuddies AI — EdBuddies Features', now 'AI — EdBuddies Features'). Deliberately left unchanged: the 6 static feature-detail pages (already unique/on-brand, forcing market mentions into near-identical templates would read as stuffing), Privacy/Terms, /pricing, /features-new and NotFound. npm run build ran clean; verified live in a browser (vite preview) that / , /about and /features/ai actually render the new title/description text, not just present in source. No invented claims -- every fact used already existed in product-facts.md or the page's prior copy. Full writeup in seo-geo-progress.json.", due:"", updatedAt:"2026-09-08T09:30:00.000Z"},
+  "p2-t2": {status:"done", owner:"Claude", notes:"Verify-only, no code changed. Every route already output the correct https://edbuddies.ai/... canonical via setPageMeta -- confirmed by checking every url: field in the codebase. Only gap is the pre-JS static canonical in index.html, already owned by p1-t2/p3-t1.", due:"", updatedAt:"2026-09-08T10:00:00.000Z"},
+  "p2-t3": {status:"done", owner:"Claude", notes:"Verify-only, no code changed. robots.txt already correct. Deliberately did NOT add Disallow for /features-new or /pricing -- that would work against Google's own noindex guidance (Disallow blocks the crawl needed to see noindex), so leaving it alone is the right call.", due:"", updatedAt:"2026-09-08T10:02:00.000Z"},
+  "p2-t4": {status:"done", owner:"Claude", notes:"Added the missing /features/ai entry to sitemap.xml (fixes p1-t1 finding #8). /pricing deliberately still excluded from the sitemap -- distinct, lower-stakes call from the noindex question (sitemaps actively promote pages; /pricing is deliberately hidden from nav) -- flagged for Kenneth in case he wants it included anyway.", due:"", updatedAt:"2026-09-08T10:10:00.000Z"},
+  "p2-t5": {status:"done", owner:"Claude", notes:"Added static Organization + WebSite JSON-LD to index.html using only verified facts: name/url/logo, sameAs to the real already-public Facebook/Instagram links, contactPoint from the real WhatsApp MY/SG numbers and email on the Contact page. No SearchAction (no real search feature), no address/ratings/awards/employee-count -- none confirmed anywhere, so omitted rather than invented.", due:"", updatedAt:"2026-09-08T10:25:00.000Z"},
+  "p2-t6": {status:"done", owner:"Claude", notes:"Added page-specific JSON-LD via a new jsonLd field folded into setPageMeta itself (src/app/seo.ts) -- it always sets-or-clears the shared schema tag on every call, same pattern as the existing robots-tag reset, so untouched pages (Pricing, FeaturesNew, NotFound, Privacy, Terms) automatically can't leak stale schema with zero edits to those files. FAQPage on Home (mirrors the 5 visible FAQs incl. the SHOW_FREE_MESSAGING-gated one) and Contact (built directly from the FAQS data array). BreadcrumbList on all 7 feature-detail pages, matching each page's visible breadcrumb. Verified live in a browser across a real client-side SPA navigation, not just a page reload.", due:"", updatedAt:"2026-09-08T11:15:00.000Z"},
+  "p2-t7": {status:"done", owner:"Claude", notes:"Self-correction mid-task: my original p1-t1 finding #4 was wrong -- it came from a grep that misses framer-motion's <motion.h1> (a real h1 in the DOM). Re-audited properly: Contact/About/Pricing/NotFound already had exactly one real h1 each, no fix needed (caught and reverted a mistaken edit to Features.tsx made before the re-audit). Only 2 real fixes: App.tsx's genuine duplicate h1 (changed the 2nd to a <p>, same className, wording untouched -- the 'Free' claim itself is still p1-t1 finding #3, a separate open decision for Kenneth, not something I have approval to reword) and Contact.tsx's 'Message sent!' h3 that skipped a level (now h2).", due:"", updatedAt:"2026-09-08T11:45:00.000Z"},
+  "p2-t8": {status:"done", owner:"Claude", notes:"Re-audited every img/motion.img across all routed pages. All meaningful images already had accurate alt text. Found and fixed one real issue: Footer.tsx's decorative background logo watermark had alt='EdBuddies', redundant since the brand name is already real text one line below it -- changed to alt=''.", due:"", updatedAt:"2026-09-08T11:55:00.000Z"},
+  "p2-t9": {status:"done", owner:"Claude", notes:"Found and fixed a real bug: all 7 feature-detail pages' breadcrumb 'Features' link pointed to /features-new (noindexed draft) instead of /features (live page) -- identical bug across all 7 files, clearly copy-paste, not deliberate. Fixed all 7. Verified the Navbar mega-menu + mobile menu use real crawlable Link elements to all 7 pages, not orphaned. Confirmed the old /features page not linking to the new detail pages is intentional per CLAUDE.md (pending a redesign decision), not a bug -- left untouched. /pricing remains the one deliberately orphaned page.", due:"", updatedAt:"2026-09-08T12:05:00.000Z"},
+  "p2-t10": {status:"done", owner:"Claude", notes:"Root cause confirmed: vercel.json's blanket catch-all rewrite meant every URL, real or not, returned HTTP 200. FIX (works standalone, doesn't need to wait for p3-t1's prerendering): narrowed the rewrite to an explicit list of the 9 real route patterns in main.tsx; anything else now falls through to Vercel's normal static-file 404 behavior. Added public/404.html (dependency-free, on-brand, noindex) as the custom error page Vercel serves by convention. Checked route-by-route against main.tsx before writing the rule list specifically to avoid breaking direct navigation to any real page. Remaining gap disclosed: a typo'd /features/ slug still soft-404s client-side (smaller, already-noindexed edge case) -- full fix still owned by p3-t1. VERIFICATION LIMIT disclosed: could not test real HTTP status against actual Vercel infra (vite preview doesn't emulate vercel.json; running vercel dev would require linking this unlinked project to an account, not done without Kenneth). Recommend confirming real status codes on an actual preview deploy.", due:"", updatedAt:"2026-09-08T12:30:00.000Z"},
+  "p3-t1": {status:"done", owner:"Claude", notes:"Implemented the Puppeteer prerendering approach from p1-t2. Correction to that decision: build-time prerendering runs in Vercel's full build container (not a size-constrained serverless function), so plain puppeteer is the right call, not puppeteer-core+@sparticuz/chromium. New scripts/prerender.mjs, wired into the build script. CRITICAL BUG CAUGHT before shipping: the first working version baked noindex,nofollow into every single route including the homepage, because seo.ts's existing (correct, deliberate) hostname-based noindex safety check saw 'localhost' during local capture and treated it like any other non-production host. Fixed by making Puppeteer navigate as edbuddies.ai (via Chrome's --host-resolver-rules) instead of localhost or touching the app's own hostname logic. Verified fixed: every real route now says index,follow, /features-new still correctly says noindex,nofollow. Also removed vercel.json's p2-t10 rewrites entirely -- real static files now exist for every route so no rewrite is needed, and this is cleaner than maintaining a route allowlist. Known trade-off, not fixed: main.tsx still uses createRoot not hydrateRoot, so real browsers get a fresh client-render on top of the prerendered HTML rather than true hydration -- deliberate, since Framer Motion's animated initial states make hydration mismatches a real untested risk out of proportion to what this task needed. Full reasoning in seo-geo-progress.json.", due:"", updatedAt:"2026-09-08T13:15:00.000Z"},
+  "p3-t2": {status:"done", owner:"Claude", notes:"Built a verification table by reading every generated dist/<route>/index.html directly. All 15 routes pass: title, description, canonical, exactly one h1, Organization JSON-LD, correct robots meta, and page-specific JSON-LD (FAQPage on Home/Contact, BreadcrumbList on all 7 feature-detail pages) where applicable. This exact check is what caught p3-t1's critical noindex bug -- the build itself succeeded both before and after that bug existed, only reading the actual generated output caught it, which is precisely this task's own reason for existing.", due:"", updatedAt:"2026-09-08T13:30:00.000Z"},
+  "p3-t3": {status:"done", owner:"Claude", notes:"/features-new confirmed noindex and excluded from sitemap.xml -- no other internal/draft routes exist. Vercel preview-deployment indexing risk reviewed: existing code-level protection (seo.ts's isReviewHost + the inline hostname-check script that reruns live in every real visitor's browser) already covers it and was specifically preserved through p3-t1's prerendering work -- see p3-t1's notes. Reviewed but deliberately NOT implemented, per this task's own 'without changing production deployment settings' instruction: Vercel's account-level Deployment Protection (password/SSO-gating preview URLs) would be a stronger defense-in-depth layer -- recommending Kenneth consider enabling it in the Vercel dashboard, not required since code-level protection already works today.", due:"", updatedAt:"2026-09-08T13:40:00.000Z"},
+  "p4-t1": {status:"done", owner:"Claude", notes:"Mapping-only, no files changed. Group A (core 'tuition centre' commercial intent) -> Homepage: primary 'tuition centre management software Singapore', secondaries 'tuition centre management system', 'tuition management software', and 'enrichment centre software' (lower confidence -- a future dedicated enrichment-centre page would serve this better). Group B (broader/generic category) -> /features: primary 'education centre management software', deliberately kept separate from the homepage's group to avoid cannibalization. Group C (student/class-specific) -> /features/class-management: primary 'student management system Singapore', exact content match. No overlap: every keyword has exactly one page, no page has two competing primaries. FLAGGED before proceeding: p4-t2/p4-t3 rewrite visible body copy (not just meta tags) using this map -- bigger step than anything done so far, pausing for explicit confirmation. Also flagged: p4-t4's own prompt asks to review whether /pricing should be indexed, which conflicts with Kenneth's earlier 'leave /pricing as-is' -- will only review its metadata when that task comes up, not its indexation status, unless told otherwise.", due:"", updatedAt:"2026-09-08T14:10:00.000Z"},
+  "p4-t2": {status:"done", owner:"Claude", notes:"Self-caught error mid-task, disclosed in full: Kenneth approved specific new H1 wording for App.tsx's hero, applied it, then routine build verification revealed that entire hero section is wrapped in `{false && <section>...}` with a '/* Hero Section removed */' comment -- dead code, never rendered. This means p1-t1's original CRITICAL finding #3 (duplicate H1 / ungated Free claim) and p2-t7's fix to it both targeted unreachable code the whole time. Reverted both edits back to original text rather than leave stale changes in dead code. Found the REAL live hero is <HeroScroll />, with no duplicate-h1 bug and no live ungated free-claim (its badge is correctly flag-gated) -- so the original finding doesn't describe a real live-site risk once corrected. Asked Kenneth again about the real h1: he chose the same smallest-change approach -- dropped the filler 'With us!' (also breaks the exclamation-point style rule), kept the rest, no Singapore added directly into the H1. Also reordered Singapore-first across the real homepage: HeroScroll's description/trust line, App.tsx's social-proof line, the visible FAQ answer + its matching JSON-LD (kept in sync), the final-CTA text, and Footer.tsx's About-Us blurb + copyright line (Footer renders on every page). Flagged, not fixed: Features/Contact/About still have some body-copy instances in the old order -- out of scope for a homepage-only task. Verified in generated output: exactly one h1, zero Malaysia-first instances left on the live page, FAQ JSON-LD matches visible text exactly, screenshot confirms no layout issues. Full writeup in seo-geo-progress.json.", due:"", updatedAt:"2026-09-08T15:20:00.000Z"},
+  "p4-t3": {status:"done", owner:"Claude", notes:"Applied the lesson from p4-t2: checked all 7 feature-detail pages + /features for dead-code patterns before analyzing anything -- none found, all live. Read every page's actual hero and body copy (not just meta tags). Finding: this content is already well-crafted and substantially meets this task's own doneWhen (problem/capability/audience/outcome, avoiding repetitive copy) -- each detail page already follows a deliberate Hero -> Problem -> Benefit -> How-it-works -> Outcomes structure with page-specific pain points, and even has code comments noting where the visual treatment was deliberately varied page-to-page to avoid a templated feel. Decision: did NOT rewrite any H1s/hero copy -- the existing headlines are specific and benefit-led already, only one of the 7 pages has an assigned p4-t1 keyword, and forcing keywords into already-good copy risks the exact 'repetitive SEO copy / keyword stuffing' this task warns against. Concrete fix made: /features had 3 remaining 'Malaysia & Singapore' (wrong order) instances in its visible body copy that p2-t1's meta-only pass missed -- all 3 reordered, no new wording. Flagged for Kenneth: if he wants /features' or /features/class-management's H1 to more directly reflect their assigned keywords, that needs the same propose-for-approval treatment as the homepage H1 -- not done here since nothing was actually wrong with them. Verified: full clean build + prerender, confirmed zero Malaysia-first instances remain in the generated /features page.", due:"", updatedAt:"2026-09-08T16:00:00.000Z"},
+  "p4-t4": {status:"done", owner:"Claude", notes:"Checked for dead code first (none found). This task's own prompt asks to review whether /pricing should be indexed -- per Kenneth's direction this session ('leave pricing first'), that was NOT re-litigated; only its metadata was reviewed (already correct, untouched). Explicit SEO role + recommendation per page: /pricing = semi-hidden utility page, deliberately left indexable per Kenneth's standing instruction (my earlier noindex recommendation stands on record but is his call). /about = trust/brand page, should stay indexed (already is), metadata already correct. /contact = conversion/lead-gen page, should stay indexed (already is) to capture branded search intent and FAQ rich results, metadata + FAQPage schema already correct. Concrete fix made (now in scope, previously flagged but not fixed): reordered remaining Malaysia-first text in About.tsx (stats label, image alt) and Contact.tsx (both FAQS_FREE and FAQS_DEFAULT variants of the countries FAQ, though only FAQS_DEFAULT is currently live). Contact's FAQPage JSON-LD is derived directly from the FAQS array so it stayed in sync automatically. Left untouched: About.tsx's MARKETS flag-badge display order (a visual-list question, not a text-ordering one). Verified in generated output: correct title/description/canonical/robots for all 3 pages, zero Malaysia-first instances remain. Phase 4 (p4-t1 through p4-t4) now fully complete.", due:"", updatedAt:"2026-09-09T05:30:00.000Z"},
+  "p5-t1": {status:"done", owner:"Claude", notes:"Created SEO-GEO-ENTITY-FACTS.md at repo root -- internal reference only, not a webpage, not linked/routed. Sourced entirely from product-facts.md, brand-brief.md and this repo's own verified live content, with an explicit note that anything not backed by those sources doesn't belong in the file. Covers what EdBuddies is/isn't, who it serves, markets (incl. the Vietnam/Philippines prohibition and Singapore-primary framing for this project), platforms, full approved capability list, the AI-marking product-direction caveat, the pricing hard-rule, safe positioning claims, prohibited/unverified claims (cross-referencing p5-t4's guardrail), brand voice and colours. Meant as the reusable reference for p5-t2/p5-t3 and future sessions.", due:"", updatedAt:"2026-09-09T07:00:00.000Z"},
+  "p5-t2": {status:"done", owner:"Claude", notes:"Audited whether key pages directly answer 'what is it / who for / what does it manage / why use it'. Found the real hero (HeroScroll) and Contact's FAQ already answer these well. Found and fixed one real gap: the homepage's own 'What's included with EdBuddies?' FAQ answered with a vague deflection ('Get in touch to learn more') instead of actually answering -- replaced with a direct answer listing the same approved capabilities used elsewhere, fixed in both the visible FAQ and its matching JSON-LD. No new FAQ schema added (none needed, task explicitly said not to add schema just for search features), no invented evidence. Flagged, not changed: an ambiguous 'Software fees drain profit every month' pain-point card with no paired resolution statement -- not clearly wrong, but noted for Kenneth's awareness rather than guessing at a rewrite.", due:"", updatedAt:"2026-09-09T07:20:00.000Z"},
+  "p5-t3": {status:"done", owner:"Claude", notes:"Audited app/platform/software terminology across all indexable routes. Found one real inconsistency: HeroScroll's live hero description contradicted itself in one sentence ('management PLATFORM... all in one APP') -- standardised to 'app', matching every other live instance and the literal product name ('EdBuddies App' per brand-brief.md). Noted, not changed: the noindex draft FeaturesNew.tsx still says 'platform' (lower priority, not live); product-facts.md and brand-brief.md themselves disagree with each other on this term ('platform' vs 'software') -- flagged for whoever reconciles the parent project's docs, not silently overridden. Confirmed no spelling inconsistency (centre, not center) or brand-name capitalization issues. Considered and declined: forcing product-facts.md's full 4-segment audience list into every short tagline that currently says the shorter 'tuition centres and freelance tutors' -- that's normal brevity, not an error, and would risk the keyword-stuffing pattern already flagged as a risk in p4-t2/p4-t3.", due:"", updatedAt:"2026-09-09T07:35:00.000Z"},
+  "p5-t4": {status:"done", owner:"Both", notes:"Added an explicit competitor-comparison guardrail to this repo's CLAUDE.md (Safety rules section). Claude may identify competitor-content opportunities (AOne/Illumine) but may NOT publish or modify a factual comparison against them without BOTH a fresh evidence review at time of writing (competitor facts can go stale between sessions) AND Kenneth's explicit approval of the specific content -- applies to on-page copy, meta descriptions and structured data alike. This is now written into the durable rules file governing every future session on this repo, not just a one-off note -- Kenneth should review the exact wording since it's now a standing project rule. Cross-referenced from SEO-GEO-ENTITY-FACTS.md so both documents point at the same guardrail. Phase 5 (p5-t1 through p5-t4) now fully complete.", due:"", updatedAt:"2026-09-09T07:45:00.000Z"},
+  "p6-t1": {status:"blocked", owner:"Both", notes:"Drafted the full proposed CLAUDE.md 'SEO/GEO Automation Permissions' section and showed it to Kenneth before touching any file, per this task's own instruction. Kenneth's decision: keep this session local-only -- no branch pushes, no PR creation, no automation permissions added. Marked 'blocked' (deliberate policy decision, not a temporary blocker or an unstarted task) rather than 'done', since the actual deliverable was not implemented. CLAUDE.md was NOT edited with any push/PR permission. Drafted text preserved in this session's transcript if Kenneth revisits later.", due:"", updatedAt:"2026-09-09T09:00:00.000Z"},
+  "p6-t2": {status:"done", owner:"Both", notes:"Added a new 'SEO/GEO Approved File Scope' section to CLAUDE.md, independent of the p6-t1 push/PR question -- defines local editing boundaries regardless of whether work ever leaves this machine. Three tiers: always-allowed (tracker/progress/entity-facts files, seo.ts, per-route setPageMeta calls, reordering already-approved facts, scripts/ tooling), approval-required (new copy wording, vercel.json/package.json, CLAUDE.md itself, new pages, analytics files, /pricing, public/assets), and never (secrets, CI config, another agent's files, dead code, node_modules/dist, account-level settings). Codifies the boundaries this session already operated within.", due:"", updatedAt:"2026-09-09T09:10:00.000Z"},
+  "p6-t3": {status:"done", owner:"Both", notes:"Added a new 'SEO/GEO Automatic Stop Conditions' section to CLAUDE.md covering every category the task named: build failure, unverifiable claims, pricing/customer-testimonial content, competitor comparisons (cross-referenced to p5-t4, evidence review needed every time), analytics/secrets changes, oversized diffs or out-of-scope files, unexpected route/indexation changes, and destructive git operations. Framed as 'stop and explain, don't guess' -- matches how this session actually behaved when it caught the dead-code discovery (p4-t2) and the every-route-noindex bug (p3-t1) by stopping to verify rather than assuming success.", due:"", updatedAt:"2026-09-09T09:15:00.000Z"},
+  "p6-t4": {status:"blocked", owner:"Claude", notes:"Deferred, not done -- this task is entirely about creating a PR template, which presupposes the push/PR workflow p6-t1 was declined for. Writing a template for a process that doesn't exist would be premature. Marked 'blocked' (dependent on p6-t1). If Kenneth revisits p6-t1 later, this becomes immediately actionable using the PR-content structure already implied by the declined p6-t1 draft.", due:"", updatedAt:"2026-09-09T09:20:00.000Z"},
+  "p8-t1": {status:"done", owner:"Kenneth", notes:"Kenneth explicitly approved the final production route list: 14 INDEX routes (/, /features, all 7 feature-detail routes, /pricing, /contact, /about, /privacy, /terms) + 1 NOINDEX draft (/features-new). Matches p1-t3's classification exactly, unchanged since, and is what every build/prerender/validation pass this session already tested against. This is now the confirmed target for launch.", due:"", updatedAt:"2026-09-09T12:00:00.000Z"},
+  "p8-t2": {status:"done", owner:"Claude", notes:"Fresh build + prerender, validated all 15 generated route files directly: unique titles/descriptions, correct canonicals, correct robots meta per route, exactly one h1 each, non-empty prerendered content, Organization JSON-LD present, correct sitemap membership. All 15 routes pass, zero issues. Re-confirmed robots.txt, vercel.json (no catch-all rewrite) and dist/404.html are all still correct. Could not check live HTTP status codes against real Vercel infra (no account access) -- recommend a spot-check once this reaches an actual preview deployment.", due:"", updatedAt:"2026-09-09T11:15:00.000Z"},
+  "p8-t3": {status:"done", owner:"Both", notes:"Inventoried the current live edbuddies.ai WordPress site read-only (its own robots.txt + wp-sitemap.xml) -- found it's very minimal, only 4 real pages. Redirect map: / -> / (no change), /privacy-policy/ -> /privacy, /contact-us/ -> /contact, /terms-of-use/ -> /terms, /hello-world/ -> / (WordPress's unedited default sample post, courtesy redirect only). Separate finding: the live site's own 'Program' nav link is already broken (404s) today, independent of this migration -- worth Kenneth fixing on the WordPress side regardless. No redirects applied anywhere, proposal only per this task's own instruction.", due:"", updatedAt:"2026-09-09T11:30:00.000Z"},
+  "p8-t4": {status:"todo", owner:"Kenneth", notes:"Not started -- explicitly Kenneth's action alone, and premature: nothing from this session has been pushed or deployed yet (local-only per the Phase 6 decision), so there's nothing yet to approve a cutover of. Revisit once p8-t1 is approved and work has actually been pushed/reviewed.", due:"", updatedAt:"2026-09-09T11:30:00.000Z"},
+};
+
 function defaultState(){
   const s = {};
   phases.forEach(p => p.tasks.forEach(t => {
     s[t.id] = {status:"todo", owner:t.owner, notes:"", due:"", updatedAt:null};
   }));
-  return s;
+  return {...s, ...KNOWN_PROGRESS};
 }
 
 let state = loadState();
@@ -877,8 +1123,12 @@ let state = loadState();
 function loadState(){
   try{
     const raw = localStorage.getItem(STORAGE_KEY);
-    if(!raw) return defaultState();
-    return {...defaultState(), ...JSON.parse(raw)};
+    const stored = raw ? JSON.parse(raw) : {};
+    // Claude's KNOWN_PROGRESS always wins over whatever is already sitting in
+    // this browser's storage, so a stale/blank save from before Claude
+    // finished a task can never hide that it's actually done. Your own
+    // checkmarks on any task Claude hasn't touched still apply normally.
+    return {...defaultState(), ...stored, ...KNOWN_PROGRESS};
   }catch(e){
     return defaultState();
   }
@@ -1111,6 +1361,27 @@ document.getElementById("resetBtn").addEventListener("click", ()=>{
 });
 
 render();
+</script>
+
+<!-- Tab switcher for Task Tracker / SEO+GEO Report. Kept as its own script,
+     separate from the tracker's own script above, so it can never interfere
+     with tracker state, rendering or the KNOWN_PROGRESS data. -->
+<script>
+(function(){
+  const trackerBtn = document.getElementById("tabTracker");
+  const reportBtn = document.getElementById("tabReport");
+  const trackerView = document.getElementById("trackerView");
+  const reportView = document.getElementById("reportView");
+  function show(view){
+    const showTracker = view === "tracker";
+    trackerView.classList.toggle("hidden", !showTracker);
+    reportView.classList.toggle("hidden", showTracker);
+    trackerBtn.classList.toggle("active", showTracker);
+    reportBtn.classList.toggle("active", !showTracker);
+  }
+  trackerBtn.addEventListener("click", () => show("tracker"));
+  reportBtn.addEventListener("click", () => show("report"));
+})();
 </script>
 </body>
 </html>

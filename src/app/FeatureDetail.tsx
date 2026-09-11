@@ -105,9 +105,20 @@ export default function FeatureDetail() {
   useEffect(() => {
     if (!page || page.disabled) return;
     setPageMeta({
-      title: `${page.shortTitle} — EdBuddies Features`,
+      // shortTitle can already start with "EdBuddies" (e.g. "EdBuddies AI") —
+      // strip that prefix here so the title tag never repeats the brand name.
+      title: `${page.shortTitle.replace(/^EdBuddies\s+/, "")} — EdBuddies Features`,
       description: page.description,
       url: `https://edbuddies.ai/features/${page.slug}`,
+      jsonLd: {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: "https://edbuddies.ai/" },
+          { "@type": "ListItem", position: 2, name: "Features", item: "https://edbuddies.ai/features" },
+          { "@type": "ListItem", position: 3, name: page.shortTitle, item: `https://edbuddies.ai/features/${page.slug}` },
+        ],
+      },
     });
   }, [page]);
 
@@ -123,7 +134,7 @@ export default function FeatureDetail() {
           <div className="relative mx-auto max-w-6xl">
             <nav aria-label="Breadcrumb" className="mb-10 flex flex-wrap items-center gap-2 text-sm text-slate-500">
               <Link to="/" className="hover:text-[#09244B]">Home</Link><span aria-hidden="true">/</span>
-              <Link to="/features-new" className="hover:text-[#09244B]">Features</Link><span aria-hidden="true">/</span>
+              <Link to="/features" className="hover:text-[#09244B]">Features</Link><span aria-hidden="true">/</span>
               <span className="font-semibold text-[#09244B]" aria-current="page">{page.shortTitle}</span>
             </nav>
             <div className="grid items-center gap-14 lg:grid-cols-[1.02fr_0.98fr] lg:gap-20">
