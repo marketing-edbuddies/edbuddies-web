@@ -542,10 +542,9 @@ export default function App() {
             >
               {/* First Set */}
               {[
-                { src: '/assets/EdBuddies-ai.png', alt: 'EdBuddies' },
                 { src: '/assets/Whizminds-tuition-centre.png', alt: 'Whizminds' },
-                { src: '/assets/champs-tuition-centre.png', alt: 'Champs' },
                 { src: '/assets/yews-tuition-centre.png', alt: 'Yews' },
+                { src: '/assets/yellow-ribbon-project.png', alt: 'Yellow Ribbon Project' },
               ].map(({ src, alt }) => (
                 <div key={alt} className="shrink-0 opacity-70 hover:opacity-100 transition-opacity">
                   <img src={src} alt={alt} loading="lazy" className="h-28 w-auto object-contain" />
@@ -553,10 +552,9 @@ export default function App() {
               ))}
               {/* Duplicate Set for seamless loop */}
               {[
-                { src: '/assets/EdBuddies-ai.png', alt: 'EdBuddies2' },
                 { src: '/assets/Whizminds-tuition-centre.png', alt: 'Whizminds2' },
-                { src: '/assets/champs-tuition-centre.png', alt: 'Champs2' },
                 { src: '/assets/yews-tuition-centre.png', alt: 'Yews2' },
+                { src: '/assets/yellow-ribbon-project.png', alt: 'Yellow Ribbon Project2' },
               ].map(({ src, alt }) => (
                 <div key={alt} className="shrink-0 opacity-70 hover:opacity-100 transition-opacity">
                   <img src={src} alt={alt} loading="lazy" className="h-28 w-auto object-contain" />
