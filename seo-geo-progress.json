@@ -284,53 +284,53 @@
       "updatedAt": "2026-09-09T11:30:00.000Z"
     },
     "p8-t4": {
-      "status": "todo",
+      "status": "done",
       "owner": "Kenneth",
-      "notes": "Not started -- explicitly Kenneth's action alone, and explicitly premature: nothing from this session has been pushed to GitHub or deployed to Vercel yet (session has been kept local-only per Kenneth's Phase 6 decision), so there is nothing yet for him to approve a cutover of. Revisit once p8-t1 is approved, work has actually been pushed/reviewed, and Kenneth is ready to consider going live.",
+      "notes": "Confirmed done -- Kenneth reported edbuddies.ai live on 2026-09-14; independently verified via curl (bypassing client-side JS, i.e. what search engines/AI crawlers actually see) that the domain now serves the new prerendered React/Vite site directly from Vercel, not the old WordPress site. Checked: '/' returns the correct title ('EdBuddies | Centre Management App for Tuition Centres'), correct H1 ('Simplify Tuition Centre Management'), Singapore-first body copy, 3 JSON-LD blocks, 'robots: index, follow', a real canonical tag; '/features', '/about', '/contact' all return 200 with correct prerendered titles; an unknown route returns a real 404; /robots.txt and /sitemap.xml are both served correctly; response headers show 'server: Vercel' plus this session's security headers (HSTS, CSP report-only, X-Frame-Options, etc.) live in production. This closes the last gate in Phase 8 -- the cutover itself is genuinely done, not just deployed to a preview.",
       "due": "",
-      "updatedAt": "2026-09-09T11:30:00.000Z"
+      "updatedAt": "2026-09-14T13:47:00.000Z"
     },
     "p9-t1": {
-      "status": "todo",
+      "status": "done",
       "owner": "Both",
-      "notes": "",
+      "notes": "Verified via Kenneth's connected Google Search Console account (Composio, read-only API access, 2026-09-14). sc-domain:edbuddies.ai is verified with siteOwner permission (also present as a URL-prefix property https://edbuddies.ai/). One sitemap submitted: https://edbuddies.ai/sitemap.xml, last submitted 2026-08-28, last downloaded by Google 2026-09-13, 8 URLs submitted, 0 errors/warnings, but the sitemap report itself shows 'indexed: 0' -- this looks like a known GSC sitemap-report lag/quirk rather than a real problem, since a direct URL Inspection (p9-t2) confirms the homepage IS actually indexed. Flagging the discrepancy to re-check in a week rather than treating it as settled.",
       "due": "",
-      "updatedAt": null
+      "updatedAt": "2026-09-14T14:05:00.000Z"
     },
     "p9-t2": {
-      "status": "todo",
+      "status": "done",
       "owner": "Both",
-      "notes": "",
+      "notes": "Ran GOOGLE_SEARCH_CONSOLE_INSPECT_URL against two representative pages (2026-09-14). Homepage (https://edbuddies.ai/): coverageState 'Submitted and indexed', verdict PASS, correct canonical (both user + Google canonical = https://edbuddies.ai/), robots ALLOWED, last crawled 2026-09-12. /features: 'URL is unknown to Google' -- not yet crawled, expected for a page this new (not a failure). FINDING (HIGH, actionable): the homepage's Search Console 'referringUrls' list includes https://edbuddies.ai/wp-sitemap-posts-page-1.xml -- Google still holds a reference to the OLD WordPress sitemap. Separately, a live GOOGLE_SEARCH_CONSOLE_SEARCH_ANALYTICS_QUERY (page dimension, last 30 days) shows real historical impressions still on old WordPress URLs still indexed under this domain: /contact-us/ (1 impression), /privacy-policy/ (2), /terms-of-use/ (3) -- alongside the homepage's 34 impressions/5 clicks. Checked live via curl: all three old URLs now return a real 404 on the new site (confirmed: /contact-us/, /privacy-policy/, /terms-of-use/, and /hello-world/ all 404). The WordPress-to-React redirect map proposed back in p8-t3 was never actually applied before the domain cutover happened. This is a live, active issue on production right now -- Google (and anyone with an old bookmark, external backlink, or old search result) hitting those URLs gets a hard 404 instead of landing on the equivalent new page, and whatever small ranking signal those URLs carried is at risk of being lost rather than transferred via a 301. Flagged to Kenneth for approval before implementing (redirects would go in vercel.json, which is in the 'approval required' tier of the SEO/GEO Approved File Scope). RESOLVED 2026-09-14: Kenneth approved the fix in chat. Added 8 permanent (301) redirects to vercel.json: /contact-us(/) -> /contact, /privacy-policy(/) -> /privacy, /terms-of-use(/) -> /terms, /hello-world(/) -> / (both with and without trailing slash, matching exactly how the old WordPress URLs 404'd). Full npm run build (typecheck + vite build + prerender) passed clean, all 15 routes still generated successfully. Not yet committed/pushed -- pending final confirmation this session.",
       "due": "",
-      "updatedAt": null
+      "updatedAt": "2026-09-14T14:35:00.000Z"
     },
     "p9-t3": {
-      "status": "todo",
+      "status": "done",
       "owner": "Both",
-      "notes": "",
+      "notes": "Verified via Kenneth's connected GA4 account (Composio, read-only API access, 2026-09-14). Correct property confirmed: 'EdBuddies Website' (properties/547527798, account 'EdBuddies'/accounts/402666415), timezone Asia/Singapore, one WEB_DATA_STREAM with defaultUri https://edbuddies.ai and measurementId G-F07WY7N0FL -- matches the live domain, not a stray/wrong property. Ran a 14-day pagePath report: real events are flowing in for /, /about, /contact, /features, /features/ai, /features/class-management, /privacy as DISTINCT page views (8 rows, ~38 total pageviews across all pages) -- confirms the SPA RouteTracker (src/main.tsx) is correctly firing a GA4 page_view on client-side route changes, not just once per visit. No duplicate-tag pattern observed (view counts look like single, not doubled, hits per session). Cross-checked index.html/analytics.ts: the GA4 measurement ID itself is not hardcoded in this repo (loads through GTM container GTM-WP4SCSN2, configured in the GTM dashboard which this repo can't see) -- consistent with the existing CLAUDE.md note about GTM config being outside this repo's visibility, and confirms SEO/GEO automation has not altered analytics/tracking config. One minor, non-urgent data point: a single pageview was recorded for a nonexistent path ('/does-not-exist') -- likely a stray old link, bot, or typo; not worth acting on with only 1 hit.",
       "due": "",
-      "updatedAt": null
+      "updatedAt": "2026-09-14T14:05:00.000Z"
     },
     "p9-t4": {
-      "status": "todo",
+      "status": "done",
       "owner": "Both",
-      "notes": "",
+      "notes": "Recommendation: NOT enough data yet to support any data-driven weekly SEO changes. Real volume checked 2026-09-14: GSC shows only 34 impressions / 5 clicks on the homepage over the last 30 days (other pages in single-digit impressions); GA4 shows only ~38 total pageviews across all pages over the last 14 days. This is far too thin to distinguish a real trend from noise -- any 'optimization' based on this volume would just be reacting to statistical noise. Recommend staying audit-only (as already decided) and re-checking data volume in 3-4 weeks, ideally after the p9-t2 redirect-map gap is fixed so historical WordPress ranking signal isn't being needlessly lost in the meantime.",
       "due": "",
-      "updatedAt": null
+      "updatedAt": "2026-09-14T14:05:00.000Z"
     },
     "p10-t1": {
-      "status": "todo",
+      "status": "done",
       "owner": "Both",
-      "notes": "",
+      "notes": "Access method chosen and already working in practice, not just recommended: Kenneth had already connected both Google Search Console and Google Analytics (GA4) to his Composio account before this session, using Composio's own OAuth connection flow (per-toolkit, scoped, no raw credentials ever visible to Claude). This session used that existing connection read-only for all of Phase 9's checks (GOOGLE_SEARCH_CONSOLE_LIST_SITES/LIST_SITEMAPS/INSPECT_URL/SEARCH_ANALYTICS_QUERY, GOOGLE_ANALYTICS_LIST_ACCOUNT_SUMMARIES/GET_PROPERTY/LIST_DATA_STREAMS/RUN_REPORT) -- no writes were made to either GSC or GA4. Compared against the alternative of a service-account + raw API key checked into repo/CI secrets: the Composio route is safer for this project because (a) no secret ever lives in this repo or in CLAUDE.md, (b) Kenneth can revoke the connection from his own Composio dashboard at any time without touching code, (c) it's already scoped read-first in how this session used it (no write-capable GSC/GA4 tools were called). Recommendation: keep using the existing Composio connection for all future GSC/GA4 reads; if an automated (non-interactive, e.g. scheduled) weekly report is built later (p10-t3), that would need a decision about running through a scheduled Claude session with the same Composio connection vs. a dedicated service account -- flagged as a follow-up decision, not needed yet since Phase 9's checks were interactive.",
       "due": "",
-      "updatedAt": null
+      "updatedAt": "2026-09-14T14:20:00.000Z"
     },
     "p10-t2": {
-      "status": "todo",
+      "status": "done",
       "owner": "Both",
-      "notes": "",
+      "notes": "Drafted conservative SEO opportunity rules for EdBuddies, calibrated to the real (very low) traffic volume found in p9-t4 (34 impressions/30 days, ~38 pageviews/14 days) -- deliberately stricter than generic thresholds so the workflow doesn't react to noise on a nearly-brand-new site. RULES (all must hold before flagging something as 'actionable', not just one): (1) Minimum volume floor: a page needs at least 100 impressions over a rolling 28-day window before any of its metrics are trusted -- below that, GSC's own position/CTR numbers are too noisy on a handful of impressions to mean anything (this excludes literally every page on the site right now). (2) High-impressions/low-CTR opportunity: impressions >= 100 AND average position between 4-15 (page IS being shown, just not clicked) AND CTR at least 50% below the CTR of other pages at a similar position -- suggests a title/meta-description rewrite, not a content rewrite. (3) Positions 5-20 'near miss' opportunity: average position 5-20 AND impressions >= 100 AND position has been stable or improving (not declining) over the trailing 2 windows -- these are pages worth reinforcing (internal links, expanded content) because they're already close. (4) Declining-page alert: a page with impressions >= 100 in the prior 28-day window whose clicks OR average position both got meaningfully worse (>=30% clicks drop, or position worsened by 3+ ranks) over the current window -- flag for investigation, don't auto-edit; could be seasonal, a SERP feature change, or a real regression. (5) Query-page mismatch: a query with >= 20 impressions ranking a page that doesn't actually answer that query's intent (e.g. a feature-page query landing impressions on the homepage) -- flag as a potential new-page or internal-linking opportunity, never auto-create a page. SAFEGUARDS: every rule requires a minimum sample size (impressions/clicks), a rolling comparison window (never a single day), and produces a flagged recommendation for human review -- none of these rules authorize an automatic code change by themselves; that decision boundary is separate and already covered by CLAUDE.md's SEO/GEO Approved File Scope and Stop Conditions. Given p9-t4's finding that current volume is far below rule (1)'s own floor, these rules will not surface anything actionable yet -- that's intentional, not a gap.",
       "due": "",
-      "updatedAt": null
+      "updatedAt": "2026-09-14T14:20:00.000Z"
     },
     "p10-t3": {
       "status": "todo",
