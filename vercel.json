@@ -1,4 +1,14 @@
 {
+  "redirects": [
+    { "source": "/contact-us", "destination": "/contact", "permanent": true },
+    { "source": "/contact-us/", "destination": "/contact", "permanent": true },
+    { "source": "/privacy-policy", "destination": "/privacy", "permanent": true },
+    { "source": "/privacy-policy/", "destination": "/privacy", "permanent": true },
+    { "source": "/terms-of-use", "destination": "/terms", "permanent": true },
+    { "source": "/terms-of-use/", "destination": "/terms", "permanent": true },
+    { "source": "/hello-world", "destination": "/", "permanent": true },
+    { "source": "/hello-world/", "destination": "/", "permanent": true }
+  ],
   "headers": [
     {
       "source": "/(.*)",
