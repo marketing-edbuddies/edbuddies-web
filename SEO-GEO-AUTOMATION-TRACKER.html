@@ -1058,6 +1058,68 @@ const phases = [
         prompt:`Research current public AOne and Illumine product information only when Kenneth asks. Separate verified facts, uncertain claims and EdBuddies positioning. Do not publish comparison copy automatically.`,
       }
     ]
+  },
+  {
+    id:"phase-13",
+    number:"13",
+    title:"AEO (Answer Engine Optimization) setup",
+    desc:"Get EdBuddies cited by AI systems (ChatGPT, Perplexity, Google AI Overviews, Claude) — largely the same discipline as GEO (Phase 5), reviewed here against a dedicated AEO checklist.",
+    tasks:[
+      {
+        id:"p13-t1",
+        title:"AI crawler access audit",
+        owner:"Claude",
+        priority:"HIGH",
+        why:"Blocking an AI bot in robots.txt means that platform can never cite the site, regardless of content quality.",
+        doneWhen:"robots.txt confirmed not blocking GPTBot, ChatGPT-User, PerplexityBot, ClaudeBot, anthropic-ai, Google-Extended or Bingbot.",
+        prompt:`Audit robots.txt for any Disallow rule targeting a named AI crawler. Report findings only unless a real block is found.`,
+      },
+      {
+        id:"p13-t2",
+        title:"Content extractability + schema audit against the AEO checklist",
+        owner:"Claude",
+        priority:"HIGH",
+        why:"AI systems extract self-contained passages, not full pages -- structure affects citation odds independent of ranking.",
+        doneWhen:"Key pages checked for direct-answer openings, FAQ/Breadcrumb schema, entity consistency and freshness signals; gaps reported.",
+        prompt:`Check homepage, Features, feature-detail pages and Contact against the AEO content-extractability checklist (definition-first openings, schema, FAQ blocks, freshness signals). Report only.`,
+      },
+      {
+        id:"p13-t3",
+        title:"Publish llms.txt",
+        owner:"Both",
+        priority:"MEDIUM",
+        why:"Gives AI systems a single authoritative, machine-readable summary of what EdBuddies is, sourced only from approved facts.",
+        doneWhen:"public/llms.txt exists, is built into dist/llms.txt, and contains no invented or unapproved claims.",
+        prompt:`Draft llms.txt from SEO-GEO-ENTITY-FACTS.md only. Show Kenneth before publishing (new body copy needs approval per the file-scope rules).`,
+      },
+      {
+        id:"p13-t4",
+        title:"Evaluate a machine-readable pricing.md for AI shopping agents",
+        owner:"Kenneth",
+        priority:"LOW",
+        why:"AI agents comparing products on a buyer's behalf skip sites with opaque pricing -- but this directly conflicts with EdBuddies' standing pricing-confidentiality rule.",
+        doneWhen:"Kenneth has explicitly decided whether to keep pricing private (status quo) or make it AI-agent-readable.",
+        prompt:`Do not create a pricing.md file. This is a policy decision for Kenneth, not an implementation task -- flag the conflict and wait.`,
+      },
+      {
+        id:"p13-t5",
+        title:"Recommend an AI-visibility monitoring routine",
+        owner:"Kenneth",
+        priority:"MEDIUM",
+        why:"You can't improve what you don't measure, and this session has no way to query live ChatGPT/Perplexity/Google AI Overviews directly.",
+        doneWhen:"Kenneth has a simple recurring check (manual or via a paid tool) for whether EdBuddies is cited for its top queries.",
+        prompt:`Recommend a monthly DIY check (test top 10-20 queries across ChatGPT, Perplexity, Google) or a paid tool (Otterly, Peec AI, ZipTie) matched to current traffic level. Recommendation only.`,
+      },
+      {
+        id:"p13-t6",
+        title:"Evaluate high-citation content types (comparison pages, guides, original data)",
+        owner:"Both",
+        priority:"LOW",
+        why:"Comparison articles, definitive guides and original research/data account for the large majority of AI citations, but EdBuddies currently has no blog/article content at all.",
+        doneWhen:"A content decision is made only once real GSC/GA4 evidence shows a topic gap worth filling -- ties directly to Phase 12's p12-t2, not a separate approval track.",
+        prompt:`Do not create new content pages yet. Revisit once p10-t3's weekly data report has enough real traffic evidence to justify a specific topic, per p12-t2's own doneWhen.`,
+      }
+    ]
   }
 ];
 
@@ -1074,7 +1136,7 @@ const STORAGE_KEY = "edbuddies-seo-geo-tracker-v1";
 const KNOWN_PROGRESS = {
   "p0-t1": {status:"done", owner:"Claude", notes:"Committed 2026-09-07 (5f35811). Tracker saved to repo root, no website files touched.", due:"", updatedAt:"2026-09-07T07:26:20.000Z"},
   "p0-t2": {status:"done", owner:"Both", notes:"seo-geo-progress.json committed to repo root alongside the tracker (5f35811).", due:"", updatedAt:"2026-09-07T07:26:20.000Z"},
-  "p0-t3": {status:"in-progress", owner:"Both", notes:"CLAUDE.md covers push/deploy/domain/Vercel settings but not explicit 'no merge' wording scoped to a seo-geo/* branch model. Full explicit wording is Phase 6 (p6-t1). Leaving in-progress.", due:"", updatedAt:"2026-09-07T07:30:00.000Z"},
+  "p0-t3": {status:"done", owner:"Both", notes:"CLAUDE.md gates master push, merge/integration (CONTROL's role only), production deploy and domain changes behind Kenneth's approval -- verified in practice 2026-09-14 when this SEO/GEO session correctly declined a direct master merge/push and had Kenneth run it from CONTROL instead.", due:"", updatedAt:"2026-09-17T00:00:00.000Z"},
   "p1-t1": {status:"done", owner:"Claude", notes:"Full ranked SEO/GEO audit complete (Singapore = primary market). CRITICAL: CSR-only/no SSR, soft-404 rewrite in vercel.json, ungated 'Free' claim in homepage H1 (App.tsx 393/411). HIGH: broken heading hierarchy on 4 pages, zero structured data, orphaned /pricing not noindexed, no hreflang/SG locale signal. MEDIUM: /features/ai missing from sitemap, unoptimized About-page images, unverified canonical-host redirect. LOW: dead og-image.png, stale AppPremium.tsx copy, Terms.tsx names only Malaysia. Full detail in seo-geo-progress.json.", due:"", updatedAt:"2026-09-08T05:45:00.000Z"},
   "p1-t2": {status:"done", owner:"Both", notes:"Rendering strategy decided: build-time static prerendering via a custom Puppeteer post-build snapshot script (not vite-react-ssg -- de-prioritized by its own maintainers for React Router v7 -- and not a full RR7 framework-mode migration, which is too large a change for this need). Key reason: main.tsx instantiates Lenis at module scope with no window guard, so a Node-based SSG renderer would likely crash; a real-headless-browser snapshot avoids that entirely. Exact routes, build steps, risks and rollback plan in seo-geo-progress.json. Decision only, nothing implemented.", due:"", updatedAt:"2026-09-08T06:20:00.000Z"},
   "p1-t3": {status:"done", owner:"Both", notes:"Route indexation table built for all 16 routes in main.tsx. INDEX: /, /features, all 6 concrete feature-detail routes, /features/ai (missing from sitemap.xml -- needs fixing), /contact, /about, /privacy, /terms. Already-correct NOINDEX: /features-new (draft under review), * / NotFound (its HTTP status is still 200 not a real 404 -- tracked under p1-t2's fix, not a classification issue). N/A: /features/:featureId for any slug other than 'ai' falls through to NotFound. OPEN DECISION for Kenneth: /pricing is currently indexable by default despite being fully orphaned since 2026-09-07 -- recommend NOINDEX (not remove, to avoid 404ing existing links) but this is a product/marketing call, not applied yet. AppPremium.tsx flagged as confirmed not a live route (not in main.tsx). Full table in seo-geo-progress.json.", due:"", updatedAt:"2026-09-08T07:05:00.000Z"},
@@ -1109,11 +1171,17 @@ const KNOWN_PROGRESS = {
   "p8-t3": {status:"done", owner:"Both", notes:"Inventoried the current live edbuddies.ai WordPress site read-only (its own robots.txt + wp-sitemap.xml) -- found it's very minimal, only 4 real pages. Redirect map: / -> / (no change), /privacy-policy/ -> /privacy, /contact-us/ -> /contact, /terms-of-use/ -> /terms, /hello-world/ -> / (WordPress's unedited default sample post, courtesy redirect only). Separate finding: the live site's own 'Program' nav link is already broken (404s) today, independent of this migration -- worth Kenneth fixing on the WordPress side regardless. No redirects applied anywhere, proposal only per this task's own instruction.", due:"", updatedAt:"2026-09-09T11:30:00.000Z"},
   "p8-t4": {status:"done", owner:"Kenneth", notes:"Confirmed done -- edbuddies.ai verified live serving the new prerendered React/Vite site directly from Vercel (checked via curl: correct title/H1/JSON-LD/robots meta, working sitemap.xml and robots.txt, real 404s, security headers live). Not the old WordPress site anymore.", due:"", updatedAt:"2026-09-14T13:47:00.000Z"},
   "p9-t1": {status:"done", owner:"Both", notes:"Verified via Kenneth's connected Google Search Console (real API access). sc-domain:edbuddies.ai is verified with siteOwner permission. Sitemap submitted 2026-08-28, 8 URLs, 0 errors -- sitemap report shows 'indexed:0' which looks like a reporting lag (a direct URL Inspection confirms the homepage IS actually indexed) -- flagged to re-check in a week.", due:"", updatedAt:"2026-09-14T14:05:00.000Z"},
-  "p9-t2": {status:"done", owner:"Both", notes:"Homepage inspected: 'Submitted and indexed', verdict PASS, correct canonical, crawled 2026-09-12. /features: not yet crawled (expected, site is new). FINDING (HIGH), RESOLVED 2026-09-14: old WordPress URLs (/contact-us/, /privacy-policy/, /terms-of-use/, /hello-world/) carried real historical impressions but hard-404'd on the live site -- Kenneth approved a fix, 8 permanent 301 redirects added to vercel.json (old -> new equivalent pages), full build verified clean.", due:"", updatedAt:"2026-09-14T14:35:00.000Z"},
+  "p9-t2": {status:"done", owner:"Both", notes:"Homepage inspected: 'Submitted and indexed', verdict PASS, correct canonical, crawled 2026-09-12. /features: not yet crawled (expected, site is new). FINDING (HIGH), FIXED AND LIVE 2026-09-14: old WordPress URLs (/contact-us/, /privacy-policy/, /terms-of-use/, /hello-world/) carried real historical impressions but hard-404'd on the live site -- Kenneth approved a fix, 8 permanent 301 redirects added to vercel.json, merged into master via CONTROL and pushed. Independently verified live on edbuddies.ai: all 4 old URLs now redirect (308) to their correct new page, each loading 200.", due:"", updatedAt:"2026-09-14T14:50:00.000Z"},
   "p9-t3": {status:"done", owner:"Both", notes:"Verified via Kenneth's connected GA4 account. Correct property confirmed (EdBuddies Website, measurementId G-F07WY7N0FL, defaultUri https://edbuddies.ai). Real events flowing for /, /about, /contact, /features, /features/ai, /features/class-management, /privacy as distinct page views -- confirms SPA route tracking works correctly, no duplicate-tag pattern seen. GA4 ID isn't hardcoded in this repo (lives in the GTM container config) -- consistent with existing notes, confirms SEO/GEO work hasn't touched analytics config.", due:"", updatedAt:"2026-09-14T14:05:00.000Z"},
   "p9-t4": {status:"done", owner:"Both", notes:"Recommendation: not enough data yet. Real volume checked 2026-09-14: only 34 impressions/5 clicks (GSC, 30 days) and ~38 total pageviews (GA4, 14 days) site-wide. Recommend staying audit-only and re-checking in 3-4 weeks, ideally after the p9-t2 redirect gap is fixed.", due:"", updatedAt:"2026-09-14T14:05:00.000Z"},
   "p10-t1": {status:"done", owner:"Both", notes:"Access method chosen and already working: Kenneth had already connected GSC + GA4 via Composio's own OAuth flow (scoped, no raw credentials ever visible to Claude). Used read-only for all Phase 9 checks -- no writes made. Safer than a service-account API key in repo/CI secrets since nothing is ever stored in this repo and Kenneth can revoke it himself from his Composio dashboard. Recommend keeping this connection for future reads; a fully automated scheduled weekly report (p10-t3) would need a separate decision about running unattended.", due:"", updatedAt:"2026-09-14T14:20:00.000Z"},
   "p10-t2": {status:"done", owner:"Both", notes:"Drafted conservative SEO opportunity rules, calibrated to the real (very low) current traffic: a 100-impression/28-day minimum floor before trusting any page's numbers, high-impressions/low-CTR flag, positions 5-20 'near miss' flag, a declining-page alert (>=30% click drop or 3+ rank worsening), and a query-page-mismatch flag. All are flag-for-human-review only, never auto-edit -- consistent with CLAUDE.md's existing Stop Conditions. Given p9-t4's real volume, none of these rules will trigger anything yet -- intentional, not a gap.", due:"", updatedAt:"2026-09-14T14:20:00.000Z"},
+  "p13-t1": {status:"done", owner:"Claude", notes:"Checked public/robots.txt: 'User-agent: * / Allow: /' with no Disallow rules at all. This already permits every named AI crawler (GPTBot, ChatGPT-User, PerplexityBot, ClaudeBot, anthropic-ai, Google-Extended, Bingbot) -- nothing to fix.", due:"", updatedAt:"2026-09-17T00:00:00.000Z"},
+  "p13-t2": {status:"done", owner:"Claude", notes:"Checked existing pages against the AEO extractability checklist. Already covered by Phase 5: direct-answer FAQ content, FAQPage/BreadcrumbList/Organization/WebSite schema, one consistent entity-facts source. Gaps found: no 'last updated' freshness signals anywhere (not a natural fit for static marketing pages, low priority), no case-study/stats/quote content (needs real customer data from Kenneth, can't fabricate), and no blog/comparison/guide content at all -- see p13-t6.", due:"", updatedAt:"2026-09-17T00:00:00.000Z"},
+  "p13-t3": {status:"done", owner:"Both", notes:"Drafted llms.txt from SEO-GEO-ENTITY-FACTS.md only (no invented claims, no pricing). Showed Kenneth the draft, he approved publishing as-is. Created public/llms.txt, full build verified clean, confirmed present at dist/llms.txt.", due:"", updatedAt:"2026-09-17T00:00:00.000Z"},
+  "p13-t4": {status:"blocked", owner:"Kenneth", notes:"Flagged the conflict between an AI-agent-readable pricing.md and the standing pricing-confidentiality rule. Kenneth chose to keep pricing private -- pricing.md will not be created. Marked blocked/deliberate policy decision, not an open task.", due:"", updatedAt:"2026-09-17T00:00:00.000Z"},
+  "p13-t5": {status:"done", owner:"Claude", notes:"Recommended a monthly DIY check: test top 10-20 queries (e.g. 'best centre management software Singapore') across ChatGPT, Perplexity and Google, log whether EdBuddies is cited. Paid tools (Otterly, Peec AI, ZipTie) flagged as an option once traffic/budget justifies it -- not needed yet given current traffic volume. Recommendation delivered, no code change needed.", due:"", updatedAt:"2026-09-17T00:00:00.000Z"},
+  "p13-t6": {status:"todo", owner:"Both", notes:"Not started, correctly -- ties directly to p12-t2's own doneWhen (new content only once GSC/GA4 evidence shows a real topic gap). Current traffic (see p9-t4) is far too low for that evidence to exist yet.", due:"", updatedAt:null},
 };
 
 function defaultState(){
