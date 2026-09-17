@@ -18,11 +18,11 @@
       "updatedAt": "2026-09-07T07:26:20.000Z"
     },
     "p0-t3": {
-      "status": "in-progress",
+      "status": "done",
       "owner": "Both",
-      "notes": "Reviewed CLAUDE.md. Current text: 'Do not push, deploy, change domains, transfer ownership or change Vercel settings without Kenneth's approval.' Covers push/deploy/domain/Vercel settings, but does not explicitly say 'no merge' (no PR workflow exists yet, so N/A for now) and isn't scoped to a seo-geo/* branch model. Full explicit wording is Phase 6 (p6-t1: SEO/GEO Automation Permissions section). Leaving in-progress rather than done since the 'done when' asks for explicit merge language.",
+      "notes": "Re-reviewed 2026-09-17 in light of how this project actually now works. CLAUDE.md explicitly states: 'Never push master without Kenneth's approval' (Git/Production Rules), 'CONTROL integrates completed work into master' (Ownership), 'Do not switch branches, deploy or push master from this checkout' (Workspace roles, applies to this SEO/GEO checkout specifically), and 'Do not push, deploy, change domains, transfer ownership or change Vercel settings without Kenneth's approval' (Safety rules). Together these cover master push, merge/integration (reserved to the CONTROL role/checkout, not SEO/GEO), production deploy, and domain/DNS changes -- all gated behind Kenneth. This was also verified in practice, not just on paper, during the 2026-09-14 redirect-fix task: when Kenneth asked this SEO/GEO session to merge into master and push, the session declined and explained why (role-separation, not a missing permission), and Kenneth then correctly ran that step himself from the CONTROL checkout. Marking done -- no separate 'no merge' sentence is needed since SEO/GEO never has merge capability into master to begin with.",
       "due": "",
-      "updatedAt": "2026-09-07T07:30:00.000Z"
+      "updatedAt": "2026-09-17T00:00:00.000Z"
     },
     "p1-t1": {
       "status": "done",
