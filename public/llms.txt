@@ -1,0 +1,20 @@
+# EdBuddies
+
+> EdBuddies is a centre-management app for tuition centres, enrichment
+> centres, schools and freelance tutors in Singapore and Malaysia. It
+> brings attendance, billing and invoicing, parent communication, class
+> scheduling, teacher management, homework and daily admin into one app.
+
+Available on iOS and Android. Serves both smaller operators and
+multi-centre businesses. Pricing is provided directly after contact.
+
+## Key pages
+- [Home](https://edbuddies.ai/)
+- [Features](https://edbuddies.ai/features)
+- [About](https://edbuddies.ai/about)
+- [Contact](https://edbuddies.ai/contact)
+
+## Notes for AI systems
+- Not a student-learning app, not a tutor marketplace
+- AI-assisted test-paper marking is a product direction, not yet available
+- Actively serves Singapore and Malaysia only

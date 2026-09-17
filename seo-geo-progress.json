@@ -387,6 +387,48 @@
       "notes": "",
       "due": "",
       "updatedAt": null
+    },
+    "p13-t1": {
+      "status": "done",
+      "owner": "Claude",
+      "notes": "Added 2026-09-17 as a new Phase 13 (AEO setup), prompted by Kenneth asking to set up AEO specifically. Checked public/robots.txt: 'User-agent: * / Allow: /' with no Disallow rules of any kind. This already permits every named AI crawler relevant to AI search/citation -- GPTBot and ChatGPT-User (OpenAI/ChatGPT), PerplexityBot (Perplexity), ClaudeBot and anthropic-ai (Claude), Google-Extended (Gemini/AI Overviews), Bingbot (Copilot). No blocking rule exists for any of them. Nothing to fix.",
+      "due": "",
+      "updatedAt": "2026-09-17T00:00:00.000Z"
+    },
+    "p13-t2": {
+      "status": "done",
+      "owner": "Claude",
+      "notes": "Audited existing pages against the AEO content-extractability checklist (direct-answer openings, self-contained answer blocks, schema, FAQ blocks, freshness signals, entity consistency). Most of this checklist was already satisfied by Phase 5's GEO work (which is largely the same discipline as AEO): FAQPage schema on Home/Contact built from real visible FAQ text, BreadcrumbList on all 7 feature-detail pages, Organization+WebSite schema site-wide, a single entity-facts source of truth (SEO-GEO-ENTITY-FACTS.md) preventing contradictory claims, and a direct-answer fix to the homepage's 'what's included' FAQ (was previously a vague deflection). GAPS FOUND, not fixed here: (1) no 'last updated' freshness signal anywhere on the site -- flagged as low priority since it's a more natural fit for blog/docs content than static marketing pages, not pushed without a concrete reason; (2) no case-study, named-customer stat, or expert-quote content anywhere -- these carry the single biggest AI-citation boost per the Princeton GEO research (+30-40%) but require real customer data/permission from Kenneth, cannot be fabricated per CLAUDE.md's prohibited-claims rule; (3) no blog, comparison, or long-form guide content exists at all -- see p13-t6, this is the single biggest lever left but is a content-strategy decision, not an audit fix.",
+      "due": "",
+      "updatedAt": "2026-09-17T00:00:00.000Z"
+    },
+    "p13-t3": {
+      "status": "done",
+      "owner": "Both",
+      "notes": "Drafted a public/llms.txt (per the llms.txt community convention -- a plain-text context file that summarizes a site for AI systems) using only facts already verified in SEO-GEO-ENTITY-FACTS.md: what EdBuddies is, who it serves, platforms, markets, and explicit 'notes for AI systems' correcting likely misreadings (not a student-learning app, not a tutor marketplace, AI marking is a direction not a shipped feature, Singapore/Malaysia only). No price or 'free' claim included, consistent with the pricing hard-rule. Showed the full draft to Kenneth before creating anything (new body copy needs approval per the file-scope rules) -- he approved publishing as-is. Created public/llms.txt, ran a full npm run build (typecheck + vite build + prerender), confirmed clean (all 15 routes still generate) and confirmed the file is present verbatim at dist/llms.txt.",
+      "due": "",
+      "updatedAt": "2026-09-17T00:00:00.000Z"
+    },
+    "p13-t4": {
+      "status": "blocked",
+      "owner": "Kenneth",
+      "notes": "The AEO playbook recommends a machine-readable pricing.md/pricing.txt so AI shopping agents can evaluate pricing on a buyer's behalf without needing to render a page or talk to sales. Flagged a direct conflict instead of creating it: CLAUDE.md's SEO-GEO-ENTITY-FACTS.md carries a hard rule that pricing stays confidential in all public marketing (no price/cost figure, no 'free' claim, explained privately after contact only), and /pricing itself is already deliberately hidden from nav/footer/sitemap. Asked Kenneth directly via AskUserQuestion whether to keep pricing private or reconsider the policy for AI agents -- he chose to keep it private. Marked 'blocked' as a deliberate policy decision (matching how p6-t1's declined automation permissions were recorded), not an unstarted task. pricing.md was NOT created.",
+      "due": "",
+      "updatedAt": "2026-09-17T00:00:00.000Z"
+    },
+    "p13-t5": {
+      "status": "done",
+      "owner": "Claude",
+      "notes": "This session has no way to query live ChatGPT, Perplexity, or Google AI Overviews directly, so an actual citation check couldn't be run from here -- recommendation only. Recommended a monthly manual routine: run EdBuddies' top 10-20 real target queries (e.g. 'best centre management software Singapore', 'tuition centre management system') through ChatGPT, Perplexity and Google, and log whether EdBuddies is cited and who else is. Flagged paid monitoring tools (Otterly AI, Peec AI, ZipTie, LLMrefs) per the ai-seo skill's tool comparison as a future option once traffic/budget justifies the cost -- not worth it yet given current real traffic volume (see p9-t4: ~34 impressions/30 days).",
+      "due": "",
+      "updatedAt": "2026-09-17T00:00:00.000Z"
+    },
+    "p13-t6": {
+      "status": "todo",
+      "owner": "Both",
+      "notes": "Correctly not started. Comparison articles, definitive guides and original research/data account for the large majority of real-world AI citations per the ai-seo skill's research (~33%+15%+12%), and EdBuddies currently has zero blog/article/guide content -- this is the single biggest remaining AEO lever. Deliberately not acted on: this is a new-content-page decision, which ties directly to Phase 12's p12-t2 ('new content is allowed only when GSC/market evidence shows a clear topic gap') rather than being a separate approval track. Current real traffic (p9-t4: ~34 impressions/30 days, ~38 pageviews/14 days) is far too low for that evidence to exist yet. Revisit once p10-t3's weekly data-only report has real signal to point at a specific topic.",
+      "due": "",
+      "updatedAt": null
     }
   }
 }

@@ -1058,6 +1058,68 @@ const phases = [
         prompt:`Research current public AOne and Illumine product information only when Kenneth asks. Separate verified facts, uncertain claims and EdBuddies positioning. Do not publish comparison copy automatically.`,
       }
     ]
+  },
+  {
+    id:"phase-13",
+    number:"13",
+    title:"AEO (Answer Engine Optimization) setup",
+    desc:"Get EdBuddies cited by AI systems (ChatGPT, Perplexity, Google AI Overviews, Claude) — largely the same discipline as GEO (Phase 5), reviewed here against a dedicated AEO checklist.",
+    tasks:[
+      {
+        id:"p13-t1",
+        title:"AI crawler access audit",
+        owner:"Claude",
+        priority:"HIGH",
+        why:"Blocking an AI bot in robots.txt means that platform can never cite the site, regardless of content quality.",
+        doneWhen:"robots.txt confirmed not blocking GPTBot, ChatGPT-User, PerplexityBot, ClaudeBot, anthropic-ai, Google-Extended or Bingbot.",
+        prompt:`Audit robots.txt for any Disallow rule targeting a named AI crawler. Report findings only unless a real block is found.`,
+      },
+      {
+        id:"p13-t2",
+        title:"Content extractability + schema audit against the AEO checklist",
+        owner:"Claude",
+        priority:"HIGH",
+        why:"AI systems extract self-contained passages, not full pages -- structure affects citation odds independent of ranking.",
+        doneWhen:"Key pages checked for direct-answer openings, FAQ/Breadcrumb schema, entity consistency and freshness signals; gaps reported.",
+        prompt:`Check homepage, Features, feature-detail pages and Contact against the AEO content-extractability checklist (definition-first openings, schema, FAQ blocks, freshness signals). Report only.`,
+      },
+      {
+        id:"p13-t3",
+        title:"Publish llms.txt",
+        owner:"Both",
+        priority:"MEDIUM",
+        why:"Gives AI systems a single authoritative, machine-readable summary of what EdBuddies is, sourced only from approved facts.",
+        doneWhen:"public/llms.txt exists, is built into dist/llms.txt, and contains no invented or unapproved claims.",
+        prompt:`Draft llms.txt from SEO-GEO-ENTITY-FACTS.md only. Show Kenneth before publishing (new body copy needs approval per the file-scope rules).`,
+      },
+      {
+        id:"p13-t4",
+        title:"Evaluate a machine-readable pricing.md for AI shopping agents",
+        owner:"Kenneth",
+        priority:"LOW",
+        why:"AI agents comparing products on a buyer's behalf skip sites with opaque pricing -- but this directly conflicts with EdBuddies' standing pricing-confidentiality rule.",
+        doneWhen:"Kenneth has explicitly decided whether to keep pricing private (status quo) or make it AI-agent-readable.",
+        prompt:`Do not create a pricing.md file. This is a policy decision for Kenneth, not an implementation task -- flag the conflict and wait.`,
+      },
+      {
+        id:"p13-t5",
+        title:"Recommend an AI-visibility monitoring routine",
+        owner:"Kenneth",
+        priority:"MEDIUM",
+        why:"You can't improve what you don't measure, and this session has no way to query live ChatGPT/Perplexity/Google AI Overviews directly.",
+        doneWhen:"Kenneth has a simple recurring check (manual or via a paid tool) for whether EdBuddies is cited for its top queries.",
+        prompt:`Recommend a monthly DIY check (test top 10-20 queries across ChatGPT, Perplexity, Google) or a paid tool (Otterly, Peec AI, ZipTie) matched to current traffic level. Recommendation only.`,
+      },
+      {
+        id:"p13-t6",
+        title:"Evaluate high-citation content types (comparison pages, guides, original data)",
+        owner:"Both",
+        priority:"LOW",
+        why:"Comparison articles, definitive guides and original research/data account for the large majority of AI citations, but EdBuddies currently has no blog/article content at all.",
+        doneWhen:"A content decision is made only once real GSC/GA4 evidence shows a topic gap worth filling -- ties directly to Phase 12's p12-t2, not a separate approval track.",
+        prompt:`Do not create new content pages yet. Revisit once p10-t3's weekly data report has enough real traffic evidence to justify a specific topic, per p12-t2's own doneWhen.`,
+      }
+    ]
   }
 ];
 
@@ -1114,6 +1176,12 @@ const KNOWN_PROGRESS = {
   "p9-t4": {status:"done", owner:"Both", notes:"Recommendation: not enough data yet. Real volume checked 2026-09-14: only 34 impressions/5 clicks (GSC, 30 days) and ~38 total pageviews (GA4, 14 days) site-wide. Recommend staying audit-only and re-checking in 3-4 weeks, ideally after the p9-t2 redirect gap is fixed.", due:"", updatedAt:"2026-09-14T14:05:00.000Z"},
   "p10-t1": {status:"done", owner:"Both", notes:"Access method chosen and already working: Kenneth had already connected GSC + GA4 via Composio's own OAuth flow (scoped, no raw credentials ever visible to Claude). Used read-only for all Phase 9 checks -- no writes made. Safer than a service-account API key in repo/CI secrets since nothing is ever stored in this repo and Kenneth can revoke it himself from his Composio dashboard. Recommend keeping this connection for future reads; a fully automated scheduled weekly report (p10-t3) would need a separate decision about running unattended.", due:"", updatedAt:"2026-09-14T14:20:00.000Z"},
   "p10-t2": {status:"done", owner:"Both", notes:"Drafted conservative SEO opportunity rules, calibrated to the real (very low) current traffic: a 100-impression/28-day minimum floor before trusting any page's numbers, high-impressions/low-CTR flag, positions 5-20 'near miss' flag, a declining-page alert (>=30% click drop or 3+ rank worsening), and a query-page-mismatch flag. All are flag-for-human-review only, never auto-edit -- consistent with CLAUDE.md's existing Stop Conditions. Given p9-t4's real volume, none of these rules will trigger anything yet -- intentional, not a gap.", due:"", updatedAt:"2026-09-14T14:20:00.000Z"},
+  "p13-t1": {status:"done", owner:"Claude", notes:"Checked public/robots.txt: 'User-agent: * / Allow: /' with no Disallow rules at all. This already permits every named AI crawler (GPTBot, ChatGPT-User, PerplexityBot, ClaudeBot, anthropic-ai, Google-Extended, Bingbot) -- nothing to fix.", due:"", updatedAt:"2026-09-17T00:00:00.000Z"},
+  "p13-t2": {status:"done", owner:"Claude", notes:"Checked existing pages against the AEO extractability checklist. Already covered by Phase 5: direct-answer FAQ content, FAQPage/BreadcrumbList/Organization/WebSite schema, one consistent entity-facts source. Gaps found: no 'last updated' freshness signals anywhere (not a natural fit for static marketing pages, low priority), no case-study/stats/quote content (needs real customer data from Kenneth, can't fabricate), and no blog/comparison/guide content at all -- see p13-t6.", due:"", updatedAt:"2026-09-17T00:00:00.000Z"},
+  "p13-t3": {status:"done", owner:"Both", notes:"Drafted llms.txt from SEO-GEO-ENTITY-FACTS.md only (no invented claims, no pricing). Showed Kenneth the draft, he approved publishing as-is. Created public/llms.txt, full build verified clean, confirmed present at dist/llms.txt.", due:"", updatedAt:"2026-09-17T00:00:00.000Z"},
+  "p13-t4": {status:"blocked", owner:"Kenneth", notes:"Flagged the conflict between an AI-agent-readable pricing.md and the standing pricing-confidentiality rule. Kenneth chose to keep pricing private -- pricing.md will not be created. Marked blocked/deliberate policy decision, not an open task.", due:"", updatedAt:"2026-09-17T00:00:00.000Z"},
+  "p13-t5": {status:"done", owner:"Claude", notes:"Recommended a monthly DIY check: test top 10-20 queries (e.g. 'best centre management software Singapore') across ChatGPT, Perplexity and Google, log whether EdBuddies is cited. Paid tools (Otterly, Peec AI, ZipTie) flagged as an option once traffic/budget justifies it -- not needed yet given current traffic volume. Recommendation delivered, no code change needed.", due:"", updatedAt:"2026-09-17T00:00:00.000Z"},
+  "p13-t6": {status:"todo", owner:"Both", notes:"Not started, correctly -- ties directly to p12-t2's own doneWhen (new content only once GSC/GA4 evidence shows a real topic gap). Current traffic (see p9-t4) is far too low for that evidence to exist yet.", due:"", updatedAt:null},
 };
 
 function defaultState(){
