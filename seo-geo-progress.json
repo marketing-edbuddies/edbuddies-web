@@ -333,11 +333,11 @@
       "updatedAt": "2026-09-14T14:20:00.000Z"
     },
     "p10-t3": {
-      "status": "todo",
+      "status": "in-progress",
       "owner": "Claude",
-      "notes": "",
+      "notes": "Kenneth asked (2026-09-21) for a concise weekly SEO/GEO/AEO status report going forward: meaningful keyword/visibility movement, progress since the last report, diagnostic issues worth acting on, and top next actions -- filtered for signal, not routine noise. Published the first one as an Artifact (recurring link, republished each week rather than a new file): https://claude.ai/artifact/LRKkLqgzceZGxpPkS5ugb2 -- 'EdBuddies Search Report'. Report 1 covers Sep 14-20 vs Sep 07-13 using live GOOGLE_SEARCH_CONSOLE_SEARCH_ANALYTICS_QUERY/INSPECT_URL/LIST_SITEMAPS and GOOGLE_ANALYTICS_RUN_REPORT data (same Composio connection as p10-t1). Real findings this week: /features moved from unindexed to 'Submitted and indexed' (verdict PASS) -- the one trustworthy signal at current volume; a new, unexplained sitemap warning appeared (API only exposes the count, not the message -- flagged for Kenneth to check in the GSC UI); the sitemap hasn't been re-fetched by Google since Sep 13; llms.txt and the redirect fix from prior weeks both re-verified still healthy in production. Explicitly did NOT apply p10-t2's opportunity-flagging rules to generate 'opportunities' -- volume (9 impressions this week) is still far below that rule set's own 100-impression/28-day floor, so the report says so plainly rather than manufacturing false signal from noise. Marked in-progress rather than done since this is the first of an ongoing weekly series, not a single deliverable -- update this note each week rather than creating a new task entry.",
       "due": "",
-      "updatedAt": null
+      "updatedAt": "2026-09-21T00:00:00.000Z"
     },
     "p11-t1": {
       "status": "todo",
